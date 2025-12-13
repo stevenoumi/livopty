@@ -1,10 +1,5 @@
 import React, { createContext, useContext, useState } from "react";
-
-type ChatInfo = {
-  name: string;
-  image: string;
-  isOnline: boolean;
-};
+import { ChatInfo } from "~/lib/types";
 
 type ChatContextType = {
   chatInfo: ChatInfo | null;

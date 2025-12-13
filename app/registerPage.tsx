@@ -22,6 +22,7 @@ import { UserPlus } from "lucide-react-native";
 import LanguageSelector from "~/components/custom/LanguageSelector";
 import Laguages from "~/lib/data/languageData";
 import { signUpWithEmail } from "~/lib/services/supabase/authService";
+import { ROUTES } from "~/lib/constants";
 
 const RegisterPage = () => {
   const insets = useSafeAreaInsets();
@@ -42,30 +43,17 @@ const RegisterPage = () => {
       return;
     }
 
-    if (password.length < 8) {
-      Alert.alert("Mot de passe trop court", "8 caractères minimum.");
-      return;
-    }
-
-    if (!/\d/.test(password) || !/[A-Za-z]/.test(password)) {
-      Alert.alert(
-        "Mot de passe faible",
-        "Inclure au moins une lettre et un chiffre."
-      );
-      return;
-    }
-
     if (password !== confirm) {
       Alert.alert("Erreur", "Les mots de passe ne correspondent pas.");
       return;
     }
 
     setLoading(true);
-    const { success, error } = await signUpWithEmail(
-      name.trim(),
-      email.trim(),
-      password
-    );
+    const { success, error } = await signUpWithEmail({
+      name: name.trim(),
+      email: email.trim(),
+      password,
+    });
     setLoading(false);
 
     if (!success) {
@@ -74,7 +62,7 @@ const RegisterPage = () => {
     }
 
     Alert.alert("Succès", "Inscription réussie. Vérifiez vos e-mails.");
-    router.push("/loginPage");
+    router.push(ROUTES.LOGIN);
   };
 
   return (

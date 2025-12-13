@@ -12,6 +12,7 @@ import {
   Pressable,
 } from "react-native";
 import { Alert } from "react-native";
+
 import LanguageSelector from "~/components/custom/LanguageSelector";
 import React, { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
@@ -21,6 +22,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { LogIn } from "lucide-react-native";
 import Languages from "~/lib/data/languageData";
 import { signInWithEmail } from "~/lib/services/supabase/authService";
+import { ROUTES } from "~/lib/constants";
 
 const LoginPage = () => {
   const insets = useSafeAreaInsets();
@@ -33,13 +35,8 @@ const LoginPage = () => {
   const [attemptedSubmit] = useState(false);
 
   const handleLogin = async () => {
-    if (!email.trim() || !password.trim()) {
-      Alert.alert("Erreur", "Veuillez remplir tous les champs.");
-      return;
-    }
-
     setLoading(true);
-    const { success, error } = await signInWithEmail(email.trim(), password);
+    const { success, error } = await signInWithEmail({ email, password });
     setLoading(false);
 
     if (!success) {
@@ -48,7 +45,7 @@ const LoginPage = () => {
     }
 
     Alert.alert("Succès", "Connexion réussie !");
-    router.push("/(screens)/Chats");
+    router.push(ROUTES.CHATS);
   };
 
   return (
@@ -61,7 +58,7 @@ const LoginPage = () => {
           {/* Header */}
           <View className="flex-row justify-between items-center mt-2">
             <TouchableOpacity
-              onPress={() => router.push("/welcomePage")}
+              onPress={() => router.push(ROUTES.WELCOME)}
               className="p-2"
             >
               <Ionicons name="chevron-back" size={26} color="#333" />
