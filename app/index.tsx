@@ -34,7 +34,4 @@ export default function IndexPage() {
   }, []);
 
   return <View style={{ flex: 1, backgroundColor: "#ffffff" }} />;
-  return (
-    <View style={{ flex: 1, backgroundColor: "#ffffff" }}/>
-      );
-    }
+}
