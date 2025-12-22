@@ -20,39 +20,44 @@ import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { UserPlus } from "lucide-react-native";
 import LanguageSelector from "~/components/custom/LanguageSelector";
-import Laguages from "~/lib/data/languageData";
 import { signUpWithEmail } from "~/lib/services/supabase/authService";
 import { ROUTES } from "~/lib/constants";
+import { useLanguage } from "~/lib/context/LanguageContext";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+import {
+  registerSchema,
+  type RegisterFormData,
+} from "~/lib/schemas/auth.schema";
 
 const RegisterPage = () => {
   const insets = useSafeAreaInsets();
   const router = useRouter();
-  const [selectedLang, setSelectedLang] = useState(Laguages[0]);
-
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirm, setConfirm] = useState("");
+  const { t } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [attemptedSubmit, setAttemptedSubmit] = useState(false);
 
-  const handleRegister = async () => {
-    if (!name.trim() || !email.trim() || !password.trim() || !confirm.trim()) {
-      Alert.alert("Champs requis", "Merci de remplir tous les champs.");
-      return;
-    }
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<RegisterFormData>({
+    resolver: zodResolver(registerSchema),
+    defaultValues: {
+      name: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+    },
+  });
 
-    if (password !== confirm) {
-      Alert.alert("Erreur", "Les mots de passe ne correspondent pas.");
-      return;
-    }
-
+  const onSubmit = async (data: RegisterFormData) => {
     setLoading(true);
     const { success, error } = await signUpWithEmail({
-      name: name.trim(),
-      email: email.trim(),
-      password,
+      name: data.name,
+      email: data.email,
+      password: data.password,
     });
     setLoading(false);
 
@@ -91,10 +96,7 @@ const RegisterPage = () => {
               >
                 <Ionicons name="chevron-back" size={26} color="#333" />
               </TouchableOpacity>
-              <LanguageSelector
-                selectedLang={selectedLang}
-                onSelect={setSelectedLang}
-              />
+              <LanguageSelector />
             </View>
 
             {/* Logo */}
@@ -105,135 +107,275 @@ const RegisterPage = () => {
                 resizeMode="contain"
                 accessibilityLabel="Logo LivOpty"
               />
-              <Text className="text-3xl font-bold text-center mt-4 text-zinc-900">
-                Créez votre compte
+              <Text className="text-3xl  font-bold text-center mt-4 text-zinc-900">
+                {t("auth.register.title")}
               </Text>
-              <Text className="text-sm text-zinc-500 text-center mt-2 px-6">
-                Rejoignez LivOpty et commencez à organiser votre vie partagée
+              <Text className="text-sm  text-zinc-500 text-center mt-2 px-6">
+                {t("auth.register.subtitle")}
               </Text>
             </View>
 
             {/* Form */}
-            <View className="mt-5 gap-4">
-              <TextInput
-                placeholder="Nom complet"
-                placeholderTextColor="#a1a1aa"
-                value={name}
-                onChangeText={setName}
-                className={`border rounded-xl px-4 py-3 text-base bg-white text-zinc-900 ${
-                  attemptedSubmit && !name.trim()
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
-                accessibilityLabel="Nom complet"
-                autoComplete="name"
-                returnKeyType="next"
+            <View className="mt-5 gap-5">
+              <Controller
+                control={control}
+                name="name"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <>
+                    <View
+                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
+                        errors.name
+                          ? "border-2 border-red-400"
+                          : value
+                          ? "border-2 border-purple-500"
+                          : "border border-gray-200"
+                      }`}
+                    >
+                      <TextInput
+                        placeholder={t("auth.register.namePlaceholder")}
+                        placeholderTextColor="#9ca3af"
+                        value={value}
+                        onChangeText={onChange}
+                        onBlur={onBlur}
+                        autoCapitalize="words"
+                        textContentType="name"
+                        autoCorrect={false}
+                        returnKeyType="next"
+                        style={{
+                          lineHeight: 22,
+                          paddingVertical: 16,
+                          paddingHorizontal: 16,
+                          fontSize: 16,
+                          fontFamily: "Outfit_400Regular",
+                        }}
+                        className="bg-transparent text-zinc-900"
+                        accessibilityLabel="Nom complet"
+                      />
+                    </View>
+                    {errors.name && (
+                      <View className="flex-row items-center mt-1.5 ml-1">
+                        <Ionicons
+                          name="alert-circle"
+                          size={14}
+                          color="#ef4444"
+                        />
+                        <Text className="text-red-500 text-xs ml-1 ">
+                          {errors.name.message}
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                )}
               />
-              {attemptedSubmit && !name.trim() && (
-                <Text className="text-red-500 text-sm ml-2">Nom requis</Text>
-              )}
 
-              <TextInput
-                placeholder="Adresse e-mail"
-                placeholderTextColor="#a1a1aa"
-                value={email}
-                onChangeText={setEmail}
-                keyboardType="email-address"
-                autoCapitalize="none"
-                className={`border rounded-xl px-4 py-3 text-base bg-white text-zinc-900 ${
-                  attemptedSubmit && !email.trim()
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
-                accessibilityLabel="Adresse e-mail"
-                autoComplete="email"
-                returnKeyType="next"
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <>
+                    <View
+                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
+                        errors.email
+                          ? "border-2 border-red-400"
+                          : value
+                          ? "border-2 border-purple-500"
+                          : "border border-gray-200"
+                      }`}
+                    >
+                      <TextInput
+                        placeholder={t("auth.register.emailPlaceholder")}
+                        placeholderTextColor="#9ca3af"
+                        value={value}
+                        onChangeText={onChange}
+                        onBlur={onBlur}
+                        autoCapitalize="none"
+                        keyboardType="email-address"
+                        textContentType="emailAddress"
+                        autoCorrect={false}
+                        returnKeyType="next"
+                        style={{
+                          lineHeight: 22,
+                          paddingVertical: 16,
+                          paddingHorizontal: 16,
+                          fontSize: 16,
+                          fontFamily: "Outfit_400Regular",
+                        }}
+                        className="bg-transparent text-zinc-900"
+                        accessibilityLabel="Adresse e-mail"
+                      />
+                    </View>
+                    {errors.email && (
+                      <View className="flex-row items-center mt-1.5 ml-1">
+                        <Ionicons
+                          name="alert-circle"
+                          size={14}
+                          color="#ef4444"
+                        />
+                        <Text className="text-red-500 text-xs ml-1 ">
+                          {errors.email.message}
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                )}
               />
-              {attemptedSubmit && !email.trim() && (
-                <Text className="text-red-500 text-sm ml-2">Email requis</Text>
-              )}
 
-              <View className="relative">
-                <TextInput
-                  placeholder="Mot de passe"
-                  placeholderTextColor="#a1a1aa"
-                  secureTextEntry={!showPassword}
-                  value={password}
-                  onChangeText={setPassword}
-                  className={`border rounded-xl px-4 py-3 text-base bg-white text-zinc-900 pr-10 ${
-                    attemptedSubmit && !password.trim()
-                      ? "border-red-500"
-                      : "border-gray-300"
-                  }`}
-                  accessibilityLabel="Mot de passe"
-                  autoComplete="password"
-                  returnKeyType="next"
-                />
-                <Pressable
-                  onPress={() => setShowPassword(!showPassword)}
-                  className="absolute right-3 top-3"
-                  accessibilityRole="button"
-                  accessibilityLabel={
-                    showPassword
-                      ? "Masquer le mot de passe"
-                      : "Afficher le mot de passe"
-                  }
-                >
-                  <Ionicons
-                    name={showPassword ? "eye-off" : "eye"}
-                    size={22}
-                    color="#a1a1aa"
-                  />
-                </Pressable>
-              </View>
-              {attemptedSubmit && !password.trim() && (
-                <Text className="text-red-500 text-sm ml-2">
-                  Mot de passe requis
-                </Text>
-              )}
-
-              <TextInput
-                placeholder="Confirmer le mot de passe"
-                placeholderTextColor="#a1a1aa"
-                secureTextEntry={!showPassword}
-                value={confirm}
-                onChangeText={setConfirm}
-                className={`border rounded-xl px-4 py-3 text-base bg-white text-zinc-900 ${
-                  attemptedSubmit && !confirm.trim()
-                    ? "border-red-500"
-                    : "border-gray-300"
-                }`}
-                accessibilityLabel="Confirmer le mot de passe"
-                autoComplete="password"
-                returnKeyType="done"
-                onSubmitEditing={() => {
-                  Keyboard.dismiss();
-                }}
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <>
+                    <View
+                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
+                        errors.password
+                          ? "border-2 border-red-400"
+                          : value
+                          ? "border-2 border-purple-500"
+                          : "border border-gray-200"
+                      }`}
+                    >
+                      <View className="flex-row items-center">
+                        <TextInput
+                          placeholder={t("auth.register.passwordPlaceholder")}
+                          placeholderTextColor="#9ca3af"
+                          value={value}
+                          onChangeText={onChange}
+                          onBlur={onBlur}
+                          secureTextEntry={!showPassword}
+                          textContentType="newPassword"
+                          autoCorrect={false}
+                          returnKeyType="next"
+                          style={{
+                            lineHeight: 22,
+                            paddingVertical: 16,
+                            paddingLeft: 16,
+                            paddingRight: 50,
+                            fontSize: 16,
+                            fontFamily: "Outfit_400Regular",
+                            flex: 1,
+                          }}
+                          className="bg-transparent text-zinc-900"
+                          accessibilityLabel="Mot de passe"
+                        />
+                        <Pressable
+                          onPress={() => setShowPassword(!showPassword)}
+                          className="absolute right-4"
+                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                          accessibilityRole="button"
+                          accessibilityLabel={
+                            showPassword
+                              ? "Masquer le mot de passe"
+                              : "Afficher le mot de passe"
+                          }
+                        >
+                          <Ionicons
+                            name={
+                              showPassword ? "eye-off-outline" : "eye-outline"
+                            }
+                            size={22}
+                            color="#6b7280"
+                          />
+                        </Pressable>
+                      </View>
+                    </View>
+                    {errors.password && (
+                      <View className="flex-row items-center mt-1.5 ml-1">
+                        <Ionicons
+                          name="alert-circle"
+                          size={14}
+                          color="#ef4444"
+                        />
+                        <Text className="text-red-500 text-xs ml-1 ">
+                          {errors.password.message}
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                )}
               />
-              {attemptedSubmit && !confirm.trim() && (
-                <Text className="text-red-500 text-sm ml-2">
-                  Confirmation requise
-                </Text>
-              )}
+
+              <Controller
+                control={control}
+                name="confirmPassword"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <>
+                    <View
+                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
+                        errors.confirmPassword
+                          ? "border-2 border-red-400"
+                          : value
+                          ? "border-2 border-purple-500"
+                          : "border border-gray-200"
+                      }`}
+                    >
+                      <TextInput
+                        placeholder={t(
+                          "auth.register.confirmPasswordPlaceholder"
+                        )}
+                        placeholderTextColor="#9ca3af"
+                        value={value}
+                        onChangeText={onChange}
+                        onBlur={onBlur}
+                        secureTextEntry={!showPassword}
+                        textContentType="newPassword"
+                        autoCorrect={false}
+                        returnKeyType="done"
+                        onSubmitEditing={() => {
+                          Keyboard.dismiss();
+                        }}
+                        style={{
+                          lineHeight: 22,
+                          paddingVertical: 16,
+                          paddingHorizontal: 16,
+                          fontSize: 16,
+                          fontFamily: "Outfit_400Regular",
+                        }}
+                        className="bg-transparent text-zinc-900"
+                        accessibilityLabel="Confirmer le mot de passe"
+                      />
+                    </View>
+                    {errors.confirmPassword && (
+                      <View className="flex-row items-center mt-1.5 ml-1">
+                        <Ionicons
+                          name="alert-circle"
+                          size={14}
+                          color="#ef4444"
+                        />
+                        <Text className="text-red-500 text-xs ml-1 ">
+                          {errors.confirmPassword.message}
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                )}
+              />
             </View>
 
             {/* Register Button */}
             <TouchableOpacity
-              onPress={handleRegister}
+              onPress={handleSubmit(onSubmit)}
               disabled={loading}
-              className={`w-full py-4 rounded-xl flex-row items-center justify-center mt-8 ${
-                loading ? "bg-purple-400" : "bg-purple-700"
-              } shadow-lg`}
+              activeOpacity={0.8}
+              className={`w-full py-4 rounded-2xl flex-row items-center justify-center mt-8 ${
+                loading ? "bg-purple-400" : "bg-purple-600"
+              } shadow-lg shadow-purple-500/30`}
+              style={{
+                shadowColor: "#7c3aed",
+                shadowOffset: { width: 0, height: 4 },
+                shadowOpacity: 0.3,
+                shadowRadius: 8,
+                elevation: 8,
+              }}
               accessibilityRole="button"
               accessibilityLabel="Créer un compte"
             >
               {loading ? (
-                <ActivityIndicator color="#fff" />
+                <ActivityIndicator color="#fff" size="small" />
               ) : (
                 <>
-                  <UserPlus size={20} color="#fff" />
-                  <Text className="text-white font-semibold text-base ml-2">
-                    Créer un compte
+                  <UserPlus size={20} color="#fff" strokeWidth={2.5} />
+                  <Text className="text-white  font-semibold text-base ml-2">
+                    {t("auth.register.registerButton")}
                   </Text>
                 </>
               )}

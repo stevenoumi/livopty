@@ -8,9 +8,18 @@ module.exports = {
   theme: {
     extend: {
       fontFamily: {
-        heading: ["System"],
-        body: ["System"],
-        mono: ["Courier", "monospace"],
+        outfit: [
+          "Outfit_400Regular",
+          "Outfit_500Medium",
+          "Outfit_600SemiBold",
+          "Outfit_700Bold",
+        ],
+        inter: [
+          "Inter_400Regular",
+          "Inter_500Medium",
+          "Inter_600SemiBold",
+          "Inter_700Bold",
+        ],
       },
       fontSize: {
         // Titres

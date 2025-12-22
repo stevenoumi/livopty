@@ -12,7 +12,7 @@ interface LinkedItemProps {
 export default function LinkedItem({ Icon, title, link }: LinkedItemProps) {
   const handlePress = () => {
     if (link) {
-      router.push(link as any);
+      router.push(link as never);
     }
   };
   return (

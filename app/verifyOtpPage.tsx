@@ -9,14 +9,30 @@ import {
 } from "react-native";
 import React, { useRef, useState } from "react";
 import { Ionicons } from "@expo/vector-icons";
-import { useSafeAreaInsets, SafeAreaView } from "react-native-safe-area-context";
+import { SafeAreaView } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import {
+  verifyOtpSchema,
+  type VerifyOtpFormData,
+} from "~/lib/schemas/auth.schema";
 
 const VerifyOtpPage = () => {
   const router = useRouter();
-  const insets = useSafeAreaInsets();
   const [otp, setOtp] = useState(Array(6).fill(""));
-  const inputsRef = useRef<Array<TextInput | null>>([]);
+  const inputsRef = useRef<(TextInput | null)[]>([]);
+
+  const {
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm<VerifyOtpFormData>({
+    resolver: zodResolver(verifyOtpSchema),
+    defaultValues: {
+      otp: "",
+    },
+  });
 
   const handleChange = (text: string, index: number) => {
     if (!/^\d*$/.test(text)) return; // Empêche la saisie non numérique
@@ -24,8 +40,11 @@ const VerifyOtpPage = () => {
     newOtp[index] = text;
     setOtp(newOtp);
 
+    // Mettre à jour la valeur du formulaire
+    setValue("otp", newOtp.join(""));
+
     if (text && index < 5) {
-      (inputsRef.current[index + 1] as any)?.focus();
+      inputsRef.current[index + 1]?.focus();
     }
 
     if (index === 5 && text) {
@@ -33,15 +52,9 @@ const VerifyOtpPage = () => {
     }
   };
 
-  const handleVerify = () => {
-    const code = otp.join("");
-    if (code.length !== 6 || code.includes("")) {
-      Alert.alert("Code incomplet", "Veuillez entrer les 6 chiffres du code.");
-      return;
-    }
-
+  const onSubmit = (data: VerifyOtpFormData) => {
     // Ex. : Remplacer par vérification backend
-    if (code === "123456") {
+    if (data.otp === "123456") {
       Alert.alert("Succès", "Code vérifié !");
       router.push("/(screens)/Chats");
     } else {
@@ -82,29 +95,38 @@ const VerifyOtpPage = () => {
           </Text>
 
           {/* OTP input */}
-          <View className="flex-row justify-center mt-4">
-            {otp.map((digit, index) => (
-              <TextInput
-                key={index}
-                ref={(el) => {
-                  inputsRef.current[index] = el;
-                }}
-                value={digit}
-                onChangeText={(text) => handleChange(text, index)}
-                keyboardType="number-pad"
-                maxLength={1}
-                textAlign="center"
-                returnKeyType="done"
-                style={{ marginHorizontal: 4 , textAlignVertical: "center" }}
-                autoFocus={index === 0}
-                className="w-12 h-14 border border-gray-300 rounded-xl text-xl font-bold text-gray-900 bg-white shadow-sm"
-              />
-            ))}
+          <View className="mt-4">
+            <View className="flex-row justify-center">
+              {otp.map((digit, index) => (
+                <TextInput
+                  key={index}
+                  ref={(el) => {
+                    inputsRef.current[index] = el;
+                  }}
+                  value={digit}
+                  onChangeText={(text) => handleChange(text, index)}
+                  keyboardType="number-pad"
+                  maxLength={1}
+                  textAlign="center"
+                  returnKeyType="done"
+                  style={{ marginHorizontal: 4, textAlignVertical: "center" }}
+                  autoFocus={index === 0}
+                  className={`w-12 h-14 border rounded-xl text-xl font-bold text-gray-900 bg-white shadow-sm ${
+                    errors.otp ? "border-red-500" : "border-gray-300"
+                  }`}
+                />
+              ))}
+            </View>
+            {errors.otp && (
+              <Text className="text-red-500 text-xs mt-2 text-center">
+                {errors.otp.message}
+              </Text>
+            )}
           </View>
 
           {/* Verify Button */}
           <TouchableOpacity
-            onPress={handleVerify}
+            onPress={handleSubmit(onSubmit)}
             className="w-full py-4 mt-4 rounded-2xl bg-purple-700 shadow-lg items-center justify-center"
           >
             <Text className="text-white text-center font-semibold text-base">

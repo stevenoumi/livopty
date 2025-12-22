@@ -1,5 +1,5 @@
 import { supabase } from "./supabase";
-import { AuthResponse, SignUpData, SignInData } from "~/lib/types/auth";
+import { AuthResponse, SignUpData, SignInData, User } from "~/lib/types/auth";
 import {
   validateEmail,
   validatePassword,
@@ -47,7 +47,7 @@ export const signUpWithEmail = async (
     }
 
     logger.info("User signed up successfully", { userId: authData.user?.id });
-    return { success: true, user: authData.user as any };
+    return { success: true, user: authData.user as User };
   } catch (error) {
     logger.error("Unexpected error during sign up", error);
     return { success: false, error: ERROR_MESSAGES.UNKNOWN_ERROR };
@@ -90,7 +90,7 @@ export const signInWithEmail = async (
     }
 
     logger.info("User signed in successfully", { userId: authData.user?.id });
-    return { success: true, user: authData.user as any };
+    return { success: true, user: authData.user as User };
   } catch (error) {
     logger.error("Unexpected error during sign in", error);
     return { success: false, error: ERROR_MESSAGES.UNKNOWN_ERROR };

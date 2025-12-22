@@ -1,0 +1,119 @@
+{
+  "common": {
+    "welcome": "Bienvenido",
+    "continue": "Continuar",
+    "cancel": "Cancelar",
+    "confirm": "Confirmar",
+    "save": "Guardar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "search": "Buscar",
+    "loading": "Cargando...",
+    "error": "Error",
+    "success": "Éxito",
+    "or": "O"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenido a {{appName}}",
+      "subtitle": "La aplicación para vivir mejor juntos: gestiona tus listas, agenda, presupuesto, conversaciones... ¡con simplicidad!",
+      "emailPlaceholder": "Tu dirección de correo",
+      "passwordPlaceholder": "Tu contraseña",
+      "forgotPassword": "¿Olvidaste tu contraseña?",
+      "loginButton": "Iniciar sesión",
+      "connectWith": "O conéctate con",
+      "noAccount": "¿No tienes cuenta?",
+      "createAccount": "Crear una cuenta",
+      "privacyText": "Al continuar, aceptas nuestra",
+      "privacyLink": "política de privacidad",
+      "loginSuccess": "¡Inicio de sesión exitoso!",
+      "loginError": "Error al iniciar sesión."
+    },
+    "register": {
+      "title": "Crear una cuenta",
+      "subtitle": "Únete a LivOpty",
+      "namePlaceholder": "Tu nombre completo",
+      "emailPlaceholder": "Tu dirección de correo",
+      "passwordPlaceholder": "Tu contraseña",
+      "confirmPasswordPlaceholder": "Confirmar contraseña",
+      "registerButton": "Registrarse",
+      "haveAccount": "¿Ya tienes una cuenta?",
+      "loginLink": "Iniciar sesión"
+    },
+    "verifyOtp": {
+      "title": "Verifica tu cuenta",
+      "subtitle": "Ingresa el código de 6 dígitos enviado a",
+      "verifyButton": "Verificar",
+      "resendCode": "Reenviar código",
+      "wrongEmail": "¿Correo incorrecto?"
+    }
+  },
+  "navigation": {
+    "home": "Inicio",
+    "chats": "Chats",
+    "grocery": "Compras",
+    "agenda": "Agenda",
+    "finance": "Finanzas",
+    "settings": "Configuración"
+  },
+  "welcome": {
+    "title": "Bienvenido a LivOpty",
+    "subtitle": "Gestiona tu vida diaria de forma sencilla",
+    "getStarted": "Comenzar",
+    "slideToStart": "Desliza para comenzar"
+  },
+  "settings": {
+    "title": "Configuración",
+    "profile": "Perfil",
+    "notifications": "Notificaciones",
+    "language": "Idioma",
+    "theme": "Tema",
+    "privacy": "Privacidad",
+    "about": "Acerca de",
+    "logout": "Cerrar sesión",
+    "version": "Versión"
+  },
+  "grocery": {
+    "title": "Listas de compras",
+    "newList": "Nueva lista",
+    "myLists": "Mis listas",
+    "sharedLists": "Listas compartidas",
+    "emptyList": "Sin listas de compras",
+    "addItem": "Agregar artículo",
+    "itemName": "Nombre del artículo",
+    "quantity": "Cantidad",
+    "category": "Categoría"
+  },
+  "chat": {
+    "title": "Chats",
+    "newChat": "Nuevo chat",
+    "search": "Buscar un chat",
+    "typeMessage": "Escribe un mensaje...",
+    "send": "Enviar",
+    "emptyChats": "Sin chats",
+    "online": "En línea",
+    "offline": "Desconectado",
+    "typing": "Escribiendo..."
+  },
+  "noteEditor": {
+    "title": "🗒️ Editor de notas",
+    "placeholder": "Escribe algo..."
+  },
+  "errors": {
+    "networkError": "Error de conexión",
+    "serverError": "Error del servidor",
+    "invalidCredentials": "Credenciales inválidas",
+    "emailRequired": "Se requiere dirección de correo",
+    "passwordRequired": "Se requiere contraseña",
+    "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
+    "emailInvalid": "Dirección de correo inválida",
+    "passwordMismatch": "Las contraseñas no coinciden"
+  },
+  "alerts": {
+    "comingSoon": "Función próximamente...",
+    "forgotPasswordTitle": "Contraseña olvidada",
+    "privacyPolicyTitle": "Política de privacidad",
+    "googleLogin": "Iniciar sesión con Google",
+    "appleLogin": "Iniciar sesión con Apple"
+  }
+}

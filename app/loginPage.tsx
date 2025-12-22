@@ -15,36 +15,46 @@ import { Alert } from "react-native";
 
 import LanguageSelector from "~/components/custom/LanguageSelector";
 import React, { useState } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { LogIn } from "lucide-react-native";
-import Languages from "~/lib/data/languageData";
 import { signInWithEmail } from "~/lib/services/supabase/authService";
 import { ROUTES } from "~/lib/constants";
+import { useLanguage } from "~/lib/context/LanguageContext";
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { loginSchema, type LoginFormData } from "~/lib/schemas/auth.schema";
 
 const LoginPage = () => {
-  const insets = useSafeAreaInsets();
   const router = useRouter();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const { t } = useLanguage();
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedLang, setSelectedLang] = useState(Languages[0]);
   const [loading, setLoading] = useState(false);
-  const [attemptedSubmit] = useState(false);
 
-  const handleLogin = async () => {
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
+      email: "",
+      password: "",
+    },
+  });
+
+  const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
-    const { success, error } = await signInWithEmail({ email, password });
+    const { success, error } = await signInWithEmail(data);
     setLoading(false);
 
     if (!success) {
-      Alert.alert("Erreur", error || "Échec de la connexion.");
+      Alert.alert(t("common.error"), error || t("auth.login.loginError"));
       return;
     }
 
-    Alert.alert("Succès", "Connexion réussie !");
+    Alert.alert(t("common.success"), t("auth.login.loginSuccess"));
     router.push(ROUTES.CHATS);
   };
 
@@ -63,10 +73,7 @@ const LoginPage = () => {
             >
               <Ionicons name="chevron-back" size={26} color="#333" />
             </TouchableOpacity>
-            <LanguageSelector
-              selectedLang={selectedLang}
-              onSelect={setSelectedLang}
-            />
+            <LanguageSelector />
           </View>
 
           {/* Logo & Title */}
@@ -77,66 +84,146 @@ const LoginPage = () => {
               resizeMode="contain"
             />
             <Text className="text-3xl font-bold text-center mt-4 text-zinc-900">
-              Bienvenue sur <Text className="text-purple-700">LivOpty</Text>
+              {t("auth.login.title", { appName: "" })}
+              <Text className="text-purple-700">LivOpty</Text>
             </Text>
             <Text className="text-sm text-zinc-500 text-center mt-4">
-              L'application pour mieux vivre ensemble : gerer vos listes,
-              agenda, budget, discussions... en toute simplicité !
+              {t("auth.login.subtitle")}
             </Text>
           </View>
 
           {/* Form */}
           <View className="mt-8">
-            <View className="mb-4">
-              <TextInput
-                placeholder="Votre adresse e-mail"
-                placeholderTextColor="#a1a1aa"
-                value={email}
-                onChangeText={setEmail}
-                autoCapitalize="none"
-                keyboardType="email-address"
-                className={`border rounded-xl px-4 py-3 text-base bg-white text-zinc-900 ${
-                  attemptedSubmit && !email
-                    ? "border-red-400"
-                    : "border-gray-300"
-                }`}
+            <View className="mb-5">
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <>
+                    <View
+                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
+                        errors.email
+                          ? "border-2 border-red-400"
+                          : value
+                          ? "border-2 border-purple-500"
+                          : "border border-gray-200"
+                      }`}
+                    >
+                      <TextInput
+                        placeholder={t("auth.login.emailPlaceholder")}
+                        placeholderTextColor="#9ca3af"
+                        value={value}
+                        onChangeText={onChange}
+                        onBlur={onBlur}
+                        autoCapitalize="none"
+                        keyboardType="email-address"
+                        autoCorrect={false}
+                        textContentType="emailAddress"
+                        style={{
+                          lineHeight: 22,
+                          paddingVertical: 16,
+                          paddingHorizontal: 16,
+                          fontSize: 16,
+                          fontFamily: "Outfit_400Regular",
+                        }}
+                        className="bg-transparent text-zinc-900"
+                      />
+                    </View>
+                    {errors.email && (
+                      <View className="flex-row items-center mt-1.5 ml-1">
+                        <Ionicons
+                          name="alert-circle"
+                          size={14}
+                          color="#ef4444"
+                        />
+                        <Text className="text-red-500 text-xs ml-1 ">
+                          {errors.email.message}
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                )}
               />
             </View>
-            <View className="mb-2 relative">
-              <TextInput
-                placeholder="Votre mot de passe"
-                placeholderTextColor="#a1a1aa"
-                value={password}
-                onChangeText={setPassword}
-                secureTextEntry={!showPassword}
-                className={`border rounded-xl px-4 py-3 text-base bg-white text-zinc-900 pr-10 ${
-                  attemptedSubmit && !password
-                    ? "border-red-400"
-                    : "border-gray-300"
-                }`}
+            <View className="mb-5">
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <>
+                    <View
+                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
+                        errors.password
+                          ? "border-2 border-red-400"
+                          : value
+                          ? "border-2 border-purple-500"
+                          : "border border-gray-200"
+                      }`}
+                    >
+                      <View className="flex-row items-center">
+                        <TextInput
+                          placeholder={t("auth.login.passwordPlaceholder")}
+                          placeholderTextColor="#9ca3af"
+                          value={value}
+                          onChangeText={onChange}
+                          onBlur={onBlur}
+                          secureTextEntry={!showPassword}
+                          textContentType="password"
+                          autoCorrect={false}
+                          style={{
+                            lineHeight: 22,
+                            paddingVertical: 16,
+                            paddingLeft: 16,
+                            paddingRight: 50,
+                            fontSize: 16,
+                            fontFamily: "Outfit_400Regular",
+                            flex: 1,
+                          }}
+                          className="bg-transparent text-zinc-900"
+                        />
+                        <Pressable
+                          onPress={() => setShowPassword(!showPassword)}
+                          className="absolute right-4"
+                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
+                        >
+                          <Ionicons
+                            name={
+                              showPassword ? "eye-off-outline" : "eye-outline"
+                            }
+                            size={22}
+                            color="#6b7280"
+                          />
+                        </Pressable>
+                      </View>
+                    </View>
+                    {errors.password && (
+                      <View className="flex-row items-center mt-1.5 ml-1">
+                        <Ionicons
+                          name="alert-circle"
+                          size={14}
+                          color="#ef4444"
+                        />
+                        <Text className="text-red-500 text-xs ml-1 ">
+                          {errors.password.message}
+                        </Text>
+                      </View>
+                    )}
+                  </>
+                )}
               />
-              <Pressable
-                onPress={() => setShowPassword(!showPassword)}
-                className="absolute right-3 top-3"
-              >
-                <Ionicons
-                  name={showPassword ? "eye-off" : "eye"}
-                  size={22}
-                  color="#a1a1aa"
-                />
-              </Pressable>
             </View>
-            <View className="flex-row justify-end mb-4">
+            <View className="flex-row justify-end mb-6">
               <Pressable
                 onPress={() =>
                   Alert.alert(
-                    "Mot de passe oublié",
-                    "Fonctionnalité à venir..."
+                    t("alerts.forgotPasswordTitle"),
+                    t("alerts.comingSoon")
                   )
                 }
+                className="py-1"
               >
-                <Text className="text-sm text-purple-600">
-                  Mot de passe oublié ?
+                <Text className="text-sm text-purple-600  font-medium">
+                  {t("auth.login.forgotPassword")}
                 </Text>
               </Pressable>
             </View>
@@ -144,19 +231,27 @@ const LoginPage = () => {
 
           {/* Login Button */}
           <TouchableOpacity
-            onPress={handleLogin}
+            onPress={handleSubmit(onSubmit)}
             disabled={loading}
-            className={`w-full py-4 rounded-xl flex-row items-center justify-center mt-4 ${
-              loading ? "bg-purple-400" : "bg-purple-700"
-            } shadow-lg`}
+            activeOpacity={0.8}
+            className={`w-full py-4 rounded-2xl flex-row items-center justify-center ${
+              loading ? "bg-purple-400" : "bg-purple-600"
+            } shadow-lg shadow-purple-500/30`}
+            style={{
+              shadowColor: "#7c3aed",
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8,
+            }}
           >
             {loading ? (
-              <ActivityIndicator color="#fff" />
+              <ActivityIndicator color="#fff" size="small" />
             ) : (
               <>
-                <LogIn size={20} color="#fff" />
-                <Text className="text-white font-semibold text-base ml-2">
-                  Se connecter
+                <LogIn size={20} color="#fff" strokeWidth={2.5} />
+                <Text className="text-white  font-semibold text-base ml-2">
+                  {t("auth.login.loginButton")}
                 </Text>
               </>
             )}
@@ -165,7 +260,7 @@ const LoginPage = () => {
           {/* Divider */}
           <View className="my-6">
             <Text className="text-sm text-zinc-400 text-center">
-              Ou connectez-vous avec
+              {t("auth.login.connectWith")}
             </Text>
           </View>
 
@@ -186,7 +281,14 @@ const LoginPage = () => {
                 className="h-14 w-14 bg-white rounded-full items-center justify-center shadow-md border border-gray-200"
                 android_ripple={{ color: "#eee", borderless: true }}
                 onPress={() =>
-                  Alert.alert(`Connexion avec ${name}`, "À venir...")
+                  Alert.alert(
+                    t(
+                      name === "Google"
+                        ? "alerts.googleLogin"
+                        : "alerts.appleLogin"
+                    ),
+                    t("alerts.comingSoon")
+                  )
                 }
               >
                 <Image
@@ -201,25 +303,28 @@ const LoginPage = () => {
           {/* Create Account */}
           <View className="mt-2 flex-row justify-center">
             <Text className="text-sm text-zinc-500">
-              Pas encore de compte ?{" "}
+              {t("auth.login.noAccount")}{" "}
             </Text>
             <Pressable onPress={() => router.push("/registerPage")}>
               <Text className="text-sm text-purple-600 font-medium">
-                Créer un compte
+                {t("auth.login.createAccount")}
               </Text>
             </Pressable>
           </View>
 
           {/* Footer */}
           <Text className="text-sm text-center text-zinc-400 px-6 mt-6 mb-4">
-            En continuant, vous acceptez notre{" "}
+            {t("auth.login.privacyText")}{" "}
             <Text
               onPress={() =>
-                Alert.alert("Politique de confidentialité", "À venir...")
+                Alert.alert(
+                  t("alerts.privacyPolicyTitle"),
+                  t("alerts.comingSoon")
+                )
               }
               className="text-purple-600 underline"
             >
-              politique de confidentialité
+              {t("auth.login.privacyLink")}
             </Text>
             .
           </Text>

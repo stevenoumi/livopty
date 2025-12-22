@@ -1,0 +1,119 @@
+{
+  "common": {
+    "welcome": "Welcome",
+    "continue": "Continue",
+    "cancel": "Cancel",
+    "confirm": "Confirm",
+    "save": "Save",
+    "delete": "Delete",
+    "edit": "Edit",
+    "search": "Search",
+    "loading": "Loading...",
+    "error": "Error",
+    "success": "Success",
+    "or": "Or"
+  },
+  "auth": {
+    "login": {
+      "title": "Welcome to {{appName}}",
+      "subtitle": "The app to live better together: manage your lists, calendar, budget, conversations... with simplicity!",
+      "emailPlaceholder": "Your email address",
+      "passwordPlaceholder": "Your password",
+      "forgotPassword": "Forgot password?",
+      "loginButton": "Log in",
+      "connectWith": "Or connect with",
+      "noAccount": "Don't have an account?",
+      "createAccount": "Create an account",
+      "privacyText": "By continuing, you accept our",
+      "privacyLink": "privacy policy",
+      "loginSuccess": "Login successful!",
+      "loginError": "Login failed."
+    },
+    "register": {
+      "title": "Create an account",
+      "subtitle": "Join LivOpty",
+      "namePlaceholder": "Your full name",
+      "emailPlaceholder": "Your email address",
+      "passwordPlaceholder": "Your password",
+      "confirmPasswordPlaceholder": "Confirm password",
+      "registerButton": "Sign up",
+      "haveAccount": "Already have an account?",
+      "loginLink": "Log in"
+    },
+    "verifyOtp": {
+      "title": "Verify your account",
+      "subtitle": "Enter the 6-digit code sent to",
+      "verifyButton": "Verify",
+      "resendCode": "Resend code",
+      "wrongEmail": "Wrong email?"
+    }
+  },
+  "navigation": {
+    "home": "Home",
+    "chats": "Chats",
+    "grocery": "Grocery",
+    "agenda": "Agenda",
+    "finance": "Finance",
+    "settings": "Settings"
+  },
+  "welcome": {
+    "title": "Welcome to LivOpty",
+    "subtitle": "Manage your daily life simply",
+    "getStarted": "Get Started",
+    "slideToStart": "Slide to start"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "notifications": "Notifications",
+    "language": "Language",
+    "theme": "Theme",
+    "privacy": "Privacy",
+    "about": "About",
+    "logout": "Log out",
+    "version": "Version"
+  },
+  "grocery": {
+    "title": "Grocery Lists",
+    "newList": "New list",
+    "myLists": "My lists",
+    "sharedLists": "Shared lists",
+    "emptyList": "No grocery list",
+    "addItem": "Add item",
+    "itemName": "Item name",
+    "quantity": "Quantity",
+    "category": "Category"
+  },
+  "chat": {
+    "title": "Chats",
+    "newChat": "New chat",
+    "search": "Search a chat",
+    "typeMessage": "Type a message...",
+    "send": "Send",
+    "emptyChats": "No chats",
+    "online": "Online",
+    "offline": "Offline",
+    "typing": "Typing..."
+  },
+  "noteEditor": {
+    "title": "🗒️ Note Editor",
+    "placeholder": "Write something..."
+  },
+  "errors": {
+    "networkError": "Connection error",
+    "serverError": "Server error",
+    "invalidCredentials": "Invalid credentials",
+    "emailRequired": "Email address is required",
+    "passwordRequired": "Password is required",
+    "passwordTooShort": "Password must be at least 6 characters",
+    "emailInvalid": "Invalid email address",
+    "passwordMismatch": "Passwords do not match"
+  },
+  "alerts": {
+    "comingSoon": "Feature coming soon...",
+    "forgotPasswordTitle": "Forgot password",
+    "privacyPolicyTitle": "Privacy policy",
+    "googleLogin": "Sign in with Google",
+    "appleLogin": "Sign in with Apple"
+  }
+}

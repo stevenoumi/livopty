@@ -1,4 +1,3 @@
-import { CirclePlus } from "lucide-react-native";
 import React, { useRef, useState, useEffect } from "react";
 import {
   View,
@@ -14,8 +13,10 @@ import {
   actions,
 } from "react-native-pell-rich-editor";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useLanguage } from "~/lib/context/LanguageContext";
 
 export default function NoteEditorScreen() {
+  const { t } = useLanguage();
   const editorRef = useRef<RichEditor>(null);
   const [content, setContent] = useState("");
   const insets = useSafeAreaInsets();
@@ -47,7 +48,7 @@ export default function NoteEditorScreen() {
       show.remove();
       hide.remove();
     };
-  }, [insets.bottom]);
+  }, [insets.bottom, toolbarBottom]);
 
   return (
     <KeyboardAvoidingView
@@ -57,12 +58,12 @@ export default function NoteEditorScreen() {
     >
       <View className="flex-1 p-4 bg-white gap-2">
         <Text className="text-2xl font-bold text-gray-800 ">
-          🗒️ Éditeur de Note
+          {t("noteEditor.title")}
         </Text>
         <RichEditor
           ref={editorRef}
           initialContentHTML={content}
-          placeholder="Écrivez quelque chose..."
+          placeholder={t("noteEditor.placeholder")}
           onChange={setContent}
           style={{ flex: 1, marginBottom: insets.bottom }}
           editorStyle={{

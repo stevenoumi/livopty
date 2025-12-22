@@ -1,0 +1,119 @@
+{
+  "common": {
+    "welcome": "Bienvenue",
+    "continue": "Continuer",
+    "cancel": "Annuler",
+    "confirm": "Confirmer",
+    "save": "Enregistrer",
+    "delete": "Supprimer",
+    "edit": "Modifier",
+    "search": "Rechercher",
+    "loading": "Chargement...",
+    "error": "Erreur",
+    "success": "Succès",
+    "or": "Ou"
+  },
+  "auth": {
+    "login": {
+      "title": "Bienvenue sur {{appName}}",
+      "subtitle": "L'application pour mieux vivre ensemble : gerer vos listes, agenda, budget, discussions... en toute simplicité !",
+      "emailPlaceholder": "Votre adresse e-mail",
+      "passwordPlaceholder": "Votre mot de passe",
+      "forgotPassword": "Mot de passe oublié ?",
+      "loginButton": "Se connecter",
+      "connectWith": "Ou connectez-vous avec",
+      "noAccount": "Pas encore de compte ?",
+      "createAccount": "Créer un compte",
+      "privacyText": "En continuant, vous acceptez notre",
+      "privacyLink": "politique de confidentialité",
+      "loginSuccess": "Connexion réussie !",
+      "loginError": "Échec de la connexion."
+    },
+    "register": {
+      "title": "Créer un compte",
+      "subtitle": "Rejoignez LivOpty",
+      "namePlaceholder": "Votre nom complet",
+      "emailPlaceholder": "Votre adresse e-mail",
+      "passwordPlaceholder": "Votre mot de passe",
+      "confirmPasswordPlaceholder": "Confirmer le mot de passe",
+      "registerButton": "S'inscrire",
+      "haveAccount": "Déjà un compte ?",
+      "loginLink": "Se connecter"
+    },
+    "verifyOtp": {
+      "title": "Vérifier votre compte",
+      "subtitle": "Entrez le code à 6 chiffres envoyé à",
+      "verifyButton": "Vérifier",
+      "resendCode": "Renvoyer le code",
+      "wrongEmail": "Mauvaise adresse ?"
+    }
+  },
+  "navigation": {
+    "home": "Accueil",
+    "chats": "Discussions",
+    "grocery": "Courses",
+    "agenda": "Agenda",
+    "finance": "Finance",
+    "settings": "Paramètres"
+  },
+  "welcome": {
+    "title": "Bienvenue sur LivOpty",
+    "subtitle": "Gérez votre vie quotidienne simplement",
+    "getStarted": "Commencer",
+    "slideToStart": "Glissez pour commencer"
+  },
+  "settings": {
+    "title": "Paramètres",
+    "profile": "Profil",
+    "notifications": "Notifications",
+    "language": "Langue",
+    "theme": "Thème",
+    "privacy": "Confidentialité",
+    "about": "À propos",
+    "logout": "Se déconnecter",
+    "version": "Version"
+  },
+  "grocery": {
+    "title": "Listes de courses",
+    "newList": "Nouvelle liste",
+    "myLists": "Mes listes",
+    "sharedLists": "Listes partagées",
+    "emptyList": "Aucune liste de courses",
+    "addItem": "Ajouter un article",
+    "itemName": "Nom de l'article",
+    "quantity": "Quantité",
+    "category": "Catégorie"
+  },
+  "chat": {
+    "title": "Discussions",
+    "newChat": "Nouvelle discussion",
+    "search": "Rechercher une discussion",
+    "typeMessage": "Tapez un message...",
+    "send": "Envoyer",
+    "emptyChats": "Aucune discussion",
+    "online": "En ligne",
+    "offline": "Hors ligne",
+    "typing": "En train d'écrire..."
+  },
+  "noteEditor": {
+    "title": "🗒️ Éditeur de Note",
+    "placeholder": "Écrivez quelque chose..."
+  },
+  "errors": {
+    "networkError": "Erreur de connexion",
+    "serverError": "Erreur serveur",
+    "invalidCredentials": "Identifiants invalides",
+    "emailRequired": "L'adresse e-mail est requise",
+    "passwordRequired": "Le mot de passe est requis",
+    "passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères",
+    "emailInvalid": "Adresse e-mail invalide",
+    "passwordMismatch": "Les mots de passe ne correspondent pas"
+  },
+  "alerts": {
+    "comingSoon": "Fonctionnalité à venir...",
+    "forgotPasswordTitle": "Mot de passe oublié",
+    "privacyPolicyTitle": "Politique de confidentialité",
+    "googleLogin": "Connexion avec Google",
+    "appleLogin": "Connexion avec Apple"
+  }
+}
