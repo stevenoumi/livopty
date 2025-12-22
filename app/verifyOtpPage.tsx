@@ -3,16 +3,21 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  Alert,
   Keyboard,
   Image,
+  ActivityIndicator,
 } from "react-native";
 import React, { useRef, useState } from "react";
+import Toast from "~/components/custom/Toast";
+import { useToast } from "~/lib/hooks/useToast";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useRouter } from "expo-router";
+import { useRouter, useLocalSearchParams } from "expo-router";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useLanguage } from "~/lib/context/LanguageContext";
+import { supabase } from "~/lib/services/supabase/supabase";
+import { ROUTES } from "~/lib/constants";
 import {
   verifyOtpSchema,
   type VerifyOtpFormData,
@@ -20,7 +25,14 @@ import {
 
 const VerifyOtpPage = () => {
   const router = useRouter();
+  const { t } = useLanguage();
+  const { toast, hideToast, success, error } = useToast();
+  const params = useLocalSearchParams<{ email?: string }>();
+  const email = params.email || "";
+
   const [otp, setOtp] = useState(Array(6).fill(""));
+  const [loading, setLoading] = useState(false);
+  const [resendLoading, setResendLoading] = useState(false);
   const inputsRef = useRef<(TextInput | null)[]>([]);
 
   const {
@@ -52,13 +64,33 @@ const VerifyOtpPage = () => {
     }
   };
 
-  const onSubmit = (data: VerifyOtpFormData) => {
-    // Ex. : Remplacer par vérification backend
-    if (data.otp === "123456") {
-      Alert.alert("Succès", "Code vérifié !");
-      router.push("/(screens)/Chats");
-    } else {
-      Alert.alert("Erreur", "Le code est incorrect.");
+  const onSubmit = async (data: VerifyOtpFormData) => {
+    if (!email) {
+      error("Email manquant");
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const { error: otpError } = await supabase.auth.verifyOtp({
+        email,
+        token: data.otp,
+        type: "email",
+      });
+
+      if (otpError) {
+        error(otpError.message);
+        return;
+      }
+
+      success(t("auth.verifyOtp.successMessage"));
+      setTimeout(() => {
+        router.replace(ROUTES.HOME);
+      }, 500);
+    } catch (err) {
+      error(t("errors.unknownError"));
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -66,12 +98,39 @@ const VerifyOtpPage = () => {
     router.back();
   };
 
-  const handleResend = () => {
-    Alert.alert("Nouveau code", "Un nouveau code a été envoyé par SMS.");
+  const handleResend = async () => {
+    if (!email) {
+      error("Email manquant");
+      return;
+    }
+
+    setResendLoading(true);
+    try {
+      const { error: resendError } = await supabase.auth.resend({
+        type: "signup",
+        email,
+      });
+
+      if (resendError) {
+        error(resendError.message);
+      } else {
+        success(t("auth.verifyOtp.resendSuccess"));
+      }
+    } catch (err) {
+      error(t("errors.unknownError"));
+    } finally {
+      setResendLoading(false);
+    }
   };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
+      <Toast
+        visible={toast.visible}
+        message={toast.message}
+        type={toast.type}
+        onHide={hideToast}
+      />
       <View className="flex-1 px-4 bg-white">
         {/* Header */}
         <View className="flex-row justify-between items-center">
@@ -87,66 +146,115 @@ const VerifyOtpPage = () => {
             className="w-auto h-48 self-center"
             resizeMode="contain"
           />
-          <Text className="text-3xl font-bold text-zinc-900 text-center">
-            Vérification du code
+          <Text className="text-3xl font-outfit font-bold text-zinc-900 text-center">
+            {t("auth.verifyOtp.title")}
           </Text>
-          <Text className="text-base text-zinc-500 text-center px-2">
-            Saisissez le code à 6 chiffres que nous vous avons envoyé par SMS.
+          <Text className="text-base font-outfit text-zinc-500 text-center px-4">
+            {t("auth.verifyOtp.subtitle")}{" "}
+            <Text className="font-outfit font-semibold text-zinc-700">
+              {email}
+            </Text>
           </Text>
 
           {/* OTP input */}
           <View className="mt-4">
-            <View className="flex-row justify-center">
+            <View className="flex-row justify-center gap-2">
               {otp.map((digit, index) => (
-                <TextInput
+                <View
                   key={index}
-                  ref={(el) => {
-                    inputsRef.current[index] = el;
-                  }}
-                  value={digit}
-                  onChangeText={(text) => handleChange(text, index)}
-                  keyboardType="number-pad"
-                  maxLength={1}
-                  textAlign="center"
-                  returnKeyType="done"
-                  style={{ marginHorizontal: 4, textAlignVertical: "center" }}
-                  autoFocus={index === 0}
-                  className={`w-12 h-14 border rounded-xl text-xl font-bold text-gray-900 bg-white shadow-sm ${
-                    errors.otp ? "border-red-500" : "border-gray-300"
+                  className={`bg-gray-50 rounded-2xl overflow-hidden ${
+                    errors.otp
+                      ? "border-2 border-red-400"
+                      : digit
+                      ? "border-2 border-purple-500"
+                      : "border border-gray-200"
                   }`}
-                />
+                >
+                  <TextInput
+                    ref={(el) => {
+                      inputsRef.current[index] = el;
+                    }}
+                    value={digit}
+                    onChangeText={(text) => handleChange(text, index)}
+                    keyboardType="number-pad"
+                    maxLength={1}
+                    returnKeyType="done"
+                    autoFocus={index === 0}
+                    style={{
+                      width: 48,
+                      height: 56,
+                      lineHeight: 22,
+                      fontSize: 24,
+                      fontFamily: "Outfit_600SemiBold",
+                      textAlign: "center",
+                    }}
+                    className="bg-transparent text-zinc-900"
+                  />
+                </View>
               ))}
             </View>
             {errors.otp && (
-              <Text className="text-red-500 text-xs mt-2 text-center">
-                {errors.otp.message}
-              </Text>
+              <View className="flex-row items-center justify-center mt-2">
+                <Ionicons name="alert-circle" size={14} color="#ef4444" />
+                <Text className="text-red-500 text-xs ml-1 font-outfit">
+                  {errors.otp.message}
+                </Text>
+              </View>
             )}
           </View>
 
           {/* Verify Button */}
           <TouchableOpacity
             onPress={handleSubmit(onSubmit)}
-            className="w-full py-4 mt-4 rounded-2xl bg-purple-700 shadow-lg items-center justify-center"
+            disabled={loading || otp.join("").length < 6}
+            activeOpacity={0.8}
+            className={`w-full py-4 mt-4 rounded-2xl shadow-lg items-center justify-center ${
+              loading || otp.join("").length < 6
+                ? "bg-purple-400"
+                : "bg-purple-600"
+            } shadow-purple-500/30`}
+            style={{
+              shadowColor: "#7c3aed",
+              shadowOffset: { width: 0, height: 4 },
+              shadowOpacity: 0.3,
+              shadowRadius: 8,
+              elevation: 8,
+            }}
           >
-            <Text className="text-white text-center font-semibold text-base">
-              Vérifier le code
-            </Text>
+            {loading ? (
+              <ActivityIndicator color="#fff" size="small" />
+            ) : (
+              <Text className="text-white text-center font-outfit font-semibold text-base">
+                {t("auth.verifyOtp.verifyButton")}
+              </Text>
+            )}
           </TouchableOpacity>
 
           {/* Resend link */}
-          <TouchableOpacity onPress={handleResend}>
-            <Text className="text-sm text-center text-purple-600 underline mt-2">
-              Renvoyer un nouveau code
-            </Text>
+          <TouchableOpacity
+            onPress={handleResend}
+            disabled={resendLoading}
+            className="py-2"
+          >
+            {resendLoading ? (
+              <ActivityIndicator color="#7c3aed" size="small" />
+            ) : (
+              <Text className="text-sm text-center font-outfit font-medium text-purple-600">
+                {t("auth.verifyOtp.resendCode")}
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
 
         {/* Footer */}
-        <Text className="text-sm text-center text-gray-400 mb-6">
-          Un problème ? Contactez notre{" "}
-          <Text className="text-purple-600 underline">support</Text>.
-        </Text>
+        <TouchableOpacity onPress={() => router.push(ROUTES.LOGIN)}>
+          <Text className="text-sm text-center font-outfit text-gray-400 mb-6">
+            {t("auth.verifyOtp.wrongEmail")}{" "}
+            <Text className="text-purple-600 font-outfit font-medium">
+              {t("auth.verifyOtp.changeEmail")}
+            </Text>
+          </Text>
+        </TouchableOpacity>
       </View>
     </SafeAreaView>
   );

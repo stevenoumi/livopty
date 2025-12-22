@@ -3,7 +3,6 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  Alert,
   TextInput,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
@@ -15,6 +14,8 @@ import {
 } from "react-native";
 import React, { useState } from "react";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import Toast from "~/components/custom/Toast";
+import { useToast } from "~/lib/hooks/useToast";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -35,6 +36,7 @@ const RegisterPage = () => {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { t } = useLanguage();
+  const { toast, hideToast, success, error, info } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -54,20 +56,23 @@ const RegisterPage = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     setLoading(true);
-    const { success, error } = await signUpWithEmail({
+    const { success: isSuccess, error: authError } = await signUpWithEmail({
       name: data.name,
       email: data.email,
       password: data.password,
     });
     setLoading(false);
 
-    if (!success) {
-      Alert.alert("Erreur", error || "Erreur inconnue.");
+    if (!isSuccess) {
+      error(authError || t("errors.unknownError"));
       return;
     }
 
-    Alert.alert("Succès", "Inscription réussie. Vérifiez vos e-mails.");
-    router.push(ROUTES.LOGIN);
+    // Accès direct à Home après inscription avec feedback visuel
+    success(t("auth.register.successMessage"));
+    setTimeout(() => {
+      router.replace(ROUTES.HOME);
+    }, 500);
   };
 
   return (
@@ -75,6 +80,12 @@ const RegisterPage = () => {
       className="flex-1 bg-white"
       style={{ paddingBottom: insets.bottom }}
     >
+      <Toast
+        visible={toast.visible}
+        message={toast.message}
+        type={toast.type}
+        onHide={hideToast}
+      />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -404,9 +415,7 @@ const RegisterPage = () => {
                   key={name}
                   className="h-14 w-14 bg-white rounded-full items-center justify-center shadow-md border border-gray-200"
                   android_ripple={{ color: "#eee", borderless: true }}
-                  onPress={() =>
-                    Alert.alert(`Connexion avec ${name}`, "À venir...")
-                  }
+                  onPress={() => info("À venir...")}
                   accessibilityRole="button"
                   accessibilityLabel={`Se connecter avec ${name}`}
                 >
@@ -437,9 +446,7 @@ const RegisterPage = () => {
             <Text className="text-sm text-center text-zinc-400 px-6 mt-6 mb-4">
               En vous inscrivant, vous acceptez notre{" "}
               <Text
-                onPress={() =>
-                  Alert.alert("Politique de confidentialité", "À venir...")
-                }
+                onPress={() => info("À venir...")}
                 className="text-purple-600 underline"
                 accessibilityRole="link"
               >

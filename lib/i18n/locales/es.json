@@ -38,14 +38,19 @@
       "confirmPasswordPlaceholder": "Confirmar contraseña",
       "registerButton": "Registrarse",
       "haveAccount": "¿Ya tienes una cuenta?",
-      "loginLink": "Iniciar sesión"
+      "loginLink": "Iniciar sesión",
+      "checkEmail": "¡Registro exitoso! Revisa tu correo para el código de verificación.",
+      "successMessage": "¡Registro exitoso! ¡Bienvenido a LivOpty!"
     },
     "verifyOtp": {
       "title": "Verifica tu cuenta",
       "subtitle": "Ingresa el código de 6 dígitos enviado a",
       "verifyButton": "Verificar",
       "resendCode": "Reenviar código",
-      "wrongEmail": "¿Correo incorrecto?"
+      "resendSuccess": "Se ha enviado un nuevo código a tu correo",
+      "successMessage": "¡Cuenta verificada exitosamente!",
+      "wrongEmail": "¿Correo incorrecto?",
+      "changeEmail": "Cambiar correo"
     }
   },
   "navigation": {

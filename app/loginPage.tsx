@@ -11,9 +11,10 @@ import {
   ActivityIndicator,
   Pressable,
 } from "react-native";
-import { Alert } from "react-native";
 
 import LanguageSelector from "~/components/custom/LanguageSelector";
+import Toast from "~/components/custom/Toast";
+import { useToast } from "~/lib/hooks/useToast";
 import React, { useState } from "react";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
@@ -29,6 +30,7 @@ import { loginSchema, type LoginFormData } from "~/lib/schemas/auth.schema";
 const LoginPage = () => {
   const router = useRouter();
   const { t } = useLanguage();
+  const { toast, hideToast, success, error, info } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -46,20 +48,31 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
-    const { success, error } = await signInWithEmail(data);
+    const { success: isSuccess, error: authError } = await signInWithEmail(
+      data
+    );
     setLoading(false);
 
-    if (!success) {
-      Alert.alert(t("common.error"), error || t("auth.login.loginError"));
+    if (!isSuccess) {
+      error(authError || t("auth.login.loginError"));
       return;
     }
 
-    Alert.alert(t("common.success"), t("auth.login.loginSuccess"));
-    router.push(ROUTES.CHATS);
+    success(t("auth.login.loginSuccess"));
+    // Petite pause pour que l'utilisateur voie le toast
+    setTimeout(() => {
+      router.replace(ROUTES.HOME);
+    }, 500);
   };
 
   return (
     <SafeAreaView className="flex-1 bg-white">
+      <Toast
+        visible={toast.visible}
+        message={toast.message}
+        type={toast.type}
+        onHide={hideToast}
+      />
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -214,12 +227,7 @@ const LoginPage = () => {
             </View>
             <View className="flex-row justify-end mb-6">
               <Pressable
-                onPress={() =>
-                  Alert.alert(
-                    t("alerts.forgotPasswordTitle"),
-                    t("alerts.comingSoon")
-                  )
-                }
+                onPress={() => info(t("alerts.comingSoon"))}
                 className="py-1"
               >
                 <Text className="text-sm text-purple-600  font-medium">
@@ -280,16 +288,7 @@ const LoginPage = () => {
                 key={name}
                 className="h-14 w-14 bg-white rounded-full items-center justify-center shadow-md border border-gray-200"
                 android_ripple={{ color: "#eee", borderless: true }}
-                onPress={() =>
-                  Alert.alert(
-                    t(
-                      name === "Google"
-                        ? "alerts.googleLogin"
-                        : "alerts.appleLogin"
-                    ),
-                    t("alerts.comingSoon")
-                  )
-                }
+                onPress={() => info(t("alerts.comingSoon"))}
               >
                 <Image
                   source={typeof icon === "string" ? { uri: icon } : icon}
@@ -316,12 +315,7 @@ const LoginPage = () => {
           <Text className="text-sm text-center text-zinc-400 px-6 mt-6 mb-4">
             {t("auth.login.privacyText")}{" "}
             <Text
-              onPress={() =>
-                Alert.alert(
-                  t("alerts.privacyPolicyTitle"),
-                  t("alerts.comingSoon")
-                )
-              }
+              onPress={() => info(t("alerts.comingSoon"))}
               className="text-purple-600 underline"
             >
               {t("auth.login.privacyLink")}

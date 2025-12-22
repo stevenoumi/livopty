@@ -10,6 +10,9 @@ import { ERROR_MESSAGES } from "~/lib/constants";
 
 /**
  * Inscription d'un nouvel utilisateur avec validation
+ * Note: Pour activer la vérification par code OTP, configurez Supabase :
+ * Dashboard > Authentication > Email Templates > Enable "Email OTP" template
+ * OU Dashboard > Authentication > Settings > Disable "Enable email confirmations"
  */
 export const signUpWithEmail = async (
   data: SignUpData
@@ -31,7 +34,7 @@ export const signUpWithEmail = async (
       return { success: false, error: passwordValidation.error };
     }
 
-    // Appel API Supabase
+    // Appel API Supabase avec auto-confirmation si configuré
     const { data: authData, error } = await supabase.auth.signUp({
       email: data.email.trim().toLowerCase(),
       password: data.password,
@@ -43,6 +46,21 @@ export const signUpWithEmail = async (
 
     if (error) {
       logger.error("Sign up failed", error);
+
+      // Messages d'erreur personnalisés
+      if (error.message.includes("User already registered")) {
+        return {
+          success: false,
+          error: "Un compte existe déjà avec cet email",
+        };
+      }
+      if (error.message.includes("Password should be at least")) {
+        return {
+          success: false,
+          error: "Le mot de passe doit contenir au moins 6 caractères",
+        };
+      }
+
       return { success: false, error: error.message };
     }
 
@@ -84,6 +102,15 @@ export const signInWithEmail = async (
       // Messages d'erreur personnalisés
       if (error.message.includes("Invalid login credentials")) {
         return { success: false, error: "Email ou mot de passe incorrect" };
+      }
+      if (error.message.includes("Email not confirmed")) {
+        return {
+          success: false,
+          error: "Veuillez confirmer votre email avant de vous connecter",
+        };
+      }
+      if (error.message.includes("User not found")) {
+        return { success: false, error: "Aucun compte associé à cet email" };
       }
 
       return { success: false, error: error.message };

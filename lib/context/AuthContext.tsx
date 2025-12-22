@@ -65,10 +65,15 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUser((session?.user as User) ?? null);
 
           // Gérer la redirection lors des changements d'état
-          if (event === "SIGNED_IN" && session?.user) {
-            router.replace(ROUTES.GROCERY);
-          } else if (event === "SIGNED_OUT") {
-            router.replace(ROUTES.WELCOME);
+          // Avec un petit délai pour une transition fluide
+          if (event === "SIGNED_IN" && session?.user && hasRedirected.current) {
+            setTimeout(() => {
+              router.replace(ROUTES.HOME);
+            }, 300);
+          } else if (event === "SIGNED_OUT" && hasRedirected.current) {
+            setTimeout(() => {
+              router.replace(ROUTES.WELCOME);
+            }, 300);
           }
         }
       }
@@ -87,16 +92,20 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     const handleInitialRedirect = async () => {
       try {
         // Attendre un court instant pour éviter les conflits de navigation
-        await new Promise((resolve) => setTimeout(resolve, 100));
+        await new Promise((resolve) => setTimeout(resolve, 150));
 
         if (user) {
-          router.replace(ROUTES.GROCERY);
+          // Redirection vers HOME pour les utilisateurs connectés
+          router.replace(ROUTES.HOME);
         } else {
           router.replace(ROUTES.WELCOME);
         }
 
         hasRedirected.current = true;
-        await SplashScreen.hideAsync();
+        // Petit délai avant de cacher le splash pour une transition fluide
+        setTimeout(async () => {
+          await SplashScreen.hideAsync();
+        }, 100);
       } catch (error) {
         logger.error("Error during initial redirect", error);
         await SplashScreen.hideAsync();
