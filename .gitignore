@@ -55,3 +55,6 @@ expo-env.d.ts
 .npmrc
 package-lock.json
 pnpm-lock.yaml
+
+# Documentation
+docs/
