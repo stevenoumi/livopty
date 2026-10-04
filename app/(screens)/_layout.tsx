@@ -7,13 +7,14 @@ import {
 } from "lucide-react-native";
 import New from "~/components/custom/New";
 import SettingsButton from "~/components/custom/SettingsButton";
+import { COLORS } from "~/lib/constants";
 import { MessageSquareText } from "~/lib/icons/MessageSquareText";
 
 export default function TabsLayout() {
   return (
     <Tabs
       screenOptions={{
-        tabBarActiveTintColor: "#7c3aed",
+        tabBarActiveTintColor: COLORS.primary,
         headerLeft: () => <SettingsButton />,
         tabBarStyle: { backgroundColor: "white" },
         headerStyle: { backgroundColor: "white" },
