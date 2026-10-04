@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "packageManager": "pnpm@11.17.0",
   "scripts": {
-    "dev": "expo start -c",
+    "dev": "expo start -c --go",
     "dev:web": "expo start -c --web",
     "dev:android": "expo start -c --android",
     "android": "expo start -c --android",
@@ -20,13 +20,15 @@
     "format": "prettier --write .",
     "format:check": "prettier --check .",
     "types:check": "tsc --noEmit",
-    "prepare": "husky"
+    "prepare": "husky",
+    "dev:client": "expo start -c --dev-client"
   },
   "dependencies": {
     "@expo-google-fonts/outfit": "^0.4.3",
     "@expo/vector-icons": "^15.1.1",
     "@hookform/resolvers": "^5.2.2",
     "@react-native-async-storage/async-storage": "2.2.0",
+    "@react-native-google-signin/google-signin": "^16.1.5",
     "@react-navigation/native": "^7.1.25",
     "@rn-primitives/avatar": "~1.2.0",
     "@rn-primitives/popover": "^1.2.0",
@@ -42,6 +44,8 @@
     "expo-application": "~57.0.3",
     "expo-auth-session": "~57.0.13",
     "expo-constants": "~57.0.20",
+    "expo-crypto": "~57.0.3",
+    "expo-dev-client": "~57.0.19",
     "expo-font": "^57.0.4",
     "expo-linear-gradient": "~57.0.2",
     "expo-linking": "~57.0.11",

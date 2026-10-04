@@ -10,7 +10,8 @@
     "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.livopty.app"
+      "bundleIdentifier": "com.livopty.app",
+      "usesAppleSignIn": true
     },
     "android": {
       "adaptiveIcon": {
@@ -37,7 +38,8 @@
         }
       ],
       "expo-status-bar",
-      "expo-sqlite"
+      "expo-sqlite",
+      "expo-apple-authentication"
     ],
     "experiments": {
       "typedRoutes": true
