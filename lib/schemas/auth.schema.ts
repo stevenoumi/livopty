@@ -80,9 +80,24 @@ export const resetPasswordSchema = z
     path: ["confirmPassword"],
   });
 
+// Schéma pour la réinitialisation par code reçu par email
+export const resetPasswordWithCodeSchema = z
+  .object({
+    otp: otpSchema,
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, "Veuillez confirmer le mot de passe"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Les mots de passe ne correspondent pas",
+    path: ["confirmPassword"],
+  });
+
 // Types TypeScript dérivés des schémas
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type VerifyOtpFormData = z.infer<typeof verifyOtpSchema>;
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+export type ResetPasswordWithCodeFormData = z.infer<
+  typeof resetPasswordWithCodeSchema
+>;

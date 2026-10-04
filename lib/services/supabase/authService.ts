@@ -150,3 +150,83 @@ export const signOutSupabase = async (): Promise<{
     return { success: false, error: ERROR_MESSAGES.UNKNOWN_ERROR };
   }
 };
+
+/**
+ * Envoie un code de réinitialisation du mot de passe par email
+ */
+export const requestPasswordReset = async (
+  email: string,
+): Promise<AuthResponse> => {
+  try {
+    const { error } = await supabase.auth.resetPasswordForEmail(
+      email.trim().toLowerCase(),
+    );
+
+    // Only rate limiting is surfaced: any other answer stays neutral so the
+    // screen never reveals whether an account exists for this address.
+    if (error?.status === 429) {
+      return { success: false, error: error.message };
+    }
+    if (error) {
+      logger.error("Password reset request failed", error);
+    }
+
+    return { success: true };
+  } catch (error) {
+    logger.error("Unexpected error during password reset request", error);
+    return { success: false, error: ERROR_MESSAGES.UNKNOWN_ERROR };
+  }
+};
+
+/**
+ * Vérifie le code reçu par email ; ouvre une session en cas de succès
+ */
+export const verifyRecoveryCode = async (
+  email: string,
+  token: string,
+): Promise<AuthResponse> => {
+  try {
+    const { error } = await supabase.auth.verifyOtp({
+      email: email.trim().toLowerCase(),
+      token,
+      type: "recovery",
+    });
+
+    if (error) {
+      logger.error("Recovery code verification failed", error);
+      return { success: false, error: "Code invalide ou expiré" };
+    }
+
+    return { success: true, hasSession: true };
+  } catch (error) {
+    logger.error("Unexpected error during recovery code verification", error);
+    return { success: false, error: ERROR_MESSAGES.UNKNOWN_ERROR };
+  }
+};
+
+/**
+ * Change le mot de passe de l'utilisateur connecté
+ */
+export const updatePassword = async (
+  password: string,
+): Promise<AuthResponse> => {
+  try {
+    const { error } = await supabase.auth.updateUser({ password });
+
+    if (error) {
+      logger.error("Password update failed", error);
+      if (error.code === "same_password") {
+        return {
+          success: false,
+          error: "Le nouveau mot de passe doit être différent de l'ancien",
+        };
+      }
+      return { success: false, error: error.message };
+    }
+
+    return { success: true };
+  } catch (error) {
+    logger.error("Unexpected error during password update", error);
+    return { success: false, error: ERROR_MESSAGES.UNKNOWN_ERROR };
+  }
+};
