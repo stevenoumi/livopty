@@ -1,7 +1,7 @@
 import { Tabs } from "expo-router";
-import { MessageSquareText } from "~/lib/icons/MessageSquareText";
-import New from "~/components/custom/New";
 import { CalendarSync, HomeIcon, ScrollText, Wallet } from "lucide-react-native";
+import New from "~/components/custom/New";
+import { MessageSquareText } from "~/lib/icons/MessageSquareText";
 
 export default function TabsLayout() {
   return (
@@ -50,7 +50,6 @@ export default function TabsLayout() {
           title: "Accueil",
           headerTitle: () => <></>,
           headerShadowVisible: false,
-          headerRight: () => <New />,
           tabBarIcon: ({ color, size }) => (
             <HomeIcon
               className="text-foreground pb-2 bg-purple-300 rounded-full"

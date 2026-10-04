@@ -1,6 +1,6 @@
 import * as React from "react";
-import { FlatList, View } from "react-native";
-import ChatItem from "~/components/custom/ChatItem";
+import { FlatList } from "react-native";
+import ChatItem from "~/components/custom/chat/ChatItem";
 import PagesHeader from "~/components/custom/PagesHeader";
 import userlist from "~/lib/data/ChatData";
 

@@ -1,8 +1,8 @@
 import * as React from "react";
 import { ScrollView, View } from "react-native";
 import PagesHeader from "~/components/custom/PagesHeader";
-import ProfileSettings from "~/components/custom/ProfileSettings";
-import SettingsGroup from "~/components/custom/SettingsGroup";
+import ProfileSettings from "~/components/custom/settings/ProfileSettings";
+import SettingsGroup from "~/components/custom/settings/SettingsGroup";
 import { GeneralsettingsItems } from "~/lib/data/SettingsData";
 import { InfomationSettingsItems } from "~/lib/data/SettingsData";
 

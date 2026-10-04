@@ -1,6 +1,6 @@
 import * as React from "react";
 import { View, TouchableOpacity } from "react-native";
-import { Text } from "../ui/text";
+import { Text } from "~/components/ui/text";
 import { ChevronRight } from "lucide-react-native";
 import { router } from "expo-router";
 

@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Text } from "../ui/text";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Text } from "../../ui/text";
 import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
 import { CheckCheck } from "~/lib/icons/CheckCheck";

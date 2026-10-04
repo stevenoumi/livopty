@@ -20,7 +20,7 @@ import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { UserPlus } from "lucide-react-native";
-import LanguageSelector from "~/components/custom/LanguageSelector";
+import LanguageSelector from "~/components/custom/auth/LanguageSelector";
 import { signUpWithEmail } from "~/lib/services/supabase/authService";
 import { ROUTES } from "~/lib/constants";
 import { useLanguage } from "~/lib/context/LanguageContext";

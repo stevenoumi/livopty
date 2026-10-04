@@ -1,10 +1,10 @@
 import * as React from "react";
 import { View } from "react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Text } from "../ui/text";
+import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
+import { Text } from "../../ui/text";
 import { TouchableOpacity } from "react-native";
 import { QrCode } from "~/lib/icons/QrCode";
-import LinkedItem from "./LinkedItem";
+import LinkedItem from "../LinkedItem";
 import { UserRound } from "~/lib/icons/UserRound"; // ou un autre icône
 
 export default function ProfileSettings() {

@@ -1,11 +1,9 @@
 
 import * as React from "react";
-import { View, FlatList } from "react-native";
-import { useLocalSearchParams } from "expo-router";
-import ChatTypingArea from "~/components/custom/ChatTypingArea";
-import TextChat from "~/components/custom/TextChat";
+import { FlatList, View } from "react-native";
+import ChatTypingArea from "~/components/custom/chat/ChatTypingArea";
+import TextChat from "~/components/custom/chat/TextChat";
 import messages from "~/lib/data/ChatData";
-import ChatHeader from "~/components/custom/ChatHeader";
 
 
 export default function ChatList() {

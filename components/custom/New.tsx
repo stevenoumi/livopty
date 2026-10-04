@@ -1,7 +1,7 @@
-import * as React from "react"; 
-import { View, TouchableOpacity } from "react-native";
-import { CirclePlus } from "~/lib/icons/CirclePlus";
+import * as React from "react";
+import { TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { CirclePlus } from "~/lib/icons/CirclePlus";
 
 export default function New() {
   return (

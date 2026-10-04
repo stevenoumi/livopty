@@ -1,8 +1,8 @@
 import { useNavigation } from "expo-router";
 import { View, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
-import { Text } from "../ui/text";
+import { Avatar, AvatarFallback, AvatarImage } from "~/components/ui/avatar";
+import { Text } from "~/components/ui/text";
 import { Video } from "~/lib/icons/Video";
 import { Phone } from "~/lib/icons/Phone";
 import { ChevronLeft } from "~/lib/icons/ChevronLeft";

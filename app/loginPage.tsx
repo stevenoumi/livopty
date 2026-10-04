@@ -12,7 +12,7 @@ import {
   Pressable,
 } from "react-native";
 
-import LanguageSelector from "~/components/custom/LanguageSelector";
+import LanguageSelector from "~/components/custom/auth/LanguageSelector";
 import Toast from "~/components/custom/Toast";
 import { useToast } from "~/lib/hooks/useToast";
 import React, { useState } from "react";

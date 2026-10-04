@@ -1,9 +1,9 @@
 // app/index.tsx
+import { router } from "expo-router";
+import * as ExpoSplashScreen from "expo-splash-screen";
 import { useEffect, useState } from "react";
 import { View } from "react-native";
-import * as ExpoSplashScreen from "expo-splash-screen";
 import { supabase } from "~/lib/services/supabase/supabase";
-import { router } from "expo-router";
 
 ExpoSplashScreen.preventAutoHideAsync();
 

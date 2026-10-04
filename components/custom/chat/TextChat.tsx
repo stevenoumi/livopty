@@ -1,7 +1,7 @@
 import * as React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { Card, CardContent, CardFooter } from "../ui/card";
+import { Card, CardContent, CardFooter } from "../../ui/card";
 import { Check, CheckCheck } from "lucide-react-native"; // Importer les icônes
 
 interface IsSent {

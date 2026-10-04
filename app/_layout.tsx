@@ -1,26 +1,26 @@
 // app/layout.tsx
-import { Stack } from "expo-router";
-import ChatHeader from "~/components/custom/ChatHeader";
-import { ChatProvider } from "~/lib/context/ChatContext";
-import { AuthProvider } from "~/lib/context/AuthContext";
-import { LanguageProvider } from "~/lib/context/LanguageContext";
-import { ArrowBigLeft, ChevronLeft } from "lucide-react-native";
-import "~/lib/i18n";
-import {
-  useFonts,
-  Outfit_400Regular,
-  Outfit_500Medium,
-  Outfit_600SemiBold,
-  Outfit_700Bold,
-} from "@expo-google-fonts/outfit";
 import {
   Inter_400Regular,
   Inter_500Medium,
   Inter_600SemiBold,
   Inter_700Bold,
 } from "@expo-google-fonts/inter";
-import { useEffect } from "react";
+import {
+  Outfit_400Regular,
+  Outfit_500Medium,
+  Outfit_600SemiBold,
+  Outfit_700Bold,
+  useFonts,
+} from "@expo-google-fonts/outfit";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
+import { ChevronLeft } from "lucide-react-native";
+import { useEffect } from "react";
+import ChatHeader from "~/components/custom/chat/ChatHeader";
+import { AuthProvider } from "~/lib/context/AuthContext";
+import { ChatProvider } from "~/lib/context/ChatContext";
+import { LanguageProvider } from "~/lib/context/LanguageContext";
+import "~/lib/i18n";
 
 SplashScreen.preventAutoHideAsync();
 

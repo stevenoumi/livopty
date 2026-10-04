@@ -1,21 +1,20 @@
+import { ArrowUp } from "lucide-react-native";
 import * as React from "react";
 import {
+  Animated,
+  Keyboard,
+  Platform,
   TextInput,
   TouchableOpacity,
   View,
-  Keyboard,
-  Animated,
-  Platform,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
-import { Mic } from "~/lib/icons/Mic";
-import { Sticker } from "~/lib/icons/Sticker";
-import { Plus } from "~/lib/icons/Plus";
-import { SendHorizontal } from "~/lib/icons/SendHorizontal";
+import ChatBottomPanel from "~/components/custom/chat/ChatBottomPanel";
 import { Camera } from "~/lib/icons/Camera";
 import { Keyboard as KeyboardIcon } from "~/lib/icons/Keyboard";
-import ChatBottomPanel from "~/components/custom/ChatBottomPanel";
-import { ArrowUp } from "lucide-react-native";
+import { Mic } from "~/lib/icons/Mic";
+import { Plus } from "~/lib/icons/Plus";
+import { Sticker } from "~/lib/icons/Sticker";
 
 export default function ChatTypingArea() {
   const [value, setValue] = React.useState("");

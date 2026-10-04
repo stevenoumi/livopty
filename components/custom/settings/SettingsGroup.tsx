@@ -1,10 +1,10 @@
-import { View, Text } from 'react-native'
-import React from 'react'
-import LinkedItem from './LinkedItem'
+import React from 'react';
+import { View } from 'react-native';
+import LinkedItem from '../LinkedItem';
 
 
 export type SettingsGroupItem = {
-  Icon: React.ComponentType<any>;
+  Icon: React.ComponentType<{ size: number; color?: string }>;
   title: string;
   link: string;
 };
