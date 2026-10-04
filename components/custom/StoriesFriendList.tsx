@@ -34,7 +34,6 @@ export default function StoriesFriendList() {
                     style={{
                       flex: 1,
                       backgroundColor: "rgba(0,0,0,0.25)",
-                      backdropFilter: "blur(8px)",
                     }}
                   />
                 </View>

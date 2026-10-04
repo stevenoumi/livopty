@@ -5,22 +5,24 @@
 
 export const ROUTES = {
   // Auth Routes
-  WELCOME: '/welcomePage',
-  LOGIN: '/loginPage',
-  REGISTER: '/registerPage',
-  VERIFY_OTP: '/verifyOtpPage',
-  
+  WELCOME: "/welcomePage",
+  LOGIN: "/loginPage",
+  REGISTER: "/registerPage",
+  VERIFY_OTP: "/verifyOtpPage",
+  FORGOT_PASSWORD: "/forgotPasswordPage",
+  RESET_PASSWORD: "/resetPasswordPage",
+
   // Main Screens
-  CHAT_LIST: '/chatList',
-  HOME: '/(screens)/Home',
-  CHATS: '/(screens)/Chats',
-  GROCERY: '/(screens)/Grocery',
-  FINANCE: '/(screens)/Finance',
-  AGENDA: '/(screens)/Agenda',
-  
+  CHAT_LIST: "/chatList",
+  HOME: "/(screens)/Home",
+  CHATS: "/(screens)/Chats",
+  GROCERY: "/(screens)/Grocery",
+  FINANCE: "/(screens)/Finance",
+  AGENDA: "/(screens)/Agenda",
+
   // Settings
-  SETTINGS: '/Settings',
-  
+  SETTINGS: "/Settings",
+
   // Dynamic Routes
   GROCERY_LIST: (id: string) => `/groceryList/${id}` as const,
   GROCERY_FOLDER: (id: string) => `/groceryList/folder/${id}` as const,

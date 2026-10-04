@@ -1,10 +1,8 @@
-
 import * as React from "react";
 import { FlatList, View } from "react-native";
 import ChatTypingArea from "~/components/custom/chat/ChatTypingArea";
 import TextChat from "~/components/custom/chat/TextChat";
 import messages from "~/lib/data/ChatData";
-
 
 export default function ChatList() {
   return (

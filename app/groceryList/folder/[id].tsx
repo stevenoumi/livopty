@@ -38,10 +38,7 @@ export default function FolderScreen() {
                   <Text className="text-xl font-semibold text-black">
                     {list.title}
                   </Text>
-                  <Text
-                    numberOfLines={1}
-                    className="text-base text-gray-500"
-                  >
+                  <Text numberOfLines={1} className="text-base text-gray-500">
                     {list.content.split("\n")[0]}
                   </Text>
                 </View>

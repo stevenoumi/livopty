@@ -35,7 +35,7 @@ export default function ExpenseCategoryList({
         onPress={() => console.log(`Pressed ${item.title}`)}
       />
     ),
-    []
+    [],
   );
 
   return (

@@ -1,14 +1,17 @@
 // /lib/service/grocery/product.ts
 
-import { fetchFromOFF } from './offService';
-import type { Product, SearchResponse } from './types';
+import { fetchFromOFF } from "./offService";
+import type { Product, SearchResponse } from "./types";
 
 /**
  * Recherche des produits par nom
  * @param query texte à chercher
  * @param page numéro de page (pagination)
  */
-export async function searchProducts(query: string, page = 1): Promise<SearchResponse> {
+export async function searchProducts(
+  query: string,
+  page = 1,
+): Promise<SearchResponse> {
   // endpoint API OFF pour la recherche : /cgi/search.pl
   // params: search_terms, json=1, page
   const endpoint = `/cgi/search.pl?search_terms=${encodeURIComponent(query)}&search_simple=1&action=process&json=1&page=${page}`;

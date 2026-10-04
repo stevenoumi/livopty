@@ -21,8 +21,8 @@ export default function ChatTypingArea() {
   const [isPanelVisible, setIsPanelVisible] = React.useState(false);
   const [keyboardHeight, setKeyboardHeight] = React.useState(300);
   const insets = useSafeAreaInsets();
-  const bottomAnim = React.useRef(new Animated.Value(insets.bottom)).current;
-  const panelSlideAnim = React.useRef(new Animated.Value(300)).current;
+  const [bottomAnim] = React.useState(() => new Animated.Value(insets.bottom));
+  const [panelSlideAnim] = React.useState(() => new Animated.Value(300));
   const textInputRef = React.useRef<TextInput>(null);
 
   React.useEffect(() => {
@@ -36,7 +36,7 @@ export default function ChatTypingArea() {
           duration: e.duration || 250,
           useNativeDriver: false,
         }).start();
-      }
+      },
     );
 
     const keyboardHideListener = Keyboard.addListener(
@@ -49,7 +49,7 @@ export default function ChatTypingArea() {
             useNativeDriver: false,
           }).start();
         }
-      }
+      },
     );
 
     return () => {

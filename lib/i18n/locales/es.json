@@ -21,7 +21,6 @@
       "passwordPlaceholder": "Tu contraseña",
       "forgotPassword": "¿Olvidaste tu contraseña?",
       "loginButton": "Iniciar sesión",
-      "connectWith": "O conéctate con",
       "noAccount": "¿No tienes cuenta?",
       "createAccount": "Crear una cuenta",
       "privacyText": "Al continuar, aceptas nuestra",
@@ -44,13 +43,34 @@
     },
     "verifyOtp": {
       "title": "Verifica tu cuenta",
-      "subtitle": "Ingresa el código de 6 dígitos enviado a",
+      "subtitle": "Ingresa el código de {{length}} dígitos enviado a",
       "verifyButton": "Verificar",
       "resendCode": "Reenviar código",
       "resendSuccess": "Se ha enviado un nuevo código a tu correo",
       "successMessage": "¡Cuenta verificada exitosamente!",
       "wrongEmail": "¿Correo incorrecto?",
       "changeEmail": "Cambiar correo"
+    },
+    "forgotPassword": {
+      "title": "Contraseña olvidada",
+      "subtitle": "Introduce tu correo electrónico y te enviaremos un código para elegir una nueva contraseña.",
+      "emailPlaceholder": "Tu correo electrónico",
+      "sendButton": "Enviar el código",
+      "backToLogin": "Volver al inicio de sesión"
+    },
+    "resetPassword": {
+      "title": "Nueva contraseña",
+      "subtitle": "Introduce el código enviado a",
+      "passwordPlaceholder": "Nueva contraseña",
+      "confirmPasswordPlaceholder": "Confirmar la nueva contraseña",
+      "submitButton": "Cambiar la contraseña",
+      "resendCode": "Reenviar el código",
+      "resendSuccess": "Si existe una cuenta con esta dirección, se ha enviado un nuevo código."
+    },
+    "social": {
+      "or": "o",
+      "continueWithGoogle": "Continuar con Google",
+      "error": "No se pudo iniciar sesión. Inténtalo de nuevo."
     }
   },
   "navigation": {
@@ -112,7 +132,8 @@
     "passwordRequired": "Se requiere contraseña",
     "passwordTooShort": "La contraseña debe tener al menos 6 caracteres",
     "emailInvalid": "Dirección de correo inválida",
-    "passwordMismatch": "Las contraseñas no coinciden"
+    "passwordMismatch": "Las contraseñas no coinciden",
+    "unknownError": "Ha ocurrido un error inesperado. Inténtalo de nuevo."
   },
   "alerts": {
     "comingSoon": "Función próximamente...",

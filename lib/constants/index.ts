@@ -3,3 +3,4 @@ export * from "./routes";
 export * from "./validation";
 export * from "./fonts";
 export * from "./currency";
+export * from "./colors";

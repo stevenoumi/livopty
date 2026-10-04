@@ -2,7 +2,6 @@
 
 # dependencies
 node_modules/
-docs/
 # Expo
 .expo/
 dist/
@@ -52,6 +51,4 @@ coverage/
 
 expo-env.d.ts
 # @end expo-cli
-.npmrc
 package-lock.json
-pnpm-lock.yaml

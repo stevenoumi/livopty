@@ -22,7 +22,7 @@ export default function NoteEditorScreen() {
   const insets = useSafeAreaInsets();
 
   // Init avec la safe area bottom
-  const toolbarBottom = useRef(new Animated.Value(insets.bottom)).current;
+  const [toolbarBottom] = useState(() => new Animated.Value(insets.bottom));
   const [keyboardVisible, setKeyboardVisible] = useState(false);
 
   useEffect(() => {

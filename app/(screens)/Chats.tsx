@@ -5,10 +5,12 @@ import PagesHeader from "~/components/custom/PagesHeader";
 import userlist from "~/lib/data/ChatData";
 
 export default function Chats() {
-
   return (
     <>
-      <PagesHeader title="Discussions" placeholder="Rechercher des discussions" />
+      <PagesHeader
+        title="Discussions"
+        placeholder="Rechercher des discussions"
+      />
       <FlatList
         data={userlist.userlist}
         keyExtractor={(item) => item.id}

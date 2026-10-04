@@ -28,22 +28,22 @@ export const useToast = () => {
 
   const success = useCallback(
     (message: string) => showToast(message, "success"),
-    [showToast]
+    [showToast],
   );
 
   const error = useCallback(
     (message: string) => showToast(message, "error"),
-    [showToast]
+    [showToast],
   );
 
   const warning = useCallback(
     (message: string) => showToast(message, "warning"),
-    [showToast]
+    [showToast],
   );
 
   const info = useCallback(
     (message: string) => showToast(message, "info"),
-    [showToast]
+    [showToast],
   );
 
   return {

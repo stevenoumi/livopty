@@ -13,7 +13,7 @@ Puis éditer `.env` avec vos vraies clés Supabase :
 
 ```env
 EXPO_PUBLIC_SUPABASE_URL=https://votre-projet.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=votre_cle_anon_key_ici
+EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=votre_cle_publishable_ici
 ```
 
 > 🔑 **Obtenir vos clés** : https://supabase.com/dashboard/project/_/settings/api
@@ -22,7 +22,7 @@ EXPO_PUBLIC_SUPABASE_ANON_KEY=votre_cle_anon_key_ici
 
 ```bash
 # Vérifier les types TypeScript
-pnpm type-check
+pnpm types:check
 
 # Lancer les tests
 pnpm test
@@ -48,6 +48,24 @@ L'application devrait démarrer sur :
 - 🌐 Web (appuyez sur `w`)
 - 🤖 Android (appuyez sur `a`)
 - 🍎 iOS (appuyez sur `i`)
+
+## 📦 Construire l'application avec EAS
+
+Le fichier `.env` n'est pas envoyé à EAS : les variables doivent être
+déclarées une fois par environnement.
+
+```bash
+pnpm dlx eas-cli login
+pnpm dlx eas-cli env:create --environment preview --name EXPO_PUBLIC_SUPABASE_URL --value "<url>" --visibility plaintext
+pnpm dlx eas-cli env:create --environment preview --name EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY --value "<clé>" --visibility plaintext
+```
+
+Répéter avec `--environment production` pour la production.
+
+| Profil       | Usage                                                          | Commande                                                      |
+| ------------ | -------------------------------------------------------------- | ------------------------------------------------------------- |
+| `preview`    | APK Android et build iOS ad hoc, à installer sur ses appareils | `pnpm dlx eas-cli build --profile preview --platform android` |
+| `production` | Build pour les stores, numéro de build incrémenté par EAS      | `pnpm dlx eas-cli build --profile production`                 |
 
 ## 🆘 Besoin d'aide ?
 

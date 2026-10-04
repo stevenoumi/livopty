@@ -3,26 +3,29 @@ import {
   Text,
   Image,
   TouchableOpacity,
-  TextInput,
   KeyboardAvoidingView,
   TouchableWithoutFeedback,
   Keyboard,
   Platform,
-  ActivityIndicator,
   Pressable,
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  useSafeAreaInsets,
+  SafeAreaView,
+} from "react-native-safe-area-context";
 import Toast from "~/components/custom/Toast";
+import { Button } from "~/components/ui/button";
+import { FormField, PasswordField } from "~/components/ui/form-field";
+import { Text as UIText } from "~/components/ui/text";
 import { useToast } from "~/lib/hooks/useToast";
 import { useRouter } from "expo-router";
-import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
-import { UserPlus } from "lucide-react-native";
+import { ChevronLeft, UserPlus } from "lucide-react-native";
 import LanguageSelector from "~/components/custom/auth/LanguageSelector";
+import { SocialAuthButtons } from "~/components/custom/auth/SocialAuthButtons";
 import { signUpWithEmail } from "~/lib/services/supabase/authService";
-import { ROUTES } from "~/lib/constants";
+import { COLORS, ROUTES } from "~/lib/constants";
 import { useLanguage } from "~/lib/context/LanguageContext";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -36,8 +39,7 @@ const RegisterPage = () => {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { t } = useLanguage();
-  const { toast, hideToast, success, error, info } = useToast();
-  const [showPassword, setShowPassword] = useState(false);
+  const { toast, hideToast, error, info } = useToast();
   const [loading, setLoading] = useState(false);
 
   const {
@@ -56,7 +58,11 @@ const RegisterPage = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     setLoading(true);
-    const { success: isSuccess, error: authError } = await signUpWithEmail({
+    const {
+      success: isSuccess,
+      error: authError,
+      hasSession,
+    } = await signUpWithEmail({
       name: data.name,
       email: data.email,
       password: data.password,
@@ -68,16 +74,19 @@ const RegisterPage = () => {
       return;
     }
 
-    // Accès direct à Home après inscription avec feedback visuel
-    success(t("auth.register.successMessage"));
-    setTimeout(() => {
-      router.replace(ROUTES.HOME);
-    }, 500);
+    // Without a session, Supabase is waiting for the emailed code; with one,
+    // the root layout already moves the user into the app.
+    if (!hasSession) {
+      router.push({
+        pathname: ROUTES.VERIFY_OTP,
+        params: { email: data.email },
+      });
+    }
   };
 
   return (
     <SafeAreaView
-      className="flex-1 bg-white"
+      className="flex-1 bg-background"
       style={{ paddingBottom: insets.bottom }}
     >
       <Toast
@@ -105,7 +114,7 @@ const RegisterPage = () => {
                 accessibilityRole="button"
                 accessibilityLabel="Retour"
               >
-                <Ionicons name="chevron-back" size={26} color="#333" />
+                <ChevronLeft size={26} color={COLORS.foreground} />
               </TouchableOpacity>
               <LanguageSelector />
             </View>
@@ -118,10 +127,10 @@ const RegisterPage = () => {
                 resizeMode="contain"
                 accessibilityLabel="Logo LivOpty"
               />
-              <Text className="text-3xl  font-bold text-center mt-4 text-zinc-900">
+              <Text className="text-3xl font-bold text-center mt-4 text-foreground">
                 {t("auth.register.title")}
               </Text>
-              <Text className="text-sm  text-zinc-500 text-center mt-2 px-6">
+              <Text className="text-sm text-muted-foreground text-center mt-2 px-6">
                 {t("auth.register.subtitle")}
               </Text>
             </View>
@@ -132,50 +141,18 @@ const RegisterPage = () => {
                 control={control}
                 name="name"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    <View
-                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
-                        errors.name
-                          ? "border-2 border-red-400"
-                          : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
-                      }`}
-                    >
-                      <TextInput
-                        placeholder={t("auth.register.namePlaceholder")}
-                        placeholderTextColor="#9ca3af"
-                        value={value}
-                        onChangeText={onChange}
-                        onBlur={onBlur}
-                        autoCapitalize="words"
-                        textContentType="name"
-                        autoCorrect={false}
-                        returnKeyType="next"
-                        style={{
-                          lineHeight: 22,
-                          paddingVertical: 16,
-                          paddingHorizontal: 16,
-                          fontSize: 16,
-                          fontFamily: "Outfit_400Regular",
-                        }}
-                        className="bg-transparent text-zinc-900"
-                        accessibilityLabel="Nom complet"
-                      />
-                    </View>
-                    {errors.name && (
-                      <View className="flex-row items-center mt-1.5 ml-1">
-                        <Ionicons
-                          name="alert-circle"
-                          size={14}
-                          color="#ef4444"
-                        />
-                        <Text className="text-red-500 text-xs ml-1 ">
-                          {errors.name.message}
-                        </Text>
-                      </View>
-                    )}
-                  </>
+                  <FormField
+                    placeholder={t("auth.register.namePlaceholder")}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    error={errors.name?.message}
+                    autoCapitalize="words"
+                    textContentType="name"
+                    autoComplete="name"
+                    autoCorrect={false}
+                    returnKeyType="next"
+                  />
                 )}
               />
 
@@ -183,51 +160,19 @@ const RegisterPage = () => {
                 control={control}
                 name="email"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    <View
-                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
-                        errors.email
-                          ? "border-2 border-red-400"
-                          : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
-                      }`}
-                    >
-                      <TextInput
-                        placeholder={t("auth.register.emailPlaceholder")}
-                        placeholderTextColor="#9ca3af"
-                        value={value}
-                        onChangeText={onChange}
-                        onBlur={onBlur}
-                        autoCapitalize="none"
-                        keyboardType="email-address"
-                        textContentType="emailAddress"
-                        autoCorrect={false}
-                        returnKeyType="next"
-                        style={{
-                          lineHeight: 22,
-                          paddingVertical: 16,
-                          paddingHorizontal: 16,
-                          fontSize: 16,
-                          fontFamily: "Outfit_400Regular",
-                        }}
-                        className="bg-transparent text-zinc-900"
-                        accessibilityLabel="Adresse e-mail"
-                      />
-                    </View>
-                    {errors.email && (
-                      <View className="flex-row items-center mt-1.5 ml-1">
-                        <Ionicons
-                          name="alert-circle"
-                          size={14}
-                          color="#ef4444"
-                        />
-                        <Text className="text-red-500 text-xs ml-1 ">
-                          {errors.email.message}
-                        </Text>
-                      </View>
-                    )}
-                  </>
+                  <FormField
+                    placeholder={t("auth.register.emailPlaceholder")}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    error={errors.email?.message}
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    textContentType="emailAddress"
+                    autoComplete="email"
+                    autoCorrect={false}
+                    returnKeyType="next"
+                  />
                 )}
               />
 
@@ -235,73 +180,16 @@ const RegisterPage = () => {
                 control={control}
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    <View
-                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
-                        errors.password
-                          ? "border-2 border-red-400"
-                          : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
-                      }`}
-                    >
-                      <View className="flex-row items-center">
-                        <TextInput
-                          placeholder={t("auth.register.passwordPlaceholder")}
-                          placeholderTextColor="#9ca3af"
-                          value={value}
-                          onChangeText={onChange}
-                          onBlur={onBlur}
-                          secureTextEntry={!showPassword}
-                          textContentType="newPassword"
-                          autoCorrect={false}
-                          returnKeyType="next"
-                          style={{
-                            lineHeight: 22,
-                            paddingVertical: 16,
-                            paddingLeft: 16,
-                            paddingRight: 50,
-                            fontSize: 16,
-                            fontFamily: "Outfit_400Regular",
-                            flex: 1,
-                          }}
-                          className="bg-transparent text-zinc-900"
-                          accessibilityLabel="Mot de passe"
-                        />
-                        <Pressable
-                          onPress={() => setShowPassword(!showPassword)}
-                          className="absolute right-4"
-                          hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }}
-                          accessibilityRole="button"
-                          accessibilityLabel={
-                            showPassword
-                              ? "Masquer le mot de passe"
-                              : "Afficher le mot de passe"
-                          }
-                        >
-                          <Ionicons
-                            name={
-                              showPassword ? "eye-off-outline" : "eye-outline"
-                            }
-                            size={22}
-                            color="#6b7280"
-                          />
-                        </Pressable>
-                      </View>
-                    </View>
-                    {errors.password && (
-                      <View className="flex-row items-center mt-1.5 ml-1">
-                        <Ionicons
-                          name="alert-circle"
-                          size={14}
-                          color="#ef4444"
-                        />
-                        <Text className="text-red-500 text-xs ml-1 ">
-                          {errors.password.message}
-                        </Text>
-                      </View>
-                    )}
-                  </>
+                  <PasswordField
+                    placeholder={t("auth.register.passwordPlaceholder")}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    error={errors.password?.message}
+                    textContentType="newPassword"
+                    autoComplete="new-password"
+                    returnKeyType="next"
+                  />
                 )}
               />
 
@@ -309,148 +197,62 @@ const RegisterPage = () => {
                 control={control}
                 name="confirmPassword"
                 render={({ field: { onChange, onBlur, value } }) => (
-                  <>
-                    <View
-                      className={`bg-gray-50 rounded-2xl overflow-hidden ${
-                        errors.confirmPassword
-                          ? "border-2 border-red-400"
-                          : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
-                      }`}
-                    >
-                      <TextInput
-                        placeholder={t(
-                          "auth.register.confirmPasswordPlaceholder"
-                        )}
-                        placeholderTextColor="#9ca3af"
-                        value={value}
-                        onChangeText={onChange}
-                        onBlur={onBlur}
-                        secureTextEntry={!showPassword}
-                        textContentType="newPassword"
-                        autoCorrect={false}
-                        returnKeyType="done"
-                        onSubmitEditing={() => {
-                          Keyboard.dismiss();
-                        }}
-                        style={{
-                          lineHeight: 22,
-                          paddingVertical: 16,
-                          paddingHorizontal: 16,
-                          fontSize: 16,
-                          fontFamily: "Outfit_400Regular",
-                        }}
-                        className="bg-transparent text-zinc-900"
-                        accessibilityLabel="Confirmer le mot de passe"
-                      />
-                    </View>
-                    {errors.confirmPassword && (
-                      <View className="flex-row items-center mt-1.5 ml-1">
-                        <Ionicons
-                          name="alert-circle"
-                          size={14}
-                          color="#ef4444"
-                        />
-                        <Text className="text-red-500 text-xs ml-1 ">
-                          {errors.confirmPassword.message}
-                        </Text>
-                      </View>
-                    )}
-                  </>
+                  <PasswordField
+                    placeholder={t("auth.register.confirmPasswordPlaceholder")}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    error={errors.confirmPassword?.message}
+                    textContentType="newPassword"
+                    autoComplete="new-password"
+                    returnKeyType="done"
+                    onSubmitEditing={() => Keyboard.dismiss()}
+                  />
                 )}
               />
             </View>
 
-            {/* Register Button */}
-            <TouchableOpacity
+            <Button
               onPress={handleSubmit(onSubmit)}
-              disabled={loading}
-              activeOpacity={0.8}
-              className={`w-full py-4 rounded-2xl flex-row items-center justify-center mt-8 ${
-                loading ? "bg-purple-400" : "bg-purple-600"
-              } shadow-lg shadow-purple-500/30`}
-              style={{
-                shadowColor: "#7c3aed",
-                shadowOffset: { width: 0, height: 4 },
-                shadowOpacity: 0.3,
-                shadowRadius: 8,
-                elevation: 8,
-              }}
-              accessibilityRole="button"
-              accessibilityLabel="Créer un compte"
+              loading={loading}
+              className="mt-8 mb-6"
             >
-              {loading ? (
-                <ActivityIndicator color="#fff" size="small" />
-              ) : (
-                <>
-                  <UserPlus size={20} color="#fff" strokeWidth={2.5} />
-                  <Text className="text-white  font-semibold text-base ml-2">
-                    {t("auth.register.registerButton")}
-                  </Text>
-                </>
-              )}
-            </TouchableOpacity>
+              <UserPlus
+                size={20}
+                color={COLORS.primaryForeground}
+                strokeWidth={2.5}
+              />
+              <UIText>{t("auth.register.registerButton")}</UIText>
+            </Button>
 
-            {/* Divider */}
-            <View className="my-4">
-              <Text className="text-sm text-zinc-400 text-center">
-                Ou connectez-vous avec
-              </Text>
-            </View>
-
-            {/* Social Auth */}
-            <View className="flex-row justify-center gap-6 mb-4">
-              {[
-                {
-                  icon: "https://cdn-icons-png.flaticon.com/512/2991/2991148.png",
-                  name: "Google",
-                },
-                {
-                  icon: require("~/assets/images/apple.png"),
-                  name: "Apple",
-                },
-              ].map(({ icon, name }) => (
-                <Pressable
-                  key={name}
-                  className="h-14 w-14 bg-white rounded-full items-center justify-center shadow-md border border-gray-200"
-                  android_ripple={{ color: "#eee", borderless: true }}
-                  onPress={() => info("À venir...")}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Se connecter avec ${name}`}
-                >
-                  <Image
-                    source={typeof icon === "string" ? { uri: icon } : icon}
-                    className="w-6 h-6"
-                    resizeMode="contain"
-                  />
-                </Pressable>
-              ))}
+            <View className="mb-6">
+              <SocialAuthButtons mode="signUp" onError={error} />
             </View>
 
             {/* Already have account */}
             <View className="flex-row justify-center">
-              <Text className="text-sm text-zinc-500">Déjà un compte ? </Text>
+              <Text className="text-sm text-muted-foreground">
+                {t("auth.register.haveAccount")}{" "}
+              </Text>
               <Pressable
-                onPress={() => router.push("/loginPage")}
+                onPress={() => router.push(ROUTES.LOGIN)}
                 accessibilityRole="button"
-                accessibilityLabel="Aller à la page de connexion"
               >
-                <Text className="text-sm text-purple-600 font-medium">
-                  Se connecter
+                <Text className="text-sm text-primary font-medium">
+                  {t("auth.register.loginLink")}
                 </Text>
               </Pressable>
             </View>
 
             {/* Footer */}
-            <Text className="text-sm text-center text-zinc-400 px-6 mt-6 mb-4">
-              En vous inscrivant, vous acceptez notre{" "}
+            <Text className="text-sm text-center text-muted-foreground px-6 mt-6 mb-4">
+              {t("auth.login.privacyText")}{" "}
               <Text
-                onPress={() => info("À venir...")}
-                className="text-purple-600 underline"
+                onPress={() => info(t("alerts.comingSoon"))}
+                className="text-primary underline"
                 accessibilityRole="link"
               >
-                politique de confidentialité
+                {t("auth.login.privacyLink")}
               </Text>
               .
             </Text>

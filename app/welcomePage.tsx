@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import { View, Text, Image, Animated } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {
@@ -11,13 +11,13 @@ const WelcomePage = () => {
   const insets = useSafeAreaInsets();
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const imageOpacity = useRef(new Animated.Value(10)).current;
-  const textOpacity = useRef(new Animated.Value(10)).current;
+  const [imageOpacity] = useState(() => new Animated.Value(0));
+  const [textOpacity] = useState(() => new Animated.Value(0));
 
   useEffect(() => {
     const preloadImage = async () => {
       const imageUri = Image.resolveAssetSource(
-        require("~/assets/images/cover.jpg")
+        require("~/assets/images/cover.jpg"),
       ).uri;
 
       try {

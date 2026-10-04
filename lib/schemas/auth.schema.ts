@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { VALIDATION } from "~/lib/constants/validation";
 
 /**
  * Schémas de validation Zod pour les formulaires
@@ -37,8 +38,11 @@ export const phoneSchema = z
 // Schéma de validation pour le code OTP
 export const otpSchema = z
   .string()
-  .length(6, "Le code doit contenir 6 chiffres")
-  .regex(/^\d{6}$/, "Le code doit contenir uniquement des chiffres");
+  .length(
+    VALIDATION.OTP.LENGTH,
+    `Le code doit contenir ${VALIDATION.OTP.LENGTH} chiffres`,
+  )
+  .regex(/^\d+$/, "Le code doit contenir uniquement des chiffres");
 
 // Schéma pour le formulaire de connexion
 export const loginSchema = z.object({
@@ -80,9 +84,24 @@ export const resetPasswordSchema = z
     path: ["confirmPassword"],
   });
 
+// Schéma pour la réinitialisation par code reçu par email
+export const resetPasswordWithCodeSchema = z
+  .object({
+    otp: otpSchema,
+    password: passwordSchema,
+    confirmPassword: z.string().min(1, "Veuillez confirmer le mot de passe"),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Les mots de passe ne correspondent pas",
+    path: ["confirmPassword"],
+  });
+
 // Types TypeScript dérivés des schémas
 export type LoginFormData = z.infer<typeof loginSchema>;
 export type RegisterFormData = z.infer<typeof registerSchema>;
 export type VerifyOtpFormData = z.infer<typeof verifyOtpSchema>;
 export type ForgotPasswordFormData = z.infer<typeof forgotPasswordSchema>;
 export type ResetPasswordFormData = z.infer<typeof resetPasswordSchema>;
+export type ResetPasswordWithCodeFormData = z.infer<
+  typeof resetPasswordWithCodeSchema
+>;

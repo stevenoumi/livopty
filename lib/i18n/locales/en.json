@@ -21,7 +21,6 @@
       "passwordPlaceholder": "Your password",
       "forgotPassword": "Forgot password?",
       "loginButton": "Log in",
-      "connectWith": "Or connect with",
       "noAccount": "Don't have an account?",
       "createAccount": "Create an account",
       "privacyText": "By continuing, you accept our",
@@ -44,13 +43,34 @@
     },
     "verifyOtp": {
       "title": "Verify your account",
-      "subtitle": "Enter the 6-digit code sent to",
+      "subtitle": "Enter the {{length}}-digit code sent to",
       "verifyButton": "Verify",
       "resendCode": "Resend code",
       "resendSuccess": "A new code has been sent to your email",
       "successMessage": "Account verified successfully!",
       "wrongEmail": "Wrong email?",
       "changeEmail": "Change email"
+    },
+    "forgotPassword": {
+      "title": "Forgot password",
+      "subtitle": "Enter your email address and we will send you a code to choose a new password.",
+      "emailPlaceholder": "Your email address",
+      "sendButton": "Send the code",
+      "backToLogin": "Back to sign in"
+    },
+    "resetPassword": {
+      "title": "New password",
+      "subtitle": "Enter the code sent to",
+      "passwordPlaceholder": "New password",
+      "confirmPasswordPlaceholder": "Confirm the new password",
+      "submitButton": "Change password",
+      "resendCode": "Resend the code",
+      "resendSuccess": "If an account exists for this address, a new code has been sent."
+    },
+    "social": {
+      "or": "or",
+      "continueWithGoogle": "Continue with Google",
+      "error": "Sign in failed. Please try again."
     }
   },
   "navigation": {
@@ -112,7 +132,8 @@
     "passwordRequired": "Password is required",
     "passwordTooShort": "Password must be at least 6 characters",
     "emailInvalid": "Invalid email address",
-    "passwordMismatch": "Passwords do not match"
+    "passwordMismatch": "Passwords do not match",
+    "unknownError": "Something went wrong. Please try again."
   },
   "alerts": {
     "comingSoon": "Feature coming soon...",

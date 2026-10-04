@@ -21,7 +21,6 @@
       "passwordPlaceholder": "Votre mot de passe",
       "forgotPassword": "Mot de passe oublié ?",
       "loginButton": "Se connecter",
-      "connectWith": "Ou connectez-vous avec",
       "noAccount": "Pas encore de compte ?",
       "createAccount": "Créer un compte",
       "privacyText": "En continuant, vous acceptez notre",
@@ -44,13 +43,34 @@
     },
     "verifyOtp": {
       "title": "Vérifier votre compte",
-      "subtitle": "Entrez le code à 6 chiffres envoyé à",
+      "subtitle": "Entrez le code à {{length}} chiffres envoyé à",
       "verifyButton": "Vérifier",
       "resendCode": "Renvoyer le code",
       "resendSuccess": "Un nouveau code a été envoyé à votre email",
       "successMessage": "Compte vérifié avec succès !",
       "wrongEmail": "Mauvaise adresse ?",
       "changeEmail": "Modifier l'email"
+    },
+    "forgotPassword": {
+      "title": "Mot de passe oublié",
+      "subtitle": "Entrez votre adresse e-mail, nous vous enverrons un code pour choisir un nouveau mot de passe.",
+      "emailPlaceholder": "Votre adresse e-mail",
+      "sendButton": "Envoyer le code",
+      "backToLogin": "Retour à la connexion"
+    },
+    "resetPassword": {
+      "title": "Nouveau mot de passe",
+      "subtitle": "Entrez le code reçu à",
+      "passwordPlaceholder": "Nouveau mot de passe",
+      "confirmPasswordPlaceholder": "Confirmer le nouveau mot de passe",
+      "submitButton": "Changer le mot de passe",
+      "resendCode": "Renvoyer le code",
+      "resendSuccess": "Si un compte existe pour cette adresse, un nouveau code a été envoyé."
+    },
+    "social": {
+      "or": "ou",
+      "continueWithGoogle": "Continuer avec Google",
+      "error": "La connexion a échoué. Réessayez."
     }
   },
   "navigation": {
@@ -112,7 +132,8 @@
     "passwordRequired": "Le mot de passe est requis",
     "passwordTooShort": "Le mot de passe doit contenir au moins 6 caractères",
     "emailInvalid": "Adresse e-mail invalide",
-    "passwordMismatch": "Les mots de passe ne correspondent pas"
+    "passwordMismatch": "Les mots de passe ne correspondent pas",
+    "unknownError": "Une erreur inattendue est survenue. Réessayez."
   },
   "alerts": {
     "comingSoon": "Fonctionnalité à venir...",

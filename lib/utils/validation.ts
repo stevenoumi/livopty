@@ -5,7 +5,7 @@
 import { VALIDATION, ERROR_MESSAGES } from "../constants";
 
 export const validateEmail = (
-  email: string
+  email: string,
 ): { valid: boolean; error?: string } => {
   if (!email || !email.trim()) {
     return { valid: false, error: ERROR_MESSAGES.EMAIL_REQUIRED };
@@ -25,7 +25,7 @@ export const validateEmail = (
 };
 
 export const validatePassword = (
-  password: string
+  password: string,
 ): { valid: boolean; error?: string } => {
   if (!password) {
     return { valid: false, error: ERROR_MESSAGES.PASSWORD_REQUIRED };
@@ -43,7 +43,7 @@ export const validatePassword = (
 };
 
 export const validateName = (
-  name: string
+  name: string,
 ): { valid: boolean; error?: string } => {
   if (!name || !name.trim()) {
     return { valid: false, error: ERROR_MESSAGES.NAME_REQUIRED };

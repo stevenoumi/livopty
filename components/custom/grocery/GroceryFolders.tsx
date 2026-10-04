@@ -11,7 +11,12 @@ type GroceryFolderProps = {
   listCount: number;
 };
 
-export default function GroceryFolders({ id, name, icon = "📁", listCount }: GroceryFolderProps) {
+export default function GroceryFolders({
+  id,
+  name,
+  icon = "📁",
+  listCount,
+}: GroceryFolderProps) {
   const onPress = () => {
     router.push(`/groceryList/folder/${id}`);
   };
