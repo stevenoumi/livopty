@@ -36,10 +36,17 @@
           "imageWidth": 200
         }
       ],
-      "expo-status-bar"
+      "expo-status-bar",
+      "expo-sqlite"
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "984869ac-7cbd-4059-a3e5-4b45cc27594b"
+      }
     }
   }
 }
