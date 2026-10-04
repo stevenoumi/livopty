@@ -2,6 +2,8 @@ name: CI
 
 on:
   pull_request:
+    # "edited" re-runs the title check when only the title changes.
+    types: [opened, synchronize, reopened, edited]
   push:
     branches: [master]
 
