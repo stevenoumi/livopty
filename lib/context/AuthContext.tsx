@@ -7,6 +7,7 @@ import React, {
 } from "react";
 import { supabase } from "../services/supabase/supabase";
 import { signOutSupabase } from "~/lib/services/supabase/authService";
+import { signOutFromGoogle } from "~/lib/services/supabase/socialAuth";
 import { logger } from "../services/logger";
 import { User } from "~/lib/types/auth";
 
@@ -67,7 +68,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   }, []);
 
   const signOut = async () => {
-    const result = await signOutSupabase();
+    const [result] = await Promise.all([
+      signOutSupabase(),
+      signOutFromGoogle(),
+    ]);
 
     if (!result.success) {
       logger.error("Sign out failed", result.error);

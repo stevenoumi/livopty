@@ -22,6 +22,8 @@ export interface AuthResponse {
   user?: User;
   // False after sign up when email confirmation is required.
   hasSession?: boolean;
+  // The user closed the provider sheet: nothing to report.
+  cancelled?: boolean;
 }
 
 export interface SignUpData {

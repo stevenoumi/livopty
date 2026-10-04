@@ -21,7 +21,6 @@
       "passwordPlaceholder": "Your password",
       "forgotPassword": "Forgot password?",
       "loginButton": "Log in",
-      "connectWith": "Or connect with",
       "noAccount": "Don't have an account?",
       "createAccount": "Create an account",
       "privacyText": "By continuing, you accept our",
@@ -67,6 +66,11 @@
       "submitButton": "Change password",
       "resendCode": "Resend the code",
       "resendSuccess": "If an account exists for this address, a new code has been sent."
+    },
+    "social": {
+      "or": "or",
+      "continueWithGoogle": "Continue with Google",
+      "error": "Sign in failed. Please try again."
     }
   },
   "navigation": {

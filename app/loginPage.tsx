@@ -8,9 +8,11 @@ import {
   Keyboard,
   Platform,
   Pressable,
+  ScrollView,
 } from "react-native";
 
 import LanguageSelector from "~/components/custom/auth/LanguageSelector";
+import { SocialAuthButtons } from "~/components/custom/auth/SocialAuthButtons";
 import Toast from "~/components/custom/Toast";
 import { Button } from "~/components/ui/button";
 import { FormField, PasswordField } from "~/components/ui/form-field";
@@ -70,125 +72,136 @@ const LoginPage = () => {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss} accessible={false}>
         <KeyboardAvoidingView
           behavior={Platform.OS === "ios" ? "padding" : undefined}
-          className="flex-1 px-5"
+          className="flex-1"
         >
-          {/* Header */}
-          <View className="flex-row justify-between items-center mt-2">
-            <TouchableOpacity
-              onPress={() => router.push(ROUTES.WELCOME)}
-              className="p-2"
-              accessibilityRole="button"
-              accessibilityLabel="Retour"
-            >
-              <ChevronLeft size={26} color={COLORS.foreground} />
-            </TouchableOpacity>
-            <LanguageSelector />
-          </View>
-
-          {/* Logo & Title */}
-          <View className="items-center mt-5">
-            <Image
-              source={require("~/assets/images/logo-livopty.png")}
-              className="w-44 h-44"
-              resizeMode="contain"
-              accessibilityLabel="Logo LivOpty"
-            />
-            <Text className="text-3xl font-bold text-center mt-4 text-foreground">
-              {t("auth.login.title", { appName: "" })}
-              <Text className="text-primary">LivOpty</Text>
-            </Text>
-            <Text className="text-sm text-muted-foreground text-center mt-4">
-              {t("auth.login.subtitle")}
-            </Text>
-          </View>
-
-          {/* Form */}
-          <View className="mt-8 gap-5">
-            <Controller
-              control={control}
-              name="email"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <FormField
-                  placeholder={t("auth.login.emailPlaceholder")}
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  error={errors.email?.message}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
-                  autoCorrect={false}
-                  textContentType="emailAddress"
-                  autoComplete="email"
-                />
-              )}
-            />
-            <Controller
-              control={control}
-              name="password"
-              render={({ field: { onChange, onBlur, value } }) => (
-                <PasswordField
-                  placeholder={t("auth.login.passwordPlaceholder")}
-                  value={value}
-                  onChangeText={onChange}
-                  onBlur={onBlur}
-                  error={errors.password?.message}
-                  textContentType="password"
-                  autoComplete="current-password"
-                />
-              )}
-            />
-          </View>
-          <View className="flex-row justify-end mt-3 mb-6">
-            <Pressable
-              onPress={() => router.push(ROUTES.FORGOT_PASSWORD)}
-              className="py-1"
-              accessibilityRole="button"
-            >
-              <Text className="text-sm text-primary font-medium">
-                {t("auth.login.forgotPassword")}
-              </Text>
-            </Pressable>
-          </View>
-
-          <Button
-            onPress={handleSubmit(onSubmit)}
-            loading={loading}
-            className="mb-6"
+          <ScrollView
+            className="px-5"
+            keyboardShouldPersistTaps="handled"
+            showsVerticalScrollIndicator={false}
+            bounces={false}
           >
-            <LogIn
-              size={20}
-              color={COLORS.primaryForeground}
-              strokeWidth={2.5}
-            />
-            <UIText>{t("auth.login.loginButton")}</UIText>
-          </Button>
+            {/* Header */}
+            <View className="flex-row justify-between items-center mt-2">
+              <TouchableOpacity
+                onPress={() => router.push(ROUTES.WELCOME)}
+                className="p-2"
+                accessibilityRole="button"
+                accessibilityLabel="Retour"
+              >
+                <ChevronLeft size={26} color={COLORS.foreground} />
+              </TouchableOpacity>
+              <LanguageSelector />
+            </View>
 
-          {/* Create Account */}
-          <View className="mt-2 flex-row justify-center">
-            <Text className="text-sm text-muted-foreground">
-              {t("auth.login.noAccount")}{" "}
-            </Text>
-            <Pressable
-              onPress={() => router.push(ROUTES.REGISTER)}
-              accessibilityRole="button"
-            >
-              <Text className="text-sm text-primary font-medium">
-                {t("auth.login.createAccount")}
+            {/* Logo & Title */}
+            <View className="items-center mt-5">
+              <Image
+                source={require("~/assets/images/logo-livopty.png")}
+                className="w-44 h-44"
+                resizeMode="contain"
+                accessibilityLabel="Logo LivOpty"
+              />
+              <Text className="text-3xl font-bold text-center mt-4 text-foreground">
+                {t("auth.login.title", { appName: "" })}
+                <Text className="text-primary">LivOpty</Text>
               </Text>
-            </Pressable>
-          </View>
+              <Text className="text-sm text-muted-foreground text-center mt-4">
+                {t("auth.login.subtitle")}
+              </Text>
+            </View>
 
-          {/* Footer */}
-          <Text className="text-sm text-center text-muted-foreground px-6 mt-6 mb-4">
-            {t("auth.login.privacyText")}{" "}
-            <Text
-              onPress={() => info(t("alerts.comingSoon"))}
-              className="text-primary underline"
+            {/* Form */}
+            <View className="mt-8 gap-5">
+              <Controller
+                control={control}
+                name="email"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <FormField
+                    placeholder={t("auth.login.emailPlaceholder")}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    error={errors.email?.message}
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    autoCorrect={false}
+                    textContentType="emailAddress"
+                    autoComplete="email"
+                  />
+                )}
+              />
+              <Controller
+                control={control}
+                name="password"
+                render={({ field: { onChange, onBlur, value } }) => (
+                  <PasswordField
+                    placeholder={t("auth.login.passwordPlaceholder")}
+                    value={value}
+                    onChangeText={onChange}
+                    onBlur={onBlur}
+                    error={errors.password?.message}
+                    textContentType="password"
+                    autoComplete="current-password"
+                  />
+                )}
+              />
+            </View>
+            <View className="flex-row justify-end mt-3 mb-6">
+              <Pressable
+                onPress={() => router.push(ROUTES.FORGOT_PASSWORD)}
+                className="py-1"
+                accessibilityRole="button"
+              >
+                <Text className="text-sm text-primary font-medium">
+                  {t("auth.login.forgotPassword")}
+                </Text>
+              </Pressable>
+            </View>
+
+            <Button
+              onPress={handleSubmit(onSubmit)}
+              loading={loading}
+              className="mb-6"
             >
-              {t("auth.login.privacyLink")}
+              <LogIn
+                size={20}
+                color={COLORS.primaryForeground}
+                strokeWidth={2.5}
+              />
+              <UIText>{t("auth.login.loginButton")}</UIText>
+            </Button>
+
+            <View className="mb-6">
+              <SocialAuthButtons mode="signIn" onError={error} />
+            </View>
+
+            {/* Create Account */}
+            <View className="mt-2 flex-row justify-center">
+              <Text className="text-sm text-muted-foreground">
+                {t("auth.login.noAccount")}{" "}
+              </Text>
+              <Pressable
+                onPress={() => router.push(ROUTES.REGISTER)}
+                accessibilityRole="button"
+              >
+                <Text className="text-sm text-primary font-medium">
+                  {t("auth.login.createAccount")}
+                </Text>
+              </Pressable>
+            </View>
+
+            {/* Footer */}
+            <Text className="text-sm text-center text-muted-foreground px-6 mt-6 mb-4">
+              {t("auth.login.privacyText")}{" "}
+              <Text
+                onPress={() => info(t("alerts.comingSoon"))}
+                className="text-primary underline"
+              >
+                {t("auth.login.privacyLink")}
+              </Text>
+              .
             </Text>
-            .
-          </Text>
+          </ScrollView>
         </KeyboardAvoidingView>
       </TouchableWithoutFeedback>
     </SafeAreaView>

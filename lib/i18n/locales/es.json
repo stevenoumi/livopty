@@ -21,7 +21,6 @@
       "passwordPlaceholder": "Tu contraseña",
       "forgotPassword": "¿Olvidaste tu contraseña?",
       "loginButton": "Iniciar sesión",
-      "connectWith": "O conéctate con",
       "noAccount": "¿No tienes cuenta?",
       "createAccount": "Crear una cuenta",
       "privacyText": "Al continuar, aceptas nuestra",
@@ -67,6 +66,11 @@
       "submitButton": "Cambiar la contraseña",
       "resendCode": "Reenviar el código",
       "resendSuccess": "Si existe una cuenta con esta dirección, se ha enviado un nuevo código."
+    },
+    "social": {
+      "or": "o",
+      "continueWithGoogle": "Continuar con Google",
+      "error": "No se pudo iniciar sesión. Inténtalo de nuevo."
     }
   },
   "navigation": {

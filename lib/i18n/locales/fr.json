@@ -21,7 +21,6 @@
       "passwordPlaceholder": "Votre mot de passe",
       "forgotPassword": "Mot de passe oublié ?",
       "loginButton": "Se connecter",
-      "connectWith": "Ou connectez-vous avec",
       "noAccount": "Pas encore de compte ?",
       "createAccount": "Créer un compte",
       "privacyText": "En continuant, vous acceptez notre",
@@ -67,6 +66,11 @@
       "submitButton": "Changer le mot de passe",
       "resendCode": "Renvoyer le code",
       "resendSuccess": "Si un compte existe pour cette adresse, un nouveau code a été envoyé."
+    },
+    "social": {
+      "or": "ou",
+      "continueWithGoogle": "Continuer avec Google",
+      "error": "La connexion a échoué. Réessayez."
     }
   },
   "navigation": {

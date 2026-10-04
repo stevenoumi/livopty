@@ -23,6 +23,7 @@ import { useToast } from "~/lib/hooks/useToast";
 import { useRouter } from "expo-router";
 import { ChevronLeft, UserPlus } from "lucide-react-native";
 import LanguageSelector from "~/components/custom/auth/LanguageSelector";
+import { SocialAuthButtons } from "~/components/custom/auth/SocialAuthButtons";
 import { signUpWithEmail } from "~/lib/services/supabase/authService";
 import { COLORS, ROUTES } from "~/lib/constants";
 import { useLanguage } from "~/lib/context/LanguageContext";
@@ -223,6 +224,10 @@ const RegisterPage = () => {
               />
               <UIText>{t("auth.register.registerButton")}</UIText>
             </Button>
+
+            <View className="mb-6">
+              <SocialAuthButtons mode="signUp" onError={error} />
+            </View>
 
             {/* Already have account */}
             <View className="flex-row justify-center">
