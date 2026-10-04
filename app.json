@@ -5,19 +5,21 @@
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo-livopty.png",
-    "scheme": "myapp",
-    "userInterfaceStyle": "automatic",
+    "scheme": "livopty",
+    "userInterfaceStyle": "light",
     "assetBundlePatterns": [
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": false,
+      "bundleIdentifier": "com.livopty.app"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/logo-livopty.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.livopty.app"
     },
     "web": {
       "bundler": "metro",

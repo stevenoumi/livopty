@@ -11,8 +11,8 @@ const WelcomePage = () => {
   const insets = useSafeAreaInsets();
   const [imageLoaded, setImageLoaded] = useState(false);
 
-  const imageOpacity = useRef(new Animated.Value(10)).current;
-  const textOpacity = useRef(new Animated.Value(10)).current;
+  const imageOpacity = useRef(new Animated.Value(0)).current;
+  const textOpacity = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
     const preloadImage = async () => {
