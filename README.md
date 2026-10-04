@@ -44,7 +44,7 @@
 
    ```env
    EXPO_PUBLIC_SUPABASE_URL=votre_url_supabase
-   EXPO_PUBLIC_SUPABASE_ANON_KEY=votre_cle_anon
+   EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=votre_cle_publishable
    ```
 
 4. **Lancer l'application**

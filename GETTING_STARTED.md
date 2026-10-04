@@ -13,7 +13,7 @@ Puis éditer `.env` avec vos vraies clés Supabase :
 
 ```env
 EXPO_PUBLIC_SUPABASE_URL=https://votre-projet.supabase.co
-EXPO_PUBLIC_SUPABASE_ANON_KEY=votre_cle_anon_key_ici
+EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=votre_cle_publishable_ici
 ```
 
 > 🔑 **Obtenir vos clés** : https://supabase.com/dashboard/project/_/settings/api
