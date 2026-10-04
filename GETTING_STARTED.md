@@ -22,7 +22,7 @@ EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=votre_cle_publishable_ici
 
 ```bash
 # Vérifier les types TypeScript
-pnpm type-check
+pnpm types:check
 
 # Lancer les tests
 pnpm test
