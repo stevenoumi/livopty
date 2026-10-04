@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { VALIDATION } from "~/lib/constants/validation";
 
 /**
  * Schémas de validation Zod pour les formulaires
@@ -37,8 +38,11 @@ export const phoneSchema = z
 // Schéma de validation pour le code OTP
 export const otpSchema = z
   .string()
-  .length(6, "Le code doit contenir 6 chiffres")
-  .regex(/^\d{6}$/, "Le code doit contenir uniquement des chiffres");
+  .length(
+    VALIDATION.OTP.LENGTH,
+    `Le code doit contenir ${VALIDATION.OTP.LENGTH} chiffres`,
+  )
+  .regex(/^\d+$/, "Le code doit contenir uniquement des chiffres");
 
 // Schéma pour le formulaire de connexion
 export const loginSchema = z.object({

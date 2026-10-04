@@ -44,7 +44,7 @@
     },
     "verifyOtp": {
       "title": "Verify your account",
-      "subtitle": "Enter the 6-digit code sent to",
+      "subtitle": "Enter the {{length}}-digit code sent to",
       "verifyButton": "Verify",
       "resendCode": "Resend code",
       "resendSuccess": "A new code has been sent to your email",

@@ -12,7 +12,7 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useLanguage } from "~/lib/context/LanguageContext";
 import { supabase } from "~/lib/services/supabase/supabase";
-import { COLORS, ROUTES } from "~/lib/constants";
+import { COLORS, ROUTES, VALIDATION } from "~/lib/constants";
 import {
   verifyOtpSchema,
   type VerifyOtpFormData,
@@ -39,7 +39,7 @@ const VerifyOtpPage = () => {
       otp: "",
     },
   });
-  const otpComplete = watch("otp").length === 6;
+  const otpComplete = watch("otp").length === VALIDATION.OTP.LENGTH;
 
   const onSubmit = async (data: VerifyOtpFormData) => {
     if (!email) {
@@ -126,7 +126,7 @@ const VerifyOtpPage = () => {
             {t("auth.verifyOtp.title")}
           </Text>
           <Text className="text-base text-muted-foreground text-center px-4">
-            {t("auth.verifyOtp.subtitle")}{" "}
+            {t("auth.verifyOtp.subtitle", { length: VALIDATION.OTP.LENGTH })}{" "}
             <Text className="font-semibold text-foreground">{email}</Text>
           </Text>
 

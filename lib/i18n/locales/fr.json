@@ -44,7 +44,7 @@
     },
     "verifyOtp": {
       "title": "Vérifier votre compte",
-      "subtitle": "Entrez le code à 6 chiffres envoyé à",
+      "subtitle": "Entrez le code à {{length}} chiffres envoyé à",
       "verifyButton": "Vérifier",
       "resendCode": "Renvoyer le code",
       "resendSuccess": "Un nouveau code a été envoyé à votre email",

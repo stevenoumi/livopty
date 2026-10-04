@@ -2,7 +2,7 @@ import { AlertCircle } from "lucide-react-native";
 import * as React from "react";
 import { Pressable, TextInput, View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { COLORS } from "~/lib/constants";
+import { COLORS, VALIDATION } from "~/lib/constants";
 import { cn } from "~/lib/utils";
 
 type OtpInputProps = {
@@ -18,7 +18,7 @@ type OtpInputProps = {
 export function OtpInput({
   value,
   onChange,
-  length = 6,
+  length = VALIDATION.OTP.LENGTH,
   error,
   autoFocus = true,
 }: OtpInputProps) {
@@ -39,7 +39,7 @@ export function OtpInput({
             <View
               key={index}
               className={cn(
-                "h-14 w-12 items-center justify-center rounded-2xl bg-muted",
+                "h-14 max-w-12 flex-1 items-center justify-center rounded-xl bg-muted",
                 error
                   ? "border-2 border-destructive"
                   : isCurrent
