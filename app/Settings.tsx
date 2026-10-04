@@ -1,26 +1,27 @@
 import * as React from "react";
 import { ScrollView, View } from "react-native";
-import PagesHeader from "~/components/custom/PagesHeader";
 import ProfileSettings from "~/components/custom/settings/ProfileSettings";
 import SettingsGroup from "~/components/custom/settings/SettingsGroup";
-import { GeneralsettingsItems } from "~/lib/data/SettingsData";
-import { InfomationSettingsItems } from "~/lib/data/SettingsData";
+import { Text } from "~/components/ui/text";
+import { useAuth } from "~/lib/context/AuthContext";
+import { LogOut } from "~/lib/icons/LogOut";
 
 export default function Settings() {
+  const { signOut } = useAuth();
+
   return (
-    <>
-      <PagesHeader title="Paramètres" placeholder="Rechercher des paramètres" />
-      <ScrollView
-        className="flex-1 bg-zinc-100"
-        bounces={false}
-        showsVerticalScrollIndicator={true}
-      >
-        <View className="p-4 gap-4 flex-col">
-          <ProfileSettings />
-          <SettingsGroup items={GeneralsettingsItems} />
-          <SettingsGroup items={InfomationSettingsItems} />
-        </View>
-      </ScrollView>
-    </>
+    <ScrollView
+      className="flex-1 bg-zinc-100"
+      bounces={false}
+      showsVerticalScrollIndicator={true}
+    >
+      <View className="p-4 gap-4 flex-col">
+        <Text className="text-4xl font-bold text-black">Paramètres</Text>
+        <ProfileSettings />
+        <SettingsGroup
+          items={[{ Icon: LogOut, title: "Déconnexion", onPress: signOut }]}
+        />
+      </View>
+    </ScrollView>
   );
 }

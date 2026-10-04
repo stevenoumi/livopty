@@ -7,11 +7,19 @@ interface LinkedItemProps {
   Icon: React.ElementType;
   title: string;
   link?: string;
+  onPress?: () => void;
 }
 
-export default function LinkedItem({ Icon, title, link }: LinkedItemProps) {
+export default function LinkedItem({
+  Icon,
+  title,
+  link,
+  onPress,
+}: LinkedItemProps) {
   const handlePress = () => {
-    if (link) {
+    if (onPress) {
+      onPress();
+    } else if (link) {
       router.push(link as never);
     }
   };
@@ -19,6 +27,7 @@ export default function LinkedItem({ Icon, title, link }: LinkedItemProps) {
     <TouchableOpacity
       className="flex-row justify-between p-4 bg-white border-b border-gray-200"
       onPress={handlePress}
+      accessibilityRole="button"
     >
       <View className="flex-row items-start justify-start gap-4">
         <Icon className="text-gray-500" size={20} strokeWidth={2} />
