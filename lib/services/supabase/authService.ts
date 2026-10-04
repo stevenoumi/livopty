@@ -65,7 +65,11 @@ export const signUpWithEmail = async (
     }
 
     logger.info("User signed up successfully", { userId: authData.user?.id });
-    return { success: true, user: authData.user as User };
+    return {
+      success: true,
+      user: authData.user as User,
+      hasSession: authData.session !== null,
+    };
   } catch (error) {
     logger.error("Unexpected error during sign up", error);
     return { success: false, error: ERROR_MESSAGES.UNKNOWN_ERROR };

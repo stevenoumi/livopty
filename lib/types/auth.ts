@@ -20,6 +20,8 @@ export interface AuthResponse {
   success: boolean;
   error?: string;
   user?: User;
+  // False after sign up when email confirmation is required.
+  hasSession?: boolean;
 }
 
 export interface SignUpData {

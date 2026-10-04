@@ -36,7 +36,7 @@ const RegisterPage = () => {
   const insets = useSafeAreaInsets();
   const router = useRouter();
   const { t } = useLanguage();
-  const { toast, hideToast, success, error, info } = useToast();
+  const { toast, hideToast, error, info } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -56,7 +56,11 @@ const RegisterPage = () => {
 
   const onSubmit = async (data: RegisterFormData) => {
     setLoading(true);
-    const { success: isSuccess, error: authError } = await signUpWithEmail({
+    const {
+      success: isSuccess,
+      error: authError,
+      hasSession,
+    } = await signUpWithEmail({
       name: data.name,
       email: data.email,
       password: data.password,
@@ -68,11 +72,14 @@ const RegisterPage = () => {
       return;
     }
 
-    // Accès direct à Home après inscription avec feedback visuel
-    success(t("auth.register.successMessage"));
-    setTimeout(() => {
-      router.replace(ROUTES.HOME);
-    }, 500);
+    // Without a session, Supabase is waiting for the emailed code; with one,
+    // the root layout already moves the user into the app.
+    if (!hasSession) {
+      router.push({
+        pathname: ROUTES.VERIFY_OTP,
+        params: { email: data.email },
+      });
+    }
   };
 
   return (
@@ -367,7 +374,7 @@ const RegisterPage = () => {
               onPress={handleSubmit(onSubmit)}
               disabled={loading}
               activeOpacity={0.8}
-              className={`w-full py-4 rounded-2xl flex-row items-center justify-center mt-8 ${
+              className={`w-full py-4 rounded-2xl flex-row items-center justify-center mt-8 mb-6 ${
                 loading ? "bg-purple-400" : "bg-purple-600"
               } shadow-lg shadow-purple-500/30`}
               style={{
@@ -391,42 +398,6 @@ const RegisterPage = () => {
                 </>
               )}
             </TouchableOpacity>
-
-            {/* Divider */}
-            <View className="my-4">
-              <Text className="text-sm text-zinc-400 text-center">
-                Ou connectez-vous avec
-              </Text>
-            </View>
-
-            {/* Social Auth */}
-            <View className="flex-row justify-center gap-6 mb-4">
-              {[
-                {
-                  icon: "https://cdn-icons-png.flaticon.com/512/2991/2991148.png",
-                  name: "Google",
-                },
-                {
-                  icon: require("~/assets/images/apple.png"),
-                  name: "Apple",
-                },
-              ].map(({ icon, name }) => (
-                <Pressable
-                  key={name}
-                  className="h-14 w-14 bg-white rounded-full items-center justify-center shadow-md border border-gray-200"
-                  android_ripple={{ color: "#eee", borderless: true }}
-                  onPress={() => info("À venir...")}
-                  accessibilityRole="button"
-                  accessibilityLabel={`Se connecter avec ${name}`}
-                >
-                  <Image
-                    source={typeof icon === "string" ? { uri: icon } : icon}
-                    className="w-6 h-6"
-                    resizeMode="contain"
-                  />
-                </Pressable>
-              ))}
-            </View>
 
             {/* Already have account */}
             <View className="flex-row justify-center">

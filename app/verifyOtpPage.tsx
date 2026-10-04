@@ -83,10 +83,7 @@ const VerifyOtpPage = () => {
         return;
       }
 
-      success(t("auth.verifyOtp.successMessage"));
-      setTimeout(() => {
-        router.replace(ROUTES.HOME);
-      }, 500);
+      // The root layout navigates into the app once the session is set.
     } catch (err) {
       error(t("errors.unknownError"));
     } finally {

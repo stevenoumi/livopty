@@ -30,7 +30,7 @@ import { loginSchema, type LoginFormData } from "~/lib/schemas/auth.schema";
 const LoginPage = () => {
   const router = useRouter();
   const { t } = useLanguage();
-  const { toast, hideToast, success, error, info } = useToast();
+  const { toast, hideToast, error, info } = useToast();
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -58,11 +58,7 @@ const LoginPage = () => {
       return;
     }
 
-    success(t("auth.login.loginSuccess"));
-    // Petite pause pour que l'utilisateur voie le toast
-    setTimeout(() => {
-      router.replace(ROUTES.HOME);
-    }, 500);
+    // Navigation happens in the root layout once the session is set.
   };
 
   return (
@@ -242,7 +238,7 @@ const LoginPage = () => {
             onPress={handleSubmit(onSubmit)}
             disabled={loading}
             activeOpacity={0.8}
-            className={`w-full py-4 rounded-2xl flex-row items-center justify-center ${
+            className={`w-full py-4 mb-6 rounded-2xl flex-row items-center justify-center ${
               loading ? "bg-purple-400" : "bg-purple-600"
             } shadow-lg shadow-purple-500/30`}
             style={{
@@ -264,40 +260,6 @@ const LoginPage = () => {
               </>
             )}
           </TouchableOpacity>
-
-          {/* Divider */}
-          <View className="my-6">
-            <Text className="text-sm text-zinc-400 text-center">
-              {t("auth.login.connectWith")}
-            </Text>
-          </View>
-
-          {/* Social Auth */}
-          <View className="flex-row justify-center gap-6 mb-6">
-            {[
-              {
-                icon: "https://cdn-icons-png.flaticon.com/512/2991/2991148.png",
-                name: "Google",
-              },
-              {
-                icon: require("~/assets/images/apple.png"),
-                name: "Apple",
-              },
-            ].map(({ icon, name }) => (
-              <Pressable
-                key={name}
-                className="h-14 w-14 bg-white rounded-full items-center justify-center shadow-md border border-gray-200"
-                android_ripple={{ color: "#eee", borderless: true }}
-                onPress={() => info(t("alerts.comingSoon"))}
-              >
-                <Image
-                  source={typeof icon === "string" ? { uri: icon } : icon}
-                  className="w-7 h-7"
-                  resizeMode="contain"
-                />
-              </Pressable>
-            ))}
-          </View>
 
           {/* Create Account */}
           <View className="mt-2 flex-row justify-center">
