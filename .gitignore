@@ -52,6 +52,4 @@ coverage/
 
 expo-env.d.ts
 # @end expo-cli
-.npmrc
 package-lock.json
-pnpm-lock.yaml
