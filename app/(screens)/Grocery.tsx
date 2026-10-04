@@ -7,7 +7,7 @@ import { groceryFolders, groceryLists } from "~/lib/data/GroceryData";
 export default function Grocery() {
   const foldersWithCounts = groceryFolders.map((folder) => {
     const listCount = groceryLists.filter(
-      (list) => list.folderId === folder.id
+      (list) => list.folderId === folder.id,
     ).length;
     return { ...folder, listCount };
   });

@@ -15,7 +15,7 @@ import { ERROR_MESSAGES } from "~/lib/constants";
  * OU Dashboard > Authentication > Settings > Disable "Enable email confirmations"
  */
 export const signUpWithEmail = async (
-  data: SignUpData
+  data: SignUpData,
 ): Promise<AuthResponse> => {
   try {
     // Validation des données
@@ -80,7 +80,7 @@ export const signUpWithEmail = async (
  * Connexion d'un utilisateur existant avec validation
  */
 export const signInWithEmail = async (
-  data: SignInData
+  data: SignInData,
 ): Promise<AuthResponse> => {
   try {
     // Validation des données

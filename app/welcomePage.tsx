@@ -17,7 +17,7 @@ const WelcomePage = () => {
   useEffect(() => {
     const preloadImage = async () => {
       const imageUri = Image.resolveAssetSource(
-        require("~/assets/images/cover.jpg")
+        require("~/assets/images/cover.jpg"),
       ).uri;
 
       try {

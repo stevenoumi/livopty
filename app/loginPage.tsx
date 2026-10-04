@@ -48,9 +48,8 @@ const LoginPage = () => {
 
   const onSubmit = async (data: LoginFormData) => {
     setLoading(true);
-    const { success: isSuccess, error: authError } = await signInWithEmail(
-      data
-    );
+    const { success: isSuccess, error: authError } =
+      await signInWithEmail(data);
     setLoading(false);
 
     if (!isSuccess) {
@@ -114,8 +113,8 @@ const LoginPage = () => {
                         errors.email
                           ? "border-2 border-red-400"
                           : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
+                            ? "border-2 border-purple-500"
+                            : "border border-gray-200"
                       }`}
                     >
                       <TextInput
@@ -165,8 +164,8 @@ const LoginPage = () => {
                         errors.password
                           ? "border-2 border-red-400"
                           : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
+                            ? "border-2 border-purple-500"
+                            : "border border-gray-200"
                       }`}
                     >
                       <View className="flex-row items-center">

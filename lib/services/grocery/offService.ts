@@ -1,6 +1,6 @@
 // /lib/service/grocery/offService.ts
 
-const BASE_URL = 'https://world.openfoodfacts.org';
+const BASE_URL = "https://world.openfoodfacts.org";
 
 async function fetchFromOFF(endpoint: string): Promise<any> {
   try {
@@ -10,7 +10,7 @@ async function fetchFromOFF(endpoint: string): Promise<any> {
     }
     return response.json();
   } catch (error) {
-    console.error('Fetch OFF failed:', error);
+    console.error("Fetch OFF failed:", error);
     throw error;
   }
 }

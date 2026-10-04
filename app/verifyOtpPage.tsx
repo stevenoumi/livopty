@@ -163,8 +163,8 @@ const VerifyOtpPage = () => {
                     errors.otp
                       ? "border-2 border-red-400"
                       : digit
-                      ? "border-2 border-purple-500"
-                      : "border border-gray-200"
+                        ? "border-2 border-purple-500"
+                        : "border border-gray-200"
                   }`}
                 >
                   <TextInput

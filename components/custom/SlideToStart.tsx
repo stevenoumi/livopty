@@ -4,9 +4,9 @@ import { ArrowRight } from "lucide-react-native";
 import { navigate } from "expo-router/build/global-state/routing";
 
 const { width } = Dimensions.get("window");
-const SLIDER_WIDTH = width - 48; 
-const BUTTON_SIZE = 48; 
-const SLIDE_RANGE = SLIDER_WIDTH - BUTTON_SIZE - 16; 
+const SLIDER_WIDTH = width - 48;
+const BUTTON_SIZE = 48;
+const SLIDE_RANGE = SLIDER_WIDTH - BUTTON_SIZE - 16;
 
 export default function SlideToStart() {
   const [translateX] = useState(() => new Animated.Value(0));
@@ -14,7 +14,8 @@ export default function SlideToStart() {
 
   const [panResponder] = useState(() =>
     PanResponder.create({
-      onMoveShouldSetPanResponder: (_, gestureState) => Math.abs(gestureState.dx) > 10,
+      onMoveShouldSetPanResponder: (_, gestureState) =>
+        Math.abs(gestureState.dx) > 10,
       onPanResponderMove: (_, gestureState) => {
         if (gestureState.dx > 0 && gestureState.dx < SLIDE_RANGE) {
           translateX.setValue(gestureState.dx);
@@ -38,7 +39,7 @@ export default function SlideToStart() {
           }).start();
         }
       },
-    })
+    }),
   );
 
   return (

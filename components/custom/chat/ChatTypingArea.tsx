@@ -36,7 +36,7 @@ export default function ChatTypingArea() {
           duration: e.duration || 250,
           useNativeDriver: false,
         }).start();
-      }
+      },
     );
 
     const keyboardHideListener = Keyboard.addListener(
@@ -49,7 +49,7 @@ export default function ChatTypingArea() {
             useNativeDriver: false,
           }).start();
         }
-      }
+      },
     );
 
     return () => {

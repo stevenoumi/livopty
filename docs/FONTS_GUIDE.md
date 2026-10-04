@@ -157,8 +157,13 @@ fontFamily: {
 
 ```css
 * {
-  font-family: "Outfit_400Regular", -apple-system, BlinkMacSystemFont, "Segoe UI",
-    Roboto, sans-serif;
+  font-family:
+    "Outfit_400Regular",
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    Roboto,
+    sans-serif;
 }
 ```
 

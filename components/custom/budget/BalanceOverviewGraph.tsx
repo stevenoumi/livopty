@@ -39,14 +39,20 @@ export default function BalanceOverviewGraph({
             activeOpacity={0.7}
             onPress={onChartPress}
           >
-            <BarChart3 size={20} className="text-indigo-600 dark:text-indigo-400" />
+            <BarChart3
+              size={20}
+              className="text-indigo-600 dark:text-indigo-400"
+            />
           </TouchableOpacity>
           <TouchableOpacity
             className="p-2 bg-white dark:bg-slate-800 rounded-xl border border-slate-200 dark:border-slate-700"
             activeOpacity={0.7}
             onPress={onWalletPress}
           >
-            <Wallet size={20} className="text-indigo-600 dark:text-indigo-400" />
+            <Wallet
+              size={20}
+              className="text-indigo-600 dark:text-indigo-400"
+            />
           </TouchableOpacity>
         </View>
       </View>

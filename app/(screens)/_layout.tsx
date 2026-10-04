@@ -1,5 +1,10 @@
 import { Tabs } from "expo-router";
-import { CalendarSync, HomeIcon, ScrollText, Wallet } from "lucide-react-native";
+import {
+  CalendarSync,
+  HomeIcon,
+  ScrollText,
+  Wallet,
+} from "lucide-react-native";
 import New from "~/components/custom/New";
 import SettingsButton from "~/components/custom/SettingsButton";
 import { MessageSquareText } from "~/lib/icons/MessageSquareText";

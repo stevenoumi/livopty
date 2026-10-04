@@ -7,9 +7,7 @@
     "icon": "./assets/images/logo-livopty.png",
     "scheme": "livopty",
     "userInterfaceStyle": "light",
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "com.livopty.app"

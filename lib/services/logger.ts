@@ -64,8 +64,8 @@ class Logger {
         level === "error"
           ? console.error
           : level === "warn"
-          ? console.warn
-          : console.log; // eslint-disable-line no-console
+            ? console.warn
+            : console.log; // eslint-disable-line no-console
 
       logMethod(`[${level.toUpperCase()}] ${message}`, data || "");
     }

@@ -13,12 +13,14 @@ import {
   ScrollView,
 } from "react-native";
 import React, { useState } from "react";
-import { useSafeAreaInsets } from "react-native-safe-area-context";
+import {
+  useSafeAreaInsets,
+  SafeAreaView,
+} from "react-native-safe-area-context";
 import Toast from "~/components/custom/Toast";
 import { useToast } from "~/lib/hooks/useToast";
 import { useRouter } from "expo-router";
 import { Ionicons } from "@expo/vector-icons";
-import { SafeAreaView } from "react-native-safe-area-context";
 import { UserPlus } from "lucide-react-native";
 import LanguageSelector from "~/components/custom/auth/LanguageSelector";
 import { signUpWithEmail } from "~/lib/services/supabase/authService";
@@ -145,8 +147,8 @@ const RegisterPage = () => {
                         errors.name
                           ? "border-2 border-red-400"
                           : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
+                            ? "border-2 border-purple-500"
+                            : "border border-gray-200"
                       }`}
                     >
                       <TextInput
@@ -196,8 +198,8 @@ const RegisterPage = () => {
                         errors.email
                           ? "border-2 border-red-400"
                           : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
+                            ? "border-2 border-purple-500"
+                            : "border border-gray-200"
                       }`}
                     >
                       <TextInput
@@ -248,8 +250,8 @@ const RegisterPage = () => {
                         errors.password
                           ? "border-2 border-red-400"
                           : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
+                            ? "border-2 border-purple-500"
+                            : "border border-gray-200"
                       }`}
                     >
                       <View className="flex-row items-center">
@@ -322,13 +324,13 @@ const RegisterPage = () => {
                         errors.confirmPassword
                           ? "border-2 border-red-400"
                           : value
-                          ? "border-2 border-purple-500"
-                          : "border border-gray-200"
+                            ? "border-2 border-purple-500"
+                            : "border border-gray-200"
                       }`}
                     >
                       <TextInput
                         placeholder={t(
-                          "auth.register.confirmPasswordPlaceholder"
+                          "auth.register.confirmPasswordPlaceholder",
                         )}
                         placeholderTextColor="#9ca3af"
                         value={value}

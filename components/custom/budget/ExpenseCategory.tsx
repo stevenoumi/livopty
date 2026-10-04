@@ -41,7 +41,7 @@ export default function ExpenseCategory({
     <View className="flex-col p-5 bg-white dark:bg-slate-900 rounded-3xl shadow-sm w-80 gap-3 border border-slate-100 dark:border-slate-800">
       <View className="flex-row w-full items-center">
         <View className="flex-row items-center gap-3 flex-1">
-          <TouchableOpacity 
+          <TouchableOpacity
             className={`${getPercentageColor()} p-3 rounded-2xl`}
             onPress={onPress}
             activeOpacity={0.7}
@@ -49,8 +49,15 @@ export default function ExpenseCategory({
             <Icon size={22} className="text-gray-700 dark:text-gray-300" />
           </TouchableOpacity>
           <View className="flex-col flex-1">
-            <Text className="font-bold text-base dark:text-white" numberOfLines={1}>{title}</Text>
-            <Text className="text-xs text-gray-500 dark:text-gray-400">{period}</Text>
+            <Text
+              className="font-bold text-base dark:text-white"
+              numberOfLines={1}
+            >
+              {title}
+            </Text>
+            <Text className="text-xs text-gray-500 dark:text-gray-400">
+              {period}
+            </Text>
           </View>
         </View>
         <View className={`${getPercentageColor()} px-2.5 py-1 rounded-xl`}>
@@ -61,13 +68,17 @@ export default function ExpenseCategory({
       </View>
       <View className="w-full flex-row justify-between items-center">
         <View className="flex-col">
-          <Text className="text-xs text-gray-400 dark:text-gray-500">Spent</Text>
+          <Text className="text-xs text-gray-400 dark:text-gray-500">
+            Spent
+          </Text>
           <Text className="text-base font-bold text-gray-900 dark:text-white">
             {spent.toLocaleString()} {CURRENCY}
           </Text>
         </View>
         <View className="flex-col items-end">
-          <Text className="text-xs text-gray-400 dark:text-gray-500">Budget</Text>
+          <Text className="text-xs text-gray-400 dark:text-gray-500">
+            Budget
+          </Text>
           <Text className="text-base font-bold text-gray-900 dark:text-white">
             {budget.toLocaleString()} {CURRENCY}
           </Text>
@@ -75,20 +86,24 @@ export default function ExpenseCategory({
       </View>
       <View className="w-full">
         <View className="w-full h-2.5 bg-gray-200 dark:bg-gray-700 rounded-full overflow-hidden">
-          <View 
+          <View
             className={`h-2.5 ${getProgressColor()} rounded-full`}
             style={{ width: `${percentageSpent}%` }}
           />
         </View>
         <View className="flex-row justify-between items-center mt-1.5">
-          <Text className={`text-xs font-medium ${isOverBudget ? 'text-rose-600 dark:text-rose-400' : 'text-emerald-600 dark:text-emerald-400'}`}>
-            {isOverBudget 
+          <Text
+            className={`text-xs font-medium ${isOverBudget ? "text-rose-600 dark:text-rose-400" : "text-emerald-600 dark:text-emerald-400"}`}
+          >
+            {isOverBudget
               ? `${Math.abs(remaining).toLocaleString()} ${CURRENCY} over`
-              : `${remaining.toLocaleString()} ${CURRENCY} left`
-            }
+              : `${remaining.toLocaleString()} ${CURRENCY} left`}
           </Text>
           <Text className="text-xs text-gray-400 dark:text-gray-500">
-            {(budget - spent) > 0 ? Math.floor(((budget - spent) / budget) * 100) : 0}% left
+            {budget - spent > 0
+              ? Math.floor(((budget - spent) / budget) * 100)
+              : 0}
+            % left
           </Text>
         </View>
       </View>

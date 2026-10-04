@@ -57,7 +57,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         if (isMounted) {
           setUser((session?.user as User) ?? null);
         }
-      }
+      },
     );
 
     return () => {

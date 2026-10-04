@@ -1,13 +1,16 @@
-import { AppState } from 'react-native'
-import 'react-native-url-polyfill/auto'
-import AsyncStorage from '@react-native-async-storage/async-storage'
-import { createClient } from '@supabase/supabase-js'
+import { AppState } from "react-native";
+import "react-native-url-polyfill/auto";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.EXPO_PUBLIC_SUPABASE_URL!;
-const supabasePublishableKey = process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
+const supabasePublishableKey =
+  process.env.EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY!;
 
 if (!supabaseUrl || !supabasePublishableKey) {
-  console.error('Supabase environment variables are missing. Please check your .env file.');
+  console.error(
+    "Supabase environment variables are missing. Please check your .env file.",
+  );
 }
 
 export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
@@ -17,12 +20,12 @@ export const supabase = createClient(supabaseUrl, supabasePublishableKey, {
     persistSession: true,
     detectSessionInUrl: false,
   },
-})
+});
 
-AppState.addEventListener('change', (state) => {
-  if (state === 'active') {
-    supabase.auth.startAutoRefresh()
+AppState.addEventListener("change", (state) => {
+  if (state === "active") {
+    supabase.auth.startAutoRefresh();
   } else {
-    supabase.auth.stopAutoRefresh()
+    supabase.auth.stopAutoRefresh();
   }
-})
+});

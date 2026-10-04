@@ -131,13 +131,13 @@ export const getTextStyle = (variant: keyof typeof TEXT_STYLES): TextStyle => {
  * Obtenir le nom de la police selon le poids
  */
 export const getOutfitFont = (
-  weight: keyof typeof FONT_FAMILIES.outfit = "regular"
+  weight: keyof typeof FONT_FAMILIES.outfit = "regular",
 ): string => {
   return FONT_FAMILIES.outfit[weight];
 };
 
 export const getInterFont = (
-  weight: keyof typeof FONT_FAMILIES.inter = "regular"
+  weight: keyof typeof FONT_FAMILIES.inter = "regular",
 ): string => {
   return FONT_FAMILIES.inter[weight];
 };

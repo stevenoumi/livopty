@@ -6,7 +6,10 @@ function BackButton() {
   const router = useRouter();
 
   return (
-    <TouchableOpacity onPress={() => router.back()} className="px-0 rounded-full flex-row items-center gap-2">
+    <TouchableOpacity
+      onPress={() => router.back()}
+      className="px-0 rounded-full flex-row items-center gap-2"
+    >
       <ChevronLeft size={30} strokeWidth={2} color="#000" />
       <Text className="text-xl text-gray-800">Retour</Text>
     </TouchableOpacity>

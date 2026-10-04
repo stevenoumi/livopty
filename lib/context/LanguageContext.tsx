@@ -17,7 +17,7 @@ type LanguageContextType = {
 };
 
 const LanguageContext = createContext<LanguageContextType | undefined>(
-  undefined
+  undefined,
 );
 
 export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
@@ -28,13 +28,13 @@ export const LanguageProvider: React.FC<{ children: React.ReactNode }> = ({
   // Trouver la langue actuelle dans la liste des langues disponibles
   const getCurrentLanguage = (langCode: string): Language => {
     const lang = Languages.find(
-      (l) => l.code.toLowerCase() === langCode.toLowerCase()
+      (l) => l.code.toLowerCase() === langCode.toLowerCase(),
     );
     return lang || Languages[0]; // Français par défaut
   };
 
   const [currentLanguage, setCurrentLanguage] = useState<Language>(
-    getCurrentLanguage(i18nInstance.language)
+    getCurrentLanguage(i18nInstance.language),
   );
 
   useEffect(() => {
