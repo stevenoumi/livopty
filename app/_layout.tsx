@@ -66,7 +66,15 @@ function RootNavigator() {
         <Stack.Screen name="loginPage" options={{ headerShown: false }} />
         <Stack.Screen name="registerPage" options={{ headerShown: false }} />
         <Stack.Screen name="verifyOtpPage" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="forgotPasswordPage"
+          options={{ headerShown: false }}
+        />
       </Stack.Protected>
+
+      {/* Outside both guards: the code opens a session before the new
+          password is saved, and the screen must survive that change. */}
+      <Stack.Screen name="resetPasswordPage" options={{ headerShown: false }} />
 
       <Stack.Protected guard={!!user}>
         <Stack.Screen name="(screens)" options={{ headerShown: false }} />

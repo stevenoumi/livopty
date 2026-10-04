@@ -9,6 +9,8 @@ export const ROUTES = {
   LOGIN: "/loginPage",
   REGISTER: "/registerPage",
   VERIFY_OTP: "/verifyOtpPage",
+  FORGOT_PASSWORD: "/forgotPasswordPage",
+  RESET_PASSWORD: "/resetPasswordPage",
 
   // Main Screens
   CHAT_LIST: "/chatList",

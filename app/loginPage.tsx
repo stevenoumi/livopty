@@ -140,7 +140,7 @@ const LoginPage = () => {
           </View>
           <View className="flex-row justify-end mt-3 mb-6">
             <Pressable
-              onPress={() => info(t("alerts.comingSoon"))}
+              onPress={() => router.push(ROUTES.FORGOT_PASSWORD)}
               className="py-1"
               accessibilityRole="button"
             >
