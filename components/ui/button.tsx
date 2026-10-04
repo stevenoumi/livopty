@@ -1,11 +1,12 @@
 import { cva, type VariantProps } from "class-variance-authority";
 import * as React from "react";
-import { Pressable } from "react-native";
+import { ActivityIndicator, Pressable } from "react-native";
 import { TextClassContext } from "~/components/ui/text";
+import { COLORS } from "~/lib/constants";
 import { cn } from "~/lib/utils";
 
 const buttonVariants = cva(
-  "group flex items-center justify-center rounded-md web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
+  "group flex-row items-center justify-center gap-2 rounded-2xl web:ring-offset-background web:transition-colors web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-ring web:focus-visible:ring-offset-2",
   {
     variants: {
       variant: {
@@ -19,10 +20,10 @@ const buttonVariants = cva(
         link: "web:underline-offset-4 web:hover:underline web:focus:underline ",
       },
       size: {
-        default: "h-10 px-4 py-2 native:h-12 native:px-5 native:py-3",
-        sm: "h-9 rounded-md px-3",
-        lg: "h-11 rounded-md px-8 native:h-14",
-        icon: "h-10 w-10",
+        default: "h-14 px-5",
+        sm: "h-10 rounded-xl px-3",
+        lg: "h-16 px-8",
+        icon: "h-12 w-12",
       },
     },
     defaultVariants: {
@@ -33,7 +34,7 @@ const buttonVariants = cva(
 );
 
 const buttonTextVariants = cva(
-  "web:whitespace-nowrap text-sm native:text-base font-medium text-foreground web:transition-colors",
+  "web:whitespace-nowrap text-base font-semibold text-foreground web:transition-colors",
   {
     variants: {
       variant: {
@@ -47,8 +48,8 @@ const buttonTextVariants = cva(
       },
       size: {
         default: "",
-        sm: "",
-        lg: "native:text-lg",
+        sm: "text-sm",
+        lg: "text-lg",
         icon: "",
       },
     },
@@ -60,28 +61,49 @@ const buttonTextVariants = cva(
 );
 
 type ButtonProps = React.ComponentPropsWithoutRef<typeof Pressable> &
-  VariantProps<typeof buttonVariants>;
+  VariantProps<typeof buttonVariants> & {
+    // Replaces the content with a spinner and blocks presses, so a slow
+    // request cannot be sent twice.
+    loading?: boolean;
+  };
 
 const Button = React.forwardRef<
   React.ElementRef<typeof Pressable>,
   ButtonProps
->(({ className, variant, size, ...props }, ref) => {
+>(({ className, variant, size, loading = false, children, ...props }, ref) => {
+  const disabled = props.disabled || loading;
+  const onFilled =
+    variant === undefined ||
+    variant === null ||
+    variant === "default" ||
+    variant === "destructive";
+
   return (
     <TextClassContext.Provider
       value={cn(
-        props.disabled && "web:pointer-events-none",
+        disabled && "web:pointer-events-none",
         buttonTextVariants({ variant, size }),
       )}
     >
       <Pressable
         className={cn(
-          props.disabled && "opacity-50 web:pointer-events-none",
+          disabled && "opacity-60 web:pointer-events-none",
           buttonVariants({ variant, size, className }),
         )}
         ref={ref}
         role="button"
+        accessibilityState={{ disabled, busy: loading }}
         {...props}
-      />
+        disabled={disabled}
+      >
+        {loading ? (
+          <ActivityIndicator
+            color={onFilled ? COLORS.primaryForeground : COLORS.primary}
+          />
+        ) : (
+          children
+        )}
+      </Pressable>
     </TextClassContext.Provider>
   );
 });
