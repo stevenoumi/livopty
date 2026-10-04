@@ -2,6 +2,7 @@
   "name": "livopty",
   "main": "index.js",
   "version": "1.0.0",
+  "packageManager": "pnpm@11.17.0",
   "scripts": {
     "dev": "expo start -c",
     "dev:web": "expo start -c --web",

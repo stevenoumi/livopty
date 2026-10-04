@@ -1,0 +1,64 @@
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [master]
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  # Text-only checks run without installing dependencies so a bad name fails
+  # within seconds.
+  naming:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Nom de branche
+        run: sh scripts/check-branch-name.sh "$HEAD_REF"
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+
+      - name: Titre de pull request
+        run: sh scripts/check-pr-title.sh "$PR_TITLE"
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+
+  quality:
+    needs: naming
+    # Still runs on pushes to master, where the naming job is skipped.
+    if: ${{ !failure() && !cancelled() }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+
+      - name: Installation
+        run: pnpm install --frozen-lockfile
+
+      - name: Lint
+        run: pnpm lint
+
+      - name: Format
+        run: pnpm format:check
+
+      - name: Types
+        run: pnpm types:check
+
+      - name: Tests
+        run: pnpm test
+
+      # Web is left out: its static export renders pages, which needs the
+      # Supabase secrets.
+      - name: Construction
+        run: pnpm exec expo export --platform android --platform ios
