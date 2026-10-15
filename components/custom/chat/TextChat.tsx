@@ -1,43 +1,47 @@
+import { CheckCheck } from "lucide-react-native";
 import * as React from "react";
 import { View } from "react-native";
 import { Text } from "~/components/ui/text";
-import { Card, CardContent, CardFooter } from "../../ui/card";
-import { Check, CheckCheck } from "lucide-react-native"; // Importer les icônes
+import { COLORS } from "~/lib/constants";
+import { cn } from "~/lib/utils";
 
-interface IsSent {
+interface TextChatProps {
   message: string;
   isSent: boolean;
+  time?: string;
   isRead?: boolean;
 }
 
-export default function TextChat({ message, isSent, isRead = false }: IsSent) {
-  const bubbleBg = isSent ? "bg-violet-500" : "bg-gray-200"; // Couleur du fond
-  const textColor = isSent ? "text-gray-100" : "text-gray-800"; // Couleur du texte
-  const timeColor = isSent ? "text-white/70" : "text-gray-500"; // Couleur de l'heure
-  const alignment = isSent ? "self-end" : "self-start"; // Alignement du message (droite pour envoyé, gauche pour reçu)
-
+/** Bubble: brand colour with time and ticks when sent, grey when received. */
+export default function TextChat({
+  message,
+  isSent,
+  time,
+  isRead = true,
+}: TextChatProps) {
   return (
-    <View className="flex w-full my-2">
-      <Card className={`max-w-[75%] rounded-xl ${bubbleBg} ${alignment}`}>
-        <CardContent className="p-3">
-          <Text className={`text-lg ${textColor}`}>{message}</Text>
-        </CardContent>
-        {isSent && (
-          <CardFooter className="flex flex-row justify-end px-3 gap-4 pb-2">
-            <Text className={`text-xs ${timeColor}`}>
-              {new Date().toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
+    <View
+      className={cn(
+        "my-1 max-w-[75%] rounded-2xl px-[13px] py-[9px]",
+        isSent ? "self-end bg-primary" : "self-start bg-secondary",
+      )}
+    >
+      <Text tone={isSent ? "inverse" : "default"}>{message}</Text>
+      {isSent ? (
+        <View className="mt-1 flex-row items-center justify-end gap-2.5">
+          {time ? (
+            <Text variant="caption" className="text-primary-foreground/75">
+              {time}
             </Text>
-            {isRead ? (
-              <Check className="text-foreground" size={15} strokeWidth={1.75} />
-            ) : (
-              <CheckCheck size={15} color={"white"} strokeWidth={1.25} />
-            )}
-          </CardFooter>
-        )}
-      </Card>
+          ) : null}
+          <CheckCheck
+            size={15}
+            color={COLORS.primaryForeground}
+            strokeWidth={1.5}
+            opacity={isRead ? 1 : 0.6}
+          />
+        </View>
+      ) : null}
     </View>
   );
 }

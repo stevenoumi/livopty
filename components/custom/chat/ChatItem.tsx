@@ -1,77 +1,93 @@
-import * as React from "react";
-import { View } from "react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import { Text } from "../../ui/text";
-import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
-import { CheckCheck } from "~/lib/icons/CheckCheck";
+import { CheckCheck, House, School } from "lucide-react-native";
+import * as React from "react";
+import { Image, Pressable, View } from "react-native";
+import { Badge } from "~/components/screen";
+import { Text } from "~/components/ui/text";
+import { CATEGORY_COLORS, COLORS, ROUTES } from "~/lib/constants";
 import { useChat } from "~/lib/context/ChatContext";
+import type { Conversation } from "~/lib/data/ChatData";
+import { cn } from "~/lib/utils";
 
-export default function ChatItem(props: {
-  id: string;
-  name: string;
-  lastMessage: string;
-  time: string;
-  image: string;
-  isOnline: boolean;
-  unreadMessages: number;
+const groupIcons = {
+  house: { Icon: House, bg: CATEGORY_COLORS.brand },
+  school: { Icon: School, bg: CATEGORY_COLORS.blue },
+};
+
+/** One conversation: big avatar, inset separator, unread badge. */
+export default function ChatItem({
+  item,
+  last,
+}: {
+  item: Conversation;
+  last?: boolean;
 }) {
   const { setChatInfo } = useChat();
+  const unread = item.unreadMessages > 0;
+  const group = item.group ? groupIcons[item.group] : null;
 
   const onPress = () => {
     setChatInfo({
-      name: props.name,
-      image: props.image,
-      isOnline: props.isOnline,
+      name: item.name,
+      image: item.image,
+      isOnline: item.isOnline,
     });
-
-    router.push("/chatList"); // ou autre page, selon ton routing
+    router.push(ROUTES.CHAT_LIST);
   };
 
   return (
-    <TouchableOpacity
-      className="flex-row px-4 justify-start items-center gap-4 bg-white w-full"
+    <Pressable
       onPress={onPress}
+      accessibilityRole="button"
+      className="flex-row items-center gap-3 pl-4 active:bg-muted"
     >
-      <View className="relative">
-        <Avatar alt="Test" className="h-16 w-16">
-          <AvatarImage source={{ uri: props.image }} />
-          <AvatarFallback>
-            <Text>ZN</Text>
-          </AvatarFallback>
-        </Avatar>
-
-        {props.isOnline && (
-          <View className="absolute bottom-0 right-0 bg-green-500 h-4 w-4 rounded-full border-2 border-white" />
+      <View>
+        {group ? (
+          <View
+            className="h-14 w-14 items-center justify-center rounded-full"
+            style={{ backgroundColor: group.bg }}
+          >
+            <group.Icon size={26} color={COLORS.primaryForeground} />
+          </View>
+        ) : (
+          <Image
+            source={{ uri: item.image }}
+            className="h-14 w-14 rounded-full"
+            accessibilityIgnoresInvertColors
+          />
         )}
+        {item.isOnline ? (
+          <View className="absolute bottom-0.5 right-0 h-3.5 w-3.5 rounded-full border-2 border-background bg-success" />
+        ) : null}
       </View>
-      <View className="flex-col justify-center items-start flex-1 gap-1 border-b border-gray-200 py-2">
-        <View className="flex-row justify-between items-center w-full">
-          <Text className="text-xl font-bold text-black">{props.name}</Text>
-          <Text className="text-base text-gray-500">{props.time}</Text>
+      <View
+        className={cn(
+          "flex-1 py-[11px] pr-4",
+          !last && "border-b border-border",
+        )}
+      >
+        <View className="flex-row items-center justify-between">
+          <Text className="text-[17px] font-semibold">{item.name}</Text>
+          <Text tone={unread ? "primary" : "muted"} className="text-sm">
+            {item.time}
+          </Text>
         </View>
-        <View className="flex-row justify-between items-center w-full">
-          <View className="flex-row justify-center items-center gap-2">
-            <CheckCheck
-              size={18}
-              className="text-gray-500 bold"
-              strokeWidth={1.25}
-            />
-            <Text className="text-lg text-gray-500">
-              {props.lastMessage.length > 40
-                ? props.lastMessage.slice(0, 28) + "..."
-                : props.lastMessage}
+        <View className="mt-0.5 flex-row items-center gap-2">
+          <View className="flex-1 flex-row items-center gap-[5px]">
+            {item.lastSentRead !== undefined ? (
+              <CheckCheck
+                size={17}
+                color={item.lastSentRead ? COLORS.primary : COLORS.faint}
+                strokeWidth={1.75}
+              />
+            ) : null}
+            <Text tone="muted" numberOfLines={1} className="flex-1 text-[15px]">
+              {item.lastMessage}
             </Text>
           </View>
-          {props.unreadMessages > 0 && (
-            <View className="mt-1 bg-violet-500 h-6 w-6 rounded-full justify-center items-center border-2 border-white">
-              <Text className="text-white text-xs font-bold">
-                {props.unreadMessages}
-              </Text>
-            </View>
-          )}
+          {unread ? <Badge value={item.unreadMessages} /> : null}
         </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

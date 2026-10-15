@@ -106,6 +106,16 @@ function RootNavigator() {
           }}
         />
         <Stack.Screen name="draft" />
+        <Stack.Screen name="vault/index" options={{ headerShown: false }} />
+        <Stack.Screen name="vault/[id]" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="expense/new"
+          options={{ headerShown: false, presentation: "modal" }}
+        />
+        <Stack.Screen
+          name="event/new"
+          options={{ headerShown: false, presentation: "modal" }}
+        />
       </Stack.Protected>
     </Stack>
   );
