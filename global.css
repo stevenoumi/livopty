@@ -2,62 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 
+/*
+ * Semantic tokens: what a colour is for, never what it looks like.
+ * Values are HSL channels so Tailwind can apply opacity (bg-primary/10).
+ * The brand hue (279) comes from the logo; raw shades live in the `brand`
+ * scale of tailwind.config.js. Documented in docs/DESIGN_SYSTEM.md.
+ * Text/background pairs below meet WCAG AA (4.5:1) on their surface.
+ */
 @layer base {
-  * {
-    font-family:
-      "Outfit_400Regular",
-      -apple-system,
-      BlinkMacSystemFont,
-      "Segoe UI",
-      Roboto,
-      sans-serif;
-  }
-
   :root {
     --background: 0 0% 100%;
-    --foreground: 240 10% 3.9%;
+    --foreground: 270 15% 10%;
+
     --card: 0 0% 100%;
-    --card-foreground: 240 10% 3.9%;
+    --card-foreground: 270 15% 10%;
     --popover: 0 0% 100%;
-    --popover-foreground: 240 10% 3.9%;
-    --primary: 262 83% 58%;
+    --popover-foreground: 270 15% 10%;
+
+    --primary: 279 65% 45%;
     --primary-foreground: 0 0% 100%;
-    --secondary: 240 4.8% 95.9%;
-    --secondary-foreground: 240 5.9% 10%;
-    --muted: 240 4.8% 95.9%;
-    --muted-foreground: 240 3.8% 46.1%;
-    --accent: 240 4.8% 95.9%;
-    --accent-foreground: 240 5.9% 10%;
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 5.9% 90%;
-    --input: 240 5.9% 90%;
-    --ring: 262 83% 58%;
-    --success: 142 71% 35%;
-    --warning: 38 92% 45%;
+    --primary-soft: 279 70% 96%;
+    --primary-soft-foreground: 279 68% 37%;
+
+    --secondary: 270 20% 95%;
+    --secondary-foreground: 270 15% 10%;
+    --muted: 270 20% 97%;
+    --muted-foreground: 270 6% 42%;
+    --accent: 270 20% 95%;
+    --accent-foreground: 270 15% 10%;
+
+    --destructive: 0 72% 51%;
+    --destructive-foreground: 0 0% 100%;
+    --success: 142 71% 30%;
+    --success-foreground: 0 0% 100%;
+    --warning: 30 90% 35%;
+    --warning-foreground: 0 0% 100%;
+
+    --border: 270 12% 90%;
+    --input: 270 12% 88%;
+    --ring: 279 65% 45%;
   }
 
   .dark:root {
-    --background: 240 10% 3.9%;
-    --foreground: 0 0% 98%;
-    --card: 240 10% 3.9%;
-    --card-foreground: 0 0% 98%;
-    --popover: 240 10% 3.9%;
-    --popover-foreground: 0 0% 98%;
-    --primary: 263 70% 66%;
-    --primary-foreground: 0 0% 100%;
-    --secondary: 240 3.7% 15.9%;
-    --secondary-foreground: 0 0% 98%;
-    --muted: 240 3.7% 15.9%;
-    --muted-foreground: 240 5% 64.9%;
-    --accent: 240 3.7% 15.9%;
-    --accent-foreground: 0 0% 98%;
-    --destructive: 0 72% 51%;
-    --destructive-foreground: 0 0% 98%;
-    --border: 240 3.7% 15.9%;
-    --input: 240 3.7% 15.9%;
-    --ring: 263 70% 66%;
-    --success: 142 69% 45%;
-    --warning: 38 92% 55%;
+    --background: 270 15% 7%;
+    --foreground: 270 10% 96%;
+
+    --card: 270 14% 10%;
+    --card-foreground: 270 10% 96%;
+    --popover: 270 14% 10%;
+    --popover-foreground: 270 10% 96%;
+
+    --primary: 279 60% 66%;
+    --primary-foreground: 270 15% 7%;
+    --primary-soft: 279 35% 18%;
+    --primary-soft-foreground: 279 70% 85%;
+
+    --secondary: 270 10% 16%;
+    --secondary-foreground: 270 10% 96%;
+    --muted: 270 10% 13%;
+    --muted-foreground: 270 6% 65%;
+    --accent: 270 10% 16%;
+    --accent-foreground: 270 10% 96%;
+
+    --destructive: 0 72% 60%;
+    --destructive-foreground: 270 15% 7%;
+    --success: 142 60% 50%;
+    --success-foreground: 270 15% 7%;
+    --warning: 35 90% 55%;
+    --warning-foreground: 270 15% 7%;
+
+    --border: 270 10% 20%;
+    --input: 270 10% 22%;
+    --ring: 279 60% 66%;
   }
 }

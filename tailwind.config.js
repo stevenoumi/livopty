@@ -1,73 +1,83 @@
 const { hairlineWidth } = require("nativewind/theme");
 
+const token = (name) => `hsl(var(--${name}))`;
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   darkMode: "class",
   content: ["./app/**/*.{ts,tsx}", "./components/**/*.{ts,tsx}"],
   presets: [require("nativewind/preset")],
   theme: {
+    // React Native cannot pick a weight inside a custom font: each weight is
+    // its own font file. Emptying fontWeight and mapping the weight names to
+    // font families makes `font-bold` select Outfit_700Bold instead of asking
+    // the OS to fake a bold Outfit_400Regular.
+    fontWeight: {},
     extend: {
       fontFamily: {
-        outfit: [
-          "Outfit_400Regular",
-          "Outfit_500Medium",
-          "Outfit_600SemiBold",
-          "Outfit_700Bold",
-        ],
-        inter: [
-          "Inter_400Regular",
-          "Inter_500Medium",
-          "Inter_600SemiBold",
-          "Inter_700Bold",
-        ],
-      },
-      fontSize: {
-        // Titres
-        h1: [
-          "32px",
-          { lineHeight: "1.2", letterSpacing: "-0.5px", fontWeight: "700" },
-        ],
-        h2: ["28px", { lineHeight: "1.2", fontWeight: "700" }],
-        h3: ["24px", { lineHeight: "1.5", fontWeight: "600" }],
-        h4: ["20px", { lineHeight: "1.5", fontWeight: "600" }],
-        h5: ["18px", { lineHeight: "1.5", fontWeight: "500" }],
-        h6: ["16px", { lineHeight: "1.5", fontWeight: "500" }],
+        sans: ["Outfit_400Regular"],
+        normal: ["Outfit_400Regular"],
+        medium: ["Outfit_500Medium"],
+        semibold: ["Outfit_600SemiBold"],
+        bold: ["Outfit_700Bold"],
       },
       colors: {
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        // Primitive scale from the logo (#8e28c2 at 600). Use semantic tokens
+        // in components; reach for these only for illustrations or charts.
+        brand: {
+          50: "#f9f2fd",
+          100: "#f3e5fa",
+          200: "#e2c4f3",
+          300: "#cd9de7",
+          400: "#b779d8",
+          500: "#a04acf",
+          600: "#8928bd",
+          700: "#721e9f",
+          800: "#59167e",
+          900: "#410f5c",
+        },
+        border: token("border"),
+        input: token("input"),
+        ring: token("ring"),
+        background: token("background"),
+        foreground: token("foreground"),
         primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
+          DEFAULT: token("primary"),
+          foreground: token("primary-foreground"),
+          soft: token("primary-soft"),
+          "soft-foreground": token("primary-soft-foreground"),
         },
         secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
+          DEFAULT: token("secondary"),
+          foreground: token("secondary-foreground"),
         },
-        success: "hsl(var(--success))",
-        warning: "hsl(var(--warning))",
         destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
+          DEFAULT: token("destructive"),
+          foreground: token("destructive-foreground"),
+        },
+        success: {
+          DEFAULT: token("success"),
+          foreground: token("success-foreground"),
+        },
+        warning: {
+          DEFAULT: token("warning"),
+          foreground: token("warning-foreground"),
         },
         muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
+          DEFAULT: token("muted"),
+          foreground: token("muted-foreground"),
         },
         accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
+          DEFAULT: token("accent"),
+          foreground: token("accent-foreground"),
         },
         popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
+          DEFAULT: token("popover"),
+          foreground: token("popover-foreground"),
         },
         card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
+          DEFAULT: token("card"),
+          foreground: token("card-foreground"),
         },
       },
       borderWidth: {

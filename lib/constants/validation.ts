@@ -17,7 +17,7 @@ export const VALIDATION = {
   },
   OTP: {
     // Must equal "Email OTP Length" in Supabase (Authentication > Email).
-    LENGTH: 8,
+    LENGTH: 6,
   },
 } as const;
 
