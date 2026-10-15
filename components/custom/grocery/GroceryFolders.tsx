@@ -29,7 +29,7 @@ export default function GroceryFolders({ id, name, icon = "📁", listCount }: G
           <Text className="text-xl font-bold text-black">{name}</Text>
           <ChevronRight color="#6b7280" size={24} strokeWidth={1.75} />
         </View>
-        <Text className="text-base text-gray-500">{listCount} listes</Text>
+        <Text className="text-base text-gray-500">{listCount} {listCount > 1 ? "listes" : "liste"}</Text>
       </View>
     </TouchableOpacity>
   );

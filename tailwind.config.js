@@ -20,6 +20,11 @@ module.exports = {
           "Inter_600SemiBold",
           "Inter_700Bold",
         ],
+        // One family per weight: React Native cannot synthesise weights of a custom font.
+        "inter-regular": ["Inter_400Regular"],
+        "inter-medium": ["Inter_500Medium"],
+        "inter-semibold": ["Inter_600SemiBold"],
+        "inter-bold": ["Inter_700Bold"],
       },
       fontSize: {
         // Titres
@@ -34,6 +39,17 @@ module.exports = {
         h6: ["16px", { lineHeight: "1.5", fontWeight: "500" }],
       },
       colors: {
+        // LivOpty palette (Paylix): see lib/theme.ts
+        brand: { DEFAULT: "#9768FE", soft: "#F4EFFF" },
+        ink: "#000000",
+        mute: "#666666",
+        faint: "#8E8E93",
+        line: "#E5E5EA",
+        fill: "#EEEEF0",
+        surface: "#F6F6F8",
+        cat: { blue: "#5B9EF0", green: "#6CC27A", orange: "#E57B33", red: "#FF6B6B", teal: "#4FB7C5", yellow: "#F5B82E", grey: "#8E8E93" },
+        ok: "#34C759",
+        danger: "#FF3B30",
         border: "hsl(var(--border))",
         input: "hsl(var(--input))",
         ring: "hsl(var(--ring))",

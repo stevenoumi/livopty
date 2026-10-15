@@ -169,7 +169,7 @@ export default function ChatTypingArea() {
         </View>
 
         {value.length > 0 ? (
-          <TouchableOpacity className="bg-purple-800 w-10 h-10 rounded-full justify-center items-center">
+          <TouchableOpacity className="bg-brand w-10 h-10 rounded-full justify-center items-center">
             <ArrowUp
               className="text-white"
               size={25}

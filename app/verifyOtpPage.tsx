@@ -85,7 +85,7 @@ const VerifyOtpPage = () => {
 
       success(t("auth.verifyOtp.successMessage"));
       setTimeout(() => {
-        router.replace(ROUTES.HOME);
+        router.replace(ROUTES.ONBOARDING);
       }, 500);
     } catch (err) {
       error(t("errors.unknownError"));

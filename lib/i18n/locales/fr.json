@@ -16,7 +16,7 @@
   "auth": {
     "login": {
       "title": "Bienvenue sur {{appName}}",
-      "subtitle": "L'application pour mieux vivre ensemble : gerer vos listes, agenda, budget, discussions... en toute simplicité !",
+      "subtitle": "L'application pour mieux vivre ensemble : gérer vos listes, agenda, budget, discussions... en toute simplicité !",
       "emailPlaceholder": "Votre adresse e-mail",
       "passwordPlaceholder": "Votre mot de passe",
       "forgotPassword": "Mot de passe oublié ?",

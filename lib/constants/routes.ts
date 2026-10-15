@@ -20,10 +20,18 @@ export const ROUTES = {
   
   // Settings
   SETTINGS: '/Settings',
+  HOUSEHOLD: '/household',
+  ONBOARDING: '/onboarding',
+
+  // Household tools
+  VAULT: '/vault',
+  NEW_EXPENSE: '/expense/new',
+  NEW_EVENT: '/event/new',
   
   // Dynamic Routes
   GROCERY_LIST: (id: string) => `/groceryList/${id}` as const,
   GROCERY_FOLDER: (id: string) => `/groceryList/folder/${id}` as const,
+  VAULT_ACCOUNT: (id: string) => `/vault/${id}` as const,
 } as const;
 
 export type RouteKey = keyof typeof ROUTES;

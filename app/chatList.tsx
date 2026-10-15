@@ -1,30 +1,23 @@
-
 import * as React from "react";
 import { FlatList, View } from "react-native";
 import ChatTypingArea from "~/components/custom/chat/ChatTypingArea";
 import TextChat from "~/components/custom/chat/TextChat";
-import messages from "~/lib/data/ChatData";
-
+import chats from "~/lib/data/ChatData";
+import { colors } from "~/lib/theme";
 
 export default function ChatList() {
   return (
-    <View className="flex-1 bg-zinc-50 w-full ">
+    <View style={{ flex: 1, backgroundColor: colors.white }}>
       <FlatList
-        data={messages.messages}
-        contentContainerStyle={{
-          flexGrow: 1,
-          justifyContent: "flex-end",
-          paddingHorizontal: 8,
-        }}
-        showsVerticalScrollIndicator={true}
+        data={chats.messages}
+        contentContainerStyle={{ flexGrow: 1, justifyContent: "flex-end", paddingHorizontal: 10, paddingVertical: 8 }}
+        showsVerticalScrollIndicator={false}
         bounces={false}
-        renderItem={({ item }) => (
-          <TextChat message={item.message} isSent={item.isSent} />
-        )}
+        renderItem={({ item }) => <TextChat message={item.message} isSent={item.isSent} time={item.time} />}
         keyExtractor={(item) => item.id}
         inverted
       />
-      <View className="w-full py-2 bg-zinc-50 border-t border-zinc-200">
+      <View style={{ borderTopWidth: 1, borderTopColor: colors.line }}>
         <ChatTypingArea />
       </View>
     </View>

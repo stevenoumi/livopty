@@ -66,6 +66,12 @@ export default function Layout() {
               options={{ header: () => <ChatHeader /> }}
             />
             <Stack.Screen name="(screens)" options={{ headerShown: false }} />
+            <Stack.Screen name="onboarding" options={{ headerShown: false }} />
+            <Stack.Screen name="household" options={{ headerShown: false }} />
+            <Stack.Screen name="vault/index" options={{ headerShown: false }} />
+            <Stack.Screen name="vault/[id]" options={{ headerShown: false }} />
+            <Stack.Screen name="expense/new" options={{ headerShown: false, presentation: "modal" }} />
+            <Stack.Screen name="event/new" options={{ headerShown: false, presentation: "modal" }} />
             <Stack.Screen
               name="groceryList"
               options={{

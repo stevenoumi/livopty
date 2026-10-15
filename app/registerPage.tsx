@@ -71,7 +71,7 @@ const RegisterPage = () => {
     // Accès direct à Home après inscription avec feedback visuel
     success(t("auth.register.successMessage"));
     setTimeout(() => {
-      router.replace(ROUTES.HOME);
+      router.replace(ROUTES.ONBOARDING);
     }, 500);
   };
 

@@ -1,43 +1,37 @@
+import { CheckCheck } from "lucide-react-native";
 import * as React from "react";
 import { View } from "react-native";
-import { Text } from "~/components/ui/text";
-import { Card, CardContent, CardFooter } from "../../ui/card";
-import { Check, CheckCheck } from "lucide-react-native"; // Importer les icônes
+import { Txt } from "~/components/lv";
+import { colors } from "~/lib/theme";
 
-interface IsSent {
+interface TextChatProps {
   message: string;
   isSent: boolean;
+  time?: string;
   isRead?: boolean;
 }
 
-export default function TextChat({ message, isSent, isRead = false }: IsSent) {
-  const bubbleBg = isSent ? "bg-violet-500" : "bg-gray-200"; // Couleur du fond
-  const textColor = isSent ? "text-gray-100" : "text-gray-800"; // Couleur du texte
-  const timeColor = isSent ? "text-white/70" : "text-gray-500"; // Couleur de l'heure
-  const alignment = isSent ? "self-end" : "self-start"; // Alignement du message (droite pour envoyé, gauche pour reçu)
-
+/** Chat bubble: purple when sent (with time and read ticks), light grey when received. */
+export default function TextChat({ message, isSent, time, isRead = true }: TextChatProps) {
   return (
-    <View className="flex w-full my-2">
-      <Card className={`max-w-[75%] rounded-xl ${bubbleBg} ${alignment}`}>
-        <CardContent className="p-3">
-          <Text className={`text-lg ${textColor}`}>{message}</Text>
-        </CardContent>
-        {isSent && (
-          <CardFooter className="flex flex-row justify-end px-3 gap-4 pb-2">
-            <Text className={`text-xs ${timeColor}`}>
-              {new Date().toLocaleTimeString([], {
-                hour: "2-digit",
-                minute: "2-digit",
-              })}
-            </Text>
-            {isRead ? (
-              <Check className="text-foreground" size={15} strokeWidth={1.75} />
-            ) : (
-              <CheckCheck size={15} color={"white"} strokeWidth={1.25} />
-            )}
-          </CardFooter>
-        )}
-      </Card>
+    <View
+      style={{
+        maxWidth: "75%",
+        alignSelf: isSent ? "flex-end" : "flex-start",
+        backgroundColor: isSent ? colors.brand : colors.bubble,
+        borderRadius: 16,
+        paddingHorizontal: 13,
+        paddingVertical: 9,
+        marginVertical: 4,
+      }}
+    >
+      <Txt size={16} tone={isSent ? "white" : "ink"} style={{ lineHeight: 22 }}>{message}</Txt>
+      {isSent ? (
+        <View style={{ flexDirection: "row", justifyContent: "flex-end", alignItems: "center", gap: 10, marginTop: 4 }}>
+          {time ? <Txt size={11.5} color="rgba(255,255,255,.75)">{time}</Txt> : null}
+          <CheckCheck size={15} color={isRead ? colors.white : "rgba(255,255,255,.6)"} strokeWidth={1.5} />
+        </View>
+      ) : null}
     </View>
   );
 }

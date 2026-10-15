@@ -1,77 +1,52 @@
-import * as React from "react";
-import { View } from "react-native";
-import { Avatar, AvatarFallback, AvatarImage } from "../../ui/avatar";
-import { Text } from "../../ui/text";
-import { TouchableOpacity } from "react-native";
 import { router } from "expo-router";
-import { CheckCheck } from "~/lib/icons/CheckCheck";
+import { CheckCheck, House, School } from "lucide-react-native";
+import * as React from "react";
+import { Image, Pressable, View } from "react-native";
+import { Badge, Txt } from "~/components/lv";
 import { useChat } from "~/lib/context/ChatContext";
+import type { Conversation } from "~/lib/data/ChatData";
+import { colors } from "~/lib/theme";
 
-export default function ChatItem(props: {
-  id: string;
-  name: string;
-  lastMessage: string;
-  time: string;
-  image: string;
-  isOnline: boolean;
-  unreadMessages: number;
-}) {
+const groupIcons = { house: { Icon: House, bg: colors.brand }, school: { Icon: School, bg: colors.blue } };
+
+/** One conversation row, WhatsApp-like: big avatar, inset separator, unread badge. */
+export default function ChatItem({ item, last }: { item: Conversation; last?: boolean }) {
   const { setChatInfo } = useChat();
+  const unread = item.unreadMessages > 0;
+  const group = item.group ? groupIcons[item.group] : null;
 
   const onPress = () => {
-    setChatInfo({
-      name: props.name,
-      image: props.image,
-      isOnline: props.isOnline,
-    });
-
-    router.push("/chatList"); // ou autre page, selon ton routing
+    setChatInfo({ name: item.name, image: item.image, isOnline: item.isOnline });
+    router.push("/chatList");
   };
 
   return (
-    <TouchableOpacity
-      className="flex-row px-4 justify-start items-center gap-4 bg-white w-full"
-      onPress={onPress}
-    >
-      <View className="relative">
-        <Avatar alt="Test" className="h-16 w-16">
-          <AvatarImage source={{ uri: props.image }} />
-          <AvatarFallback>
-            <Text>ZN</Text>
-          </AvatarFallback>
-        </Avatar>
-
-        {props.isOnline && (
-          <View className="absolute bottom-0 right-0 bg-green-500 h-4 w-4 rounded-full border-2 border-white" />
-        )}
-      </View>
-      <View className="flex-col justify-center items-start flex-1 gap-1 border-b border-gray-200 py-2">
-        <View className="flex-row justify-between items-center w-full">
-          <Text className="text-xl font-bold text-black">{props.name}</Text>
-          <Text className="text-base text-gray-500">{props.time}</Text>
-        </View>
-        <View className="flex-row justify-between items-center w-full">
-          <View className="flex-row justify-center items-center gap-2">
-            <CheckCheck
-              size={18}
-              className="text-gray-500 bold"
-              strokeWidth={1.25}
-            />
-            <Text className="text-lg text-gray-500">
-              {props.lastMessage.length > 40
-                ? props.lastMessage.slice(0, 28) + "..."
-                : props.lastMessage}
-            </Text>
+    <Pressable onPress={onPress} style={({ pressed }) => [{ flexDirection: "row", alignItems: "center", gap: 12, paddingLeft: 16 }, pressed && { backgroundColor: "#F2F2F7" }]}>
+      <View>
+        {group ? (
+          <View style={{ width: 56, height: 56, borderRadius: 28, backgroundColor: group.bg, alignItems: "center", justifyContent: "center" }}>
+            <group.Icon size={26} color={colors.white} />
           </View>
-          {props.unreadMessages > 0 && (
-            <View className="mt-1 bg-violet-500 h-6 w-6 rounded-full justify-center items-center border-2 border-white">
-              <Text className="text-white text-xs font-bold">
-                {props.unreadMessages}
-              </Text>
-            </View>
-          )}
+        ) : (
+          <Image source={{ uri: item.image }} style={{ width: 56, height: 56, borderRadius: 28 }} />
+        )}
+        {item.isOnline ? (
+          <View style={{ position: "absolute", right: 0, bottom: 2, width: 14, height: 14, borderRadius: 7, backgroundColor: colors.ok, borderWidth: 2, borderColor: colors.white }} />
+        ) : null}
+      </View>
+      <View style={{ flex: 1, paddingVertical: 11, paddingRight: 16, borderBottomWidth: last ? 0 : 1, borderBottomColor: colors.line }}>
+        <View style={{ flexDirection: "row", justifyContent: "space-between", alignItems: "center" }}>
+          <Txt size={17} weight="semibold">{item.name}</Txt>
+          <Txt size={14} tone={unread ? "brand" : "faint"}>{item.time}</Txt>
+        </View>
+        <View style={{ flexDirection: "row", alignItems: "center", gap: 8, marginTop: 2 }}>
+          <View style={{ flex: 1, flexDirection: "row", alignItems: "center", gap: 5 }}>
+            {item.lastSentRead !== undefined ? <CheckCheck size={17} color={item.lastSentRead ? colors.brand : colors.faint} strokeWidth={1.75} /> : null}
+            <Txt size={15} tone="mute" numberOfLines={1} style={{ flex: 1 }}>{item.lastMessage}</Txt>
+          </View>
+          {unread ? <Badge value={item.unreadMessages} /> : null}
         </View>
       </View>
-    </TouchableOpacity>
+    </Pressable>
   );
 }

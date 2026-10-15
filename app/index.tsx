@@ -17,7 +17,7 @@ export default function IndexPage() {
         const session = data.session;
 
         if (session) {
-          router.replace("/(screens)/Grocery");
+          router.replace("/(screens)/Home");
         } else {
           router.replace("/welcomePage");
         }

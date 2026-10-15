@@ -16,15 +16,8 @@ function BackButton() {
 export default function GroceryListLayout() {
   return (
     <Stack>
-      <Stack.Screen
-        name="[id]"
-        options={{
-          title: "Liste",
-          headerTitle: () => <></>,
-          headerShadowVisible: false,
-          headerLeft: () => <BackButton />,
-        }}
-      />
+      {/* The list screen draws its own navigation bar. */}
+      <Stack.Screen name="[id]" options={{ headerShown: false }} />
       <Stack.Screen
         name="folder/[id]"
         options={{

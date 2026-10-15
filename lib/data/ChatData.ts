@@ -1,86 +1,52 @@
-// les messages sont dans une pile, et le dernier message est en bas de la liste
-const messages = [
-  {
-    id: "13",
-    message: "Absolutely! I’ll send you some pictures from the hike. Bye for now!",
-    isSent: false,
-  },
-  {
-    id: "12",
-    message: "Thanks! You take care too, talk soon!",
-    isSent: true,
-  },
-  {
-    id: "11",
-    message: "Alright, let me know. Have a great time and enjoy the hike!",
-    isSent: false,
-  },
-  {
-    id: "10",
-    message: "For sure! Let’s plan something soon.",
-    isSent: true,
-  },
-  {
-    id: "9",
-    message: "Sounds like a perfect plan! I should join you sometime. Need to get out and enjoy nature more.",
-    isSent: false,
-  },
-  {
-    id: "8",
-    message: "Thinking of going hiking in the mountains. It’s been so long since I’ve had a good outdoor adventure.",
-    isSent: true,
-  },
-  {
-    id: "7",
-    message: "Any plans for the weekend?",
-    isSent: false,
-  },
-  {
-    id: "6",
-    message: "Yeah, definitely relieved. I’m looking forward to some time off this weekend.",
-    isSent: true,
-  },
-  {
-    id: "5",
-    message: "That's impressive! I bet you're relieved it's over. I’ve been working a lot too, but not as intense.",
-    isSent: false,
-  },
-  {
-    id: "4",
-    message: "It was a software update for our main product. Took a lot of late nights, but it's finally done!",
-    isSent: true,
-  },
-  {
-    id: "3",
-    message: "Oh wow, that sounds like a big accomplishment. What was the project about?",
-    isSent: false,
-  },
-  {
-    id: "2",
-    message: "I've been great, thanks for asking! Just wrapped up a huge project at work.",
-    isSent: true,
-  },
-  {
-    id: "1",
-    message: "Hey, how have you been?",
-    isSent: false,
-  },
+import { avatarUrl } from "~/lib/data/household";
+
+export interface ChatMessage {
+  id: string;
+  message: string;
+  isSent: boolean;
+  time?: string;
+}
+
+export interface Conversation {
+  id: string;
+  name: string;
+  image: string;
+  /** Group conversations show an icon instead of a picture. */
+  group?: "house" | "school";
+  isOnline: boolean;
+  unreadMessages: number;
+  lastMessage: string;
+  /** Last message sent by me and read by the other side. */
+  lastSentRead?: boolean;
+  time: string;
+  messageList: ChatMessage[];
+}
+
+// Messages are stored newest first: the conversation FlatList is inverted.
+const messages: ChatMessage[] = [
+  { id: "12", message: "Super, à tout à l’heure", isSent: true, time: "10:24" },
+  { id: "11", message: "Ok, je rentre vers 18 h.", isSent: false },
+  { id: "10", message: "Parfait, merci ! On prend aussi des glaces pour Jade", isSent: true, time: "10:20" },
+  { id: "9", message: "J’ai pris le lait. Le poisson était à 14 €, je l’ajoute au budget.", isSent: false },
+  { id: "8", message: "Regarde la liste, j’ai ajouté le poisson et les plantains", isSent: true, time: "10:12" },
+  { id: "7", message: "Je suis au marché, il manque quoi pour ce soir ?", isSent: false },
+  { id: "6", message: "Oui, je dépose Jade et je file au marché", isSent: false },
+  { id: "5", message: "Tu es déjà partie ?", isSent: true, time: "09:48" },
+  { id: "4", message: "Merci ❤️", isSent: false },
+  { id: "3", message: "Oui, et je l’ajoute à la liste pour demain", isSent: true, time: "19:02" },
+  { id: "2", message: "Tu peux prendre le pain en rentrant ?", isSent: false },
 ];
 
-
-const userlist = [
-  { id: "1", name: "Francois", image: "https://api.samplefaces.com/face?width=150&n=1", isOnline: true, unreadMessages: 2, messageList: messages, time: "8:00 PM" },
-  { id: "2", name: "James", image: "https://api.samplefaces.com/face?width=150&n=2", isOnline: false, unreadMessages: 3, messageList: messages, time: "7:00 PM" },
-  { id: "3", name: "John", image: "https://api.samplefaces.com/face?width=150&n=3", isOnline: true, unreadMessages: 0, messageList: messages, time: "6:00 PM" },
-  { id: "4", name: "Alice", image: "https://api.samplefaces.com/face?width=150&n=4", isOnline: true, unreadMessages: 0, messageList: messages, time: "5:00 PM" },
-  { id: "5", name: "Bob", image: "https://api.samplefaces.com/face?width=150&n=5", isOnline: false, unreadMessages: 0, messageList: messages, time: "4:00 PM" },
-  { id: "6", name: "Charlie", image: "https://api.samplefaces.com/face?width=150&n=6", isOnline: true, unreadMessages: 2, messageList: messages, time: "3:00 PM" },
-  { id: "7", name: "David", image: "https://api.samplefaces.com/face?width=150&n=7", isOnline: false, unreadMessages: 0, messageList: messages, time: "2:00 PM" },
-  { id: "8", name: "Eve", image: "https://api.samplefaces.com/face?width=150&n=8", isOnline: true, unreadMessages: 0, messageList: messages, time: "1:00 PM" },
-  { id: "9", name: "Frank", image: "https://api.samplefaces.com/face?width=150&n=9", isOnline: false, unreadMessages: 2, messageList: messages, time: "12:00 PM" },
-  { id: "10", name: "Grace", image: "https://api.samplefaces.com/face?width=150&n=10", isOnline: true, unreadMessages: 0, messageList: messages, time: "11:00 AM" },
-  { id: "11", name: "Heidi", image: "https://api.samplefaces.com/face?width=150&n=11", isOnline: false, unreadMessages: 1, messageList: messages, time: "10:00 AM" },
-  { id: "12", name: "Ivan", image: "https://api.samplefaces.com/face?width=150&n=12", isOnline: true, unreadMessages: 0, messageList: messages, time: "9:00 AM" },
+const userlist: Conversation[] = [
+  { id: "foyer", name: "Foyer Martin", image: "", group: "house", isOnline: false, unreadMessages: 3, lastMessage: "Camille : J’ai pris le lait 👍", time: "10:24", messageList: messages },
+  { id: "camille", name: "Camille", image: avatarUrl("camille"), isOnline: true, unreadMessages: 2, lastMessage: "Tu passes chercher Jade ce soir ?", time: "09:51", messageList: messages },
+  { id: "papa", name: "Papa", image: avatarUrl("papa"), isOnline: false, unreadMessages: 0, lastMessage: "Photo envoyée", lastSentRead: true, time: "Hier", messageList: messages },
+  { id: "ines", name: "Inès", image: avatarUrl("ines"), isOnline: true, unreadMessages: 0, lastMessage: "Je m’occupe du gâteau", lastSentRead: false, time: "Lundi", messageList: messages },
+  { id: "nathan", name: "Nathan", image: avatarUrl("nathan"), isOnline: false, unreadMessages: 0, lastMessage: "À samedi pour le foot", lastSentRead: true, time: "Dimanche", messageList: messages },
+  { id: "jade", name: "Jade", image: avatarUrl("jade"), isOnline: true, unreadMessages: 0, lastMessage: "On peut avoir des glaces ?", time: "Samedi", messageList: messages },
+  { id: "lucas", name: "Lucas", image: avatarUrl("lucas"), isOnline: false, unreadMessages: 0, lastMessage: "Merci pour hier soir !", lastSentRead: false, time: "12/10", messageList: messages },
+  { id: "ce2", name: "Parents CE2 B", image: "", group: "school", isOnline: false, unreadMessages: 0, lastMessage: "Marc : la sortie est confirmée", time: "11/10", messageList: messages },
+  { id: "mamie", name: "Mamie", image: avatarUrl("mamie"), isOnline: false, unreadMessages: 0, lastMessage: "Message vocal · 0:42", time: "10/10", messageList: messages },
 ];
 
 export default {

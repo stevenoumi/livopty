@@ -1,96 +1,29 @@
 import { Tabs } from "expo-router";
-import { CalendarSync, HomeIcon, ScrollText, Wallet } from "lucide-react-native";
-import New from "~/components/custom/New";
-import { MessageSquareText } from "~/lib/icons/MessageSquareText";
+import type { ColorValue } from "react-native";
+import { CalendarSync, House, MessageSquareText, ScrollText, Wallet, type LucideIcon } from "lucide-react-native";
+import { colors, fonts } from "~/lib/theme";
+
+const icon =
+  (Icon: LucideIcon) =>
+  ({ color }: { color: ColorValue }) => <Icon size={26} color={color as string} strokeWidth={1.7} />;
 
 export default function TabsLayout() {
   return (
     <Tabs
+      initialRouteName="Home"
       screenOptions={{
-        tabBarActiveTintColor: "purple",
-        tabBarStyle: { backgroundColor: "white" },
-        headerStyle: { backgroundColor: "white" },
+        headerShown: false,
+        tabBarActiveTintColor: colors.brand,
+        tabBarInactiveTintColor: "#999999",
+        tabBarLabelStyle: { fontFamily: fonts.medium, fontSize: 10 },
+        tabBarStyle: { backgroundColor: "rgba(251,251,253,0.97)", borderTopColor: colors.line },
       }}
     >
-      <Tabs.Screen
-        name="Grocery"
-        options={{
-          title: "Listes",
-          headerShadowVisible: false,
-          headerRight: () => <New />,
-          headerTitle: () => <></>,
-          tabBarIcon: ({ color, size }) => (
-            <ScrollText
-              className="text-foreground pb-2"
-              size={25}
-              strokeWidth={1.75}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Chats"
-        options={{
-          title: "Discussions",
-          headerTitle: () => <></>,
-          headerShadowVisible: false,
-          headerRight: () => <New />,
-          tabBarIcon: ({ color, size }) => (
-            <MessageSquareText
-              className="text-foreground pb-2"
-              size={25}
-              strokeWidth={1.75}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Home"
-        options={{
-          title: "Accueil",
-          headerTitle: () => <></>,
-          headerShadowVisible: false,
-          tabBarIcon: ({ color, size }) => (
-            <HomeIcon
-              className="text-foreground pb-2 bg-purple-300 rounded-full"
-              size={25}
-              strokeWidth={1.75}
-            />
-          ),
-        }}
-      />
-       <Tabs.Screen
-        name="Agenda"
-        options={{
-          title: "Agenda",
-          headerShadowVisible: false,
-          headerRight: () => <New />,
-          headerTitle: () => <></>,
-          tabBarIcon: ({ color, size }) => (
-            <CalendarSync
-              className="text-foreground pb-2"
-              size={25}
-              strokeWidth={1.75}
-            />
-          ),
-        }}
-      />
-      <Tabs.Screen
-        name="Finance"
-        options={{
-          title: "Budget",
-          headerShadowVisible: false,
-          headerRight: () => <New />,
-          headerTitle: () => <></>,
-          tabBarIcon: ({ color, size }) => (
-            <Wallet
-              className="text-foreground pb-2"
-              size={25}
-              strokeWidth={1.75}
-            />
-          ),
-        }}
-      />
+      <Tabs.Screen name="Grocery" options={{ title: "Listes", tabBarIcon: icon(ScrollText) }} />
+      <Tabs.Screen name="Chats" options={{ title: "Discussions", tabBarIcon: icon(MessageSquareText) }} />
+      <Tabs.Screen name="Home" options={{ title: "Accueil", tabBarIcon: icon(House) }} />
+      <Tabs.Screen name="Agenda" options={{ title: "Agenda", tabBarIcon: icon(CalendarSync) }} />
+      <Tabs.Screen name="Finance" options={{ title: "Budget", tabBarIcon: icon(Wallet) }} />
     </Tabs>
   );
 }

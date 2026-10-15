@@ -89,6 +89,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     if (loading || hasRedirected.current) return;
 
+    // Dev-only UI preview: open any screen with the demo data, without signing in.
+    if (__DEV__ && process.env.EXPO_PUBLIC_UI_PREVIEW === "1") {
+      hasRedirected.current = true;
+      SplashScreen.hideAsync();
+      return;
+    }
+
     const handleInitialRedirect = async () => {
       try {
         // Attendre un court instant pour éviter les conflits de navigation
